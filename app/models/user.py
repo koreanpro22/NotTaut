@@ -4,7 +4,6 @@ from flask_login import UserMixin
 from datetime import datetime
 
 
-
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -24,6 +23,8 @@ class User(db.Model, UserMixin):
     timezone = db.Column(db.String(50), nullable=True)
     created_at = db.Column(db.Date, default=datetime.today)
     updated_at = db.Column(db.Date, default=datetime.today)
+
+    user_workspaces = db.relationship('Workspace', secondary='User_Workspace', back_populates='users')
 
     @property
     def password(self):
