@@ -17,9 +17,22 @@ class Workspace(db.Model, UserMixin):
     updated_at = db.Column(db.Date, default=datetime.today)
     owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')))
 
-    owner = db.relationship('User', back_populates='workspaces_owned')
-    workspace_users = db.relationship('User', secondary=users_workspaces, back_populates='user_workspaces')
-    channels = db.relationship('Channel', back_populates='workspace')
+    owner = db.relationship(
+        'User',
+        overlaps='user_workspaces',
+        back_populates='workspaces_owned'
+    )
+
+    workspace_users = db.relationship(
+        'User',
+        secondary=users_workspaces,
+        back_populates='user_workspaces'
+    )
+
+    channels = db.relationship(
+        'Channel',
+        back_populates='workspace'
+    )
 
     def to_dict(self):
         return {

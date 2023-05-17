@@ -11,8 +11,8 @@ class Channel(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
-    topic = db.Column(db.String(40), nullable=False)
-    description = db.Column(db.String(100), nullable=False)
+    topic = db.Column(db.String(40), nullable=True)
+    description = db.Column(db.String(100), nullable=True)
     dm = db.Column(db.Boolean, nullable=True)
     created_at = db.Column(db.Date, default=datetime.today)
     updated_at = db.Column(db.Date, default=datetime.today)

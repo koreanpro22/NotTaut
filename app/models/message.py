@@ -12,8 +12,8 @@ class Message(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(1000), nullable=False)
-    created_at = db.Column(db.Date, default=datetime.today)
-    updated_at = db.Column(db.Date, default=datetime.today)
+    created_at = db.Column(db.String, default=datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+    updated_at = db.Column(db.String, default=datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
     channel_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('channels.id')))
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')))
 
