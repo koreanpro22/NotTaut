@@ -18,3 +18,16 @@ class Workspace(db.Model, UserMixin):
 
     owner = db.relationship('User', back_populates='workspaces')
     workspace_users = db.relationship('User', secondary='User_Workspace', back_populates='workspaces')
+    channels = db.relationship('Channel', back_populates='workspaces')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'owner_id': self.owner_id,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'owner': self.owner,
+            'workspace_users': self.workspace_users,
+            'channels': self.channels
+        }

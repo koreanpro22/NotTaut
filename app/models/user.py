@@ -25,6 +25,9 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.Date, default=datetime.today)
 
     user_workspaces = db.relationship('Workspace', secondary='User_Workspace', back_populates='users')
+    user_channels = db.relationship('Channel', secondary='User_Channel', back_populates='users')
+    messages = db.relationship('Message', back_populates='users')
+    thread_messages = db.relationship('Thread_Message', back_populates='users')
 
     @property
     def password(self):
@@ -51,5 +54,9 @@ class User(db.Model, UserMixin):
             'phone_number': self.phone_number,
             'timezone': self.timezone,
             'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'updated_at': self.updated_at,
+            'user_workspaces': self.user_workspaces,
+            'user_channels': self.user_channels,
+            'messages': self.messages,
+            'thread_messages': self.thread_messages
         }
