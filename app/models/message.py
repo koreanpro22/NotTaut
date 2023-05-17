@@ -17,18 +17,29 @@ class Message(db.Model, UserMixin):
     channel_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('channels.id')))
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')))
 
-    channel = db.relationship('Channel', back_populates='channels')
-    user = db.relationship('User', back_populates='users')
-    thread_messages = db.relationship('Thread_Message', back_populates='messages')
+    channel = db.relationship('Channel', back_populates='messages')
+    user = db.relationship('User', back_populates='messages')
+    thread_messages = db.relationship('Thread_Message', back_populates='message')
 
+    #GET ALL MESSAGE INFORMATION
     def to_dict(self):
         return {
             'id': self.id,
             'text': self.text,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'channel_id': self.channel_id,
-            'channel': self.channel,
-            'user_id': self.user_id,
-            'user': self.user
+            'user_id': self.user.to_dict().id,
+            'channel_id': self.channel.to_dict().id
+        }
+
+    #GET ALL MESSAGE RELATIONSHIPS
+    def to_dict_all(self):
+        return {
+            'id': self.id,
+            'text': self.text,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'channel': self.channel.to_dict(),
+            'user': self.user.to_dict(),
+            'thread_messages': [thread_message.to_dict() for thread_message in self.thread_messages]
         }

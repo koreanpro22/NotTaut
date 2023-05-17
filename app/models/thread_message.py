@@ -14,20 +14,32 @@ class Thread_Message(db.Model, UserMixin):
     text = db.Column(db.String(1000), nullable=False)
     created_at = db.Column(db.Date, default=datetime.today)
     updated_at = db.Column(db.Date, default=datetime.today)
-    message_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('channels.id')))
+    message_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('messages.id')))
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')))
 
-    message = db.relationship('Message', back_populates='messages')
-    user = db.relationship('User', back_populates='users')
+    messages = db.relationship('Message', back_populates='thread_messages')
+    user = db.relationship('User', back_populates='thread_messages')
 
+
+    #GET THREAD MESSAGE INFORMATION
     def to_dict(self):
         return {
             'id': self.id,
             'text': self.text,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
+            'message_id': self.message.to_dict(),
+            'user_id': self.user.to_dict()
+        }
+
+    #GET ALL THREAD MESSAGE RELATIONSHIPS
+    def to_dict_all(self):
+        return {
+            'id': self.id,
+            'text': self.text,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
             'message_id': self.message_id,
-            'message': self.message,
-            'user_id': self.user_id,
-            'user': self.user
+            'message': [message.to_dict() for message in self.messages],
+            'user': self.user.to_dict()
         }

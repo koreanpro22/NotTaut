@@ -1,8 +1,9 @@
-from .db import db, environment, SCHEMA, add_prefix_for_prod
+from .db import db, environment, SCHEMA
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
-
+from .user_channel import users_channels
+from .user_workspace import users_workspaces
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -24,10 +25,11 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.Date, default=datetime.today)
     updated_at = db.Column(db.Date, default=datetime.today)
 
-    user_workspaces = db.relationship('Workspace', secondary='User_Workspace', back_populates='users')
-    user_channels = db.relationship('Channel', secondary='User_Channel', back_populates='users')
-    messages = db.relationship('Message', back_populates='users')
-    thread_messages = db.relationship('Thread_Message', back_populates='users')
+    workspaces_owned = db.relationship('Workspace', back_populates='owner')
+    user_workspaces = db.relationship('Workspace', secondary=users_workspaces, back_populates='workspace_users')
+    user_channels = db.relationship('Channel', secondary=users_channels, back_populates='channel_users')
+    messages = db.relationship('Message', back_populates='user')
+    thread_messages = db.relationship('Thread_Message', back_populates='user')
 
     @property
     def password(self):
@@ -40,6 +42,7 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    #GET ALL USER INFORMATION
     def to_dict(self):
         return {
             'id': self.id,
@@ -54,9 +57,27 @@ class User(db.Model, UserMixin):
             'phone_number': self.phone_number,
             'timezone': self.timezone,
             'created_at': self.created_at,
+            'updated_at': self.updated_at
+        }
+
+    #GET ALL USER RELATIONSHIPS
+    def to_dict_all(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'display_name': self.display_name,
+            'name_pronunciation': self.name_pronunciation,
+            'email': self.email,
+            'status': self.status,
+            'hashed_password': self.hashed_password,
+            'profile_pic': self.profile_pic,
+            'title': self.title,
+            'phone_number': self.phone_number,
+            'timezone': self.timezone,
+            'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'user_workspaces': self.user_workspaces,
-            'user_channels': self.user_channels,
-            'messages': self.messages,
-            'thread_messages': self.thread_messages
+            'user_workspaces': [workspace.to_dict() for workspace in self.user_workspaces],
+            'user_channels': [channel.to_dict() for channel in self.user_channels],
+            'messages': [message.to_dict() for message in self.messages],
+            'thread_messages': [thread_message.to_dict() for thread_message in self.thread_messages]
         }

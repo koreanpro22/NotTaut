@@ -1,17 +1,11 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
-from datetime import datetime
 
+users_workspaces = db.Table(
+    'users_workspaces',
+    db.Model.metadata,
+    db.Column('user_id', db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), primary_key=True),
+    db.Column('workspace_id', db.Integer, db.ForeignKey(add_prefix_for_prod('workspaces.id')), primary_key=True)
+)
 
-class User_Workspace(db.Model, UserMixin):
-    __tablename__ = 'users_workspaces'
-
-    if environment == "production":
-        __table_args__ = {'schema': SCHEMA}
-
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.Date, default=datetime.today)
-    updated_at = db.Column(db.Date, default=datetime.today)
-    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')))
-    workspace_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('workspaces.id')))
+if environment == "production":
+    users_workspaces.schema = SCHEMA

@@ -2,6 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
+from .user_workspace import users_workspaces
 
 
 class Workspace(db.Model, UserMixin):
@@ -16,18 +17,26 @@ class Workspace(db.Model, UserMixin):
     updated_at = db.Column(db.Date, default=datetime.today)
     owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')))
 
-    owner = db.relationship('User', back_populates='workspaces')
-    workspace_users = db.relationship('User', secondary='User_Workspace', back_populates='workspaces')
-    channels = db.relationship('Channel', back_populates='workspaces')
+    owner = db.relationship('User', back_populates='workspaces_owned')
+    workspace_users = db.relationship('User', secondary=users_workspaces, back_populates='user_workspaces')
+    channels = db.relationship('Channel', back_populates='workspace')
 
     def to_dict(self):
         return {
             'id': self.id,
             'name': self.name,
-            'owner_id': self.owner_id,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'owner': self.owner,
-            'workspace_users': self.workspace_users,
-            'channels': self.channels
+            'owner': self.owner.to_dict().id,
+        }
+
+    def to_dict_all(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'owner': self.owner.to_dict(),
+            'workspace_users': [user.to_dict() for user in self.workspace_users],
+            'channels': [channel.to_dict() for channel in self.channels]
         }
