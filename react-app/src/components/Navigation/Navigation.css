@@ -5,3 +5,11 @@
 .hidden {
   display: none;
 }
+
+.navbar {
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 100px;
+  margin: 10px;
+}

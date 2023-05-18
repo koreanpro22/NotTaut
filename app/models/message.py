@@ -28,8 +28,8 @@ class Message(db.Model, UserMixin):
             'text': self.text,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'user_id': self.user.to_dict().id,
-            'channel_id': self.channel.to_dict().id
+            'user_id': self.user_id,
+            'channel_id': self.channel_id
         }
 
     #GET ALL MESSAGE RELATIONSHIPS

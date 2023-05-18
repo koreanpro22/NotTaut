@@ -31,7 +31,7 @@ class Channel(db.Model, UserMixin):
             'dm': self.dm,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'workspace_id': self.workspace.to_dict().id
+            'workspace_id': self.workspace_id
         }
 
     def to_dict_all(self):

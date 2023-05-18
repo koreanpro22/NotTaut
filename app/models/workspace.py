@@ -40,7 +40,7 @@ class Workspace(db.Model, UserMixin):
             'name': self.name,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'owner_id': self.owner.to_dict().id,
+            'owner_id': self.owner_id,
         }
 
     def to_dict_all(self):
