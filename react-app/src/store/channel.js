@@ -145,18 +145,24 @@ export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_ALL_CHANNELS:{
             const newState = { ...state, single: state.single, channels: [...state.channels]}
+            newState.channels = action.payload
 			return newState;
         }
 		case GET_SINGLE_CHANNEL:{
             const newState = { ...state, single: state.single, channels: [...state.channels]}
+            newState.single = action.payload
             return newState;
         }
 		case CREATE_SINGLE_CHANNEL:{
             const newState = { ...state, single: state.single, channels: [...state.channels]}
+            newState.single = action.payload
+            newState.channels.push(action.payload)
             return newState;
         }
 		case UPDATE_SINGLE_CHANNEL:{
             const newState = { ...state, single:  state.single, channels: [...state.channels]}
+            const index = newState.channels.findIndex(channel => channel.id === action.payload.id)
+            newState.channels[index] = action.payload
             return newState;
         }
 		default:
