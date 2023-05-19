@@ -52,7 +52,7 @@ export const getAllChannelsThunk = (workspaceId) => async (dispatch) => {
 };
 
 export const getSingleChannelThunk = (channelId) => async (dispatch) => {
-    const response = await fetch(`/api/channels/all/${channelId}`, {
+    const response = await fetch(`/api/channels/single/${channelId}`, {
         headers: {
             "Content-Type": "application/json",
 		}
@@ -139,28 +139,28 @@ export const deleteSingleChannelThunk = (channelId) => async (dispatch) => {
 };
 
 
-const initialState = { single: null, channels: [] };
+const initialState = { currentChannel: null, channels: [] };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_ALL_CHANNELS:{
-            const newState = { ...state, single: state.single, channels: [...state.channels]}
+            const newState = { ...state, currentChannel: state.currentChannel, channels: [...state.channels]}
             newState.channels = action.payload
 			return newState;
         }
 		case GET_SINGLE_CHANNEL:{
-            const newState = { ...state, single: state.single, channels: [...state.channels]}
-            newState.single = action.payload
+            const newState = { ...state, currentChannel: state.currentChannel, channels: [...state.channels]}
+            newState.currentChannel = action.payload
             return newState;
         }
 		case CREATE_SINGLE_CHANNEL:{
-            const newState = { ...state, single: state.single, channels: [...state.channels]}
-            newState.single = action.payload
+            const newState = { ...state, currentChannel: state.currentChannel, channels: [...state.channels]}
+            newState.currentChannel = action.payload
             newState.channels.push(action.payload)
             return newState;
         }
 		case UPDATE_SINGLE_CHANNEL:{
-            const newState = { ...state, single:  state.single, channels: [...state.channels]}
+            const newState = { ...state, currentChannel:  state.currentChannel, channels: [...state.channels]}
             const index = newState.channels.findIndex(channel => channel.id === action.payload.id)
             newState.channels[index] = action.payload
             return newState;

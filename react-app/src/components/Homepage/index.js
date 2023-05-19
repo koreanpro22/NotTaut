@@ -7,7 +7,6 @@ import { getAllChannelsThunk } from '../../store/channel';
 function Homepage() {
 
     const sessionUser = useSelector(state => state.session.user);
-    const workspace_id = sessionUser.user_workspaces[0].id
     const channels = useSelector(state => state.channel.channels)
     const dispatch = useDispatch()
 
@@ -16,6 +15,7 @@ function Homepage() {
     }, [dispatch])
 
     if (!sessionUser) return null
+    const workspace_id = sessionUser.user_workspaces[0].id
 
     console.log('CHANNELS', channels)
     return (
