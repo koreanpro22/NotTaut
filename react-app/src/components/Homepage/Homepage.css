@@ -1,0 +1,16 @@
+.big-box-container {
+    border: 1px solid black;
+    display: flex;
+    min-height: 700px;
+}
+
+.section-1 {
+    border: 1px solid green;
+    margin: 10px;
+    width: 150px;
+}
+.section-2 {
+    border: 1px solid green;
+    margin: 10px;
+    width: 70%;
+}
