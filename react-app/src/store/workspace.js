@@ -7,13 +7,14 @@ const getSingleWorkspaceAction = (workspace) => ({
 });
 
 export const getSingleWorkspaceThunk = (workspaceId) => async (dispatch) => {
-    const response = await fetch(`/api/workspaces/all/${workspaceId}`, {
+    const response = await fetch(`/api/workspaces/single/${workspaceId}`, {
         headers: {
             "Content-Type": "application/json",
 		}
 	});
+
 	if (response.ok) {
-		const data = await response.json();
+        const data = await response.json();
 		dispatch(getSingleWorkspaceAction(data.workspace));
 		return null;
 	} else if (response.status < 500) {

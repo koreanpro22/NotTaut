@@ -20,7 +20,7 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path='/'>
-            <Homepage />
+            <Homepage workspaceId='1'/>
           </Route>
           <Route path="/login" >
             <LoginFormPage />

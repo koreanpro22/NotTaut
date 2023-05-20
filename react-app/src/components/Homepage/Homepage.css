@@ -4,13 +4,11 @@
     min-height: 700px;
 }
 
-.section-1 {
-    border: 1px solid green;
-    margin: 10px;
-    width: 150px;
-}
-.section-2 {
-    border: 1px solid green;
-    margin: 10px;
-    width: 70%;
+
+.homepage-container {
+    border: 1px solid black;
+    display: flex;
+    margin: 15px;
+    padding: 15px;
+    gap: 15px;
 }
