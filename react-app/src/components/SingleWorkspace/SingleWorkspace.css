@@ -12,6 +12,11 @@
     width: auto;
 }
 
+.channelName {
+    border: 1px solid black;
+
+}
+
 .channelName, .channelEdit, .channelDelete {
     cursor: pointer;
 }

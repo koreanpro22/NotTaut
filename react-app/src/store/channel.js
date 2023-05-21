@@ -79,6 +79,7 @@ export const createSingleChannelThunk = (channel, workspaceId) => async (dispatc
 		},
 		body: JSON.stringify(channel),
 	});
+	console.log(response)
 
 	if (response.ok) {
 		const data = await response.json();

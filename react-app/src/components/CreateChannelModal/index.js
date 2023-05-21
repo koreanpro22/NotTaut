@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { signUp } from "../../store/session";
 import { createSingleChannelThunk } from "../../store/channel";
+import { getSingleWorkspaceThunk } from "../../store/workspace";
 
-function createChannelModal() {
+function CreateChannelModal({ workspaceId }) {
+	console.log('hitting create channel modal')
 	const dispatch = useDispatch();
 	const [channelName, setChannelName] = useState("");
 	const [errors, setErrors] = useState([]);
@@ -13,28 +14,19 @@ function createChannelModal() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (channelName) {
-			const data = await dispatch(createSingleChannelThunk());
-			if (data) {
-				setErrors(data);
-			} else {
-				closeModal();
+			const newChannel = {
+				name: channelName
 			}
-		} else {
-			setErrors([
-				"Confirm Password field must be the same as the Password field",
-			]);
+			await dispatch(createSingleChannelThunk(newChannel, workspaceId));
+			await dispatch(getSingleWorkspaceThunk(workspaceId))
+			closeModal();
 		}
 	};
 
 	return (
-		<>
-			<h1>Create Channel</h1>
+		<div>
+			<h1>Create new Channel</h1>
 			<form onSubmit={handleSubmit}>
-				<ul>
-					{errors.map((error, idx) => (
-						<li key={idx}>{error}</li>
-					))}
-				</ul>
 				<label>
 					Name
 					<input
@@ -44,10 +36,10 @@ function createChannelModal() {
 						required
 					/>
 				</label>
-				<button type="submit">Sign Up</button>
+				<button type="submit">Create Channel</button>
 			</form>
-		</>
+		</div>
 	);
 }
 
-export default createChannelModal;
+export default CreateChannelModal;

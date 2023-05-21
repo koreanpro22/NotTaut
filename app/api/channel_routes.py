@@ -19,10 +19,14 @@ def all_channels(workspace_id):
 @login_required
 def single_channel(channel_id):
     channel = Channel.query.get(channel_id)
+
+    if not channel:
+        return {'errors': ['Channel does not exist']}, 404
+
     return {'channel': channel.to_dict_all()}
 
 #CREATE CHANNEL BY
-@channel_routes.route('/single/<int:workspace_id>')
+@channel_routes.route('/single/<int:workspace_id>', methods=['POST'])
 @login_required
 def create_channel(workspace_id):
     form = CreateChannelForm()
@@ -31,7 +35,9 @@ def create_channel(workspace_id):
         # Uses values from the form instance to create new board
         new_channel = Channel(
             name=form.data['name'],
-            workspace_id=form.data['workspace_id']
+            workspace_id=workspace_id,
+            topic=form.data['topic'],
+            description=form.data['description']
         )
         # Add board to database
         db.session.add(new_channel)
@@ -42,7 +48,7 @@ def create_channel(workspace_id):
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 #UPDATE CHANNEL BY CHANNEL ID
-@channel_routes.route('/single/<int:channel_id>')
+@channel_routes.route('/single/<int:channel_id>', methods=['PUT'])
 @login_required
 def update_channel(channel_id):
 
