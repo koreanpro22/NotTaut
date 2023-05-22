@@ -22,13 +22,13 @@ def single_message(message_id):
     return {'message': message.to_dict_all()}
 
 #CREATE MESSAGE BY CHANNEL ID
-@message_routes.route('/single/<int:channel_id>')
+@message_routes.route('/single/<int:channel_id>', methods=['POST'])
 @login_required
 def create_message(channel_id):
     form = CreateMessageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        new_message = Channel(
+        new_message = Message(
             text=form.data['text'],
             channel_id=channel_id,
             user_id=current_user.id
@@ -39,7 +39,7 @@ def create_message(channel_id):
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 #UPDATE MESSAGE BY MESSAGE ID
-@message_routes.route('/single/<int:message_id>')
+@message_routes.route('/single/<int:message_id>', methods=['PUT'])
 @login_required
 def update_message(message_id):
 

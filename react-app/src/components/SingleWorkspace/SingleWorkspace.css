@@ -1,13 +1,13 @@
 
 .workspace-container {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     display: flex;
-    padding: 0px 15px;
     gap: 15px;
+    width: 100%;
 }
 
 .singleChannel {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     margin: 10px 0px;
     width: auto;
 }

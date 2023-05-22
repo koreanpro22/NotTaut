@@ -1,0 +1,35 @@
+.single-channel-container {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.single-channel-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 30px;
+    margin: 10px 0px;
+}
+
+.all-messages-container {
+    display: flex;
+    flex-flow: column-reverse;
+    border: 1px solid black;
+    height: 80%;
+    padding: 20px;
+    gap: 10px
+}
+
+.create-message-container {
+    border: 1px solid black;
+    margin: 15px;
+}
+
+.single-message {
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-edit-delete {
+    display: flex;
+    gap: 10px;
+}

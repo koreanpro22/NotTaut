@@ -10,4 +10,5 @@ workspace_routes = Blueprint('workspaces', __name__)
 @login_required
 def single_channel(workspace_id):
     workspace = Workspace.query.get(workspace_id)
+    print(workspace)
     return {'workspace': workspace.to_dict_all()}

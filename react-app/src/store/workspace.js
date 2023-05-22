@@ -32,7 +32,7 @@ const initialState = { currentWorkspace: null, workspaces: [] };
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_SINGLE_WORKSPACE:{
-            const newState = { ...state, currentWorkspace: state.single, workspaces: [...state.workspaces]}
+            const newState = { ...state, currentWorkspace: state.currentWorkspace, workspaces: [...state.workspaces]}
             newState.currentWorkspace = action.payload
             return newState;
         }

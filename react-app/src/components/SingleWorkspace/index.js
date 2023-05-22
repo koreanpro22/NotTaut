@@ -7,21 +7,22 @@ import CreateChannelModal from '../CreateChannelModal';
 import OpenModalButton from '../OpenModalButton';
 import EditChannelModal from '../EditChannelModal';
 import DeleteChannelModal from '../DeleteChannelModal';
+import { getAllChannelsThunk } from '../../store/channel';
 
 
 function SingleWorkspace({ workspaceId }) {
     console.log('hitting workspace')
     const workspace = useSelector(state => state.workspace.currentWorkspace)
+    const channels = useSelector(state => state.channel.channels)
     const [channelId, setChannelId] = useState('2')
     const dispatch = useDispatch()
-    console.log(channelId)
 
     useEffect(() => {
         dispatch(getSingleWorkspaceThunk(workspaceId))
-        // setChannelId(workspace?.channels[0].id)
+        dispatch(getAllChannelsThunk(workspaceId))
     }, [dispatch, workspaceId])
 
-    if (!workspace) return null
+    if (!workspace || !channels) return null
 
     return (
         <div className='workspace-container'>
@@ -33,7 +34,7 @@ function SingleWorkspace({ workspaceId }) {
                         modalComponent={<CreateChannelModal workspaceId={workspaceId} />}
                     />
                 </div>
-                {workspace.channels.map(channel => {
+                {channels.map(channel => {
                     return <>
                         <div className='singleChannel' key={channel.id} >
                             <div className='channelName' onClick={() => setChannelId(channel.id)}>{channel.name}</div>

@@ -166,6 +166,11 @@ export default function reducer(state = initialState, action) {
             newState.channels[index] = action.payload
             return newState;
         }
+		case DELETE_SINGLE_CHANNEL: {
+			console.log('state channel', state.channels)
+			const newState = { ...state, currentChannel:  state.channels[0], channels: [...state.channels]}
+			return newState
+		}
 		default:
 			return state;
 	}

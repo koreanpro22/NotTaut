@@ -82,7 +82,7 @@ export const createSingleMessageThunk = (message, channelId) => async (dispatch)
 
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(createSingleMessageAction(data.message));
+		// dispatch(createSingleMessageAction(data.message));
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -105,7 +105,7 @@ export const updateSingleMessageThunk = (message, messageId) => async (dispatch)
 
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(updateSingleMessageAction(data.message));
+		// dispatch(updateSingleMessageAction(data.message));
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -126,7 +126,7 @@ export const deleteSingleMessageThunk = (messageId) => async (dispatch) => {
 	});
 
 	if (response.ok) {
-		dispatch(deleteSingleMessageAction(messageId));
+		// dispatch(deleteSingleMessageAction(messageId));
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -144,8 +144,8 @@ const initialState = { currentMessage: null, messages: [] };
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_ALL_MESSAGES:{
-            const newState = { ...state, currentMessage: state.currentMessage, messages: [...state.messages]}
-            newState.message = action.payload
+            const newState = { ...state, currentMessage: state.currentMessage}
+            newState.messages = action.payload
 			return newState;
         }
 		case GET_SINGLE_MESSAGE:{
@@ -156,13 +156,13 @@ export default function reducer(state = initialState, action) {
 		case CREATE_SINGLE_MESSAGE:{
             const newState = { ...state, currentMessage: state.currentMessage, messages: [...state.messages]}
             newState.currentMessage = action.payload
-            newState.message.push(action.payload)
+            newState.messages.push(action.payload)
             return newState;
         }
 		case UPDATE_SINGLE_MESSAGE:{
             const newState = { ...state, currentMessage:  state.currentMessage, messages: [...state.messages]}
             const index = newState.message.findIndex(message => message.id === action.payload.id)
-            newState.message[index] = action.payload
+            newState.currentMessage[index] = action.payload
             return newState;
         }
 		default:
