@@ -4,12 +4,12 @@ import { useModal } from "../../context/Modal";
 import { updateSingleChannelThunk } from "../../store/channel";
 import { getSingleWorkspaceThunk } from "../../store/workspace";
 
-function EditChannelModal({ workspaceId, channelId }) {
+function EditChannelModal({name, topic, description, workspaceId, channelId }) {
 	console.log('hitting edit channel modal')
 	const dispatch = useDispatch();
-	const [channelName, setChannelName] = useState("");
-	const [channelTopic, setChannelTopic] = useState("");
-	const [channelDescription, setChannelDescription] = useState("");
+	const [channelName, setChannelName] = useState(name || "");
+	const [channelTopic, setChannelTopic] = useState(topic || "");
+	const [channelDescription, setChannelDescription] = useState(description || "");
 	const [errors, setErrors] = useState([]);
 	const { closeModal } = useModal();
 
@@ -17,7 +17,9 @@ function EditChannelModal({ workspaceId, channelId }) {
 		e.preventDefault();
 		if (channelName) {
 			const newChannel = {
-				name: channelName
+				name: channelName,
+				topic: channelTopic,
+				description: channelDescription
 			}
 			await dispatch(updateSingleChannelThunk(newChannel, channelId));
 			await dispatch(getSingleWorkspaceThunk(workspaceId))

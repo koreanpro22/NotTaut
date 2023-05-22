@@ -41,7 +41,7 @@ function SingleWorkspace({ workspaceId }) {
                             <div>
                                 <OpenModalButton
                                     buttonText='Edit'
-                                    modalComponent={<EditChannelModal workspaceId={workspaceId} channelId={channel.id} />}
+                                    modalComponent={<EditChannelModal name={channel.name} topic={channel.topic} description={channel.description} workspaceId={workspaceId} channelId={channel.id} />}
                                 />
                             </div>
                             <div>

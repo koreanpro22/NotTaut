@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     status = db.Column(db.String(100), nullable=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    profile_pic = db.Column(db.String(100), nullable=True)
+    profile_pic = db.Column(db.String(500), nullable=True)
     title = db.Column(db.String(50), nullable=True)
     phone_number = db.Column(db.String(50), nullable=True)
     timezone = db.Column(db.String(50), nullable=True)
