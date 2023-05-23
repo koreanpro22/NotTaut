@@ -32,7 +32,8 @@ const deleteSingleMessageAction = (messageId) => ({
 
 
 export const getAllMessagesThunk = (channelId) => async (dispatch) => {
-    const response = await fetch(`/api/channels/all/${channelId}`, {
+    console.log('hitting all messages thunk')
+	const response = await fetch(`/api/messages/all/${channelId}`, {
         headers: {
             "Content-Type": "application/json",
 		}
@@ -52,7 +53,7 @@ export const getAllMessagesThunk = (channelId) => async (dispatch) => {
 };
 
 export const getSingleMessageThunk = (messageId) => async (dispatch) => {
-    const response = await fetch(`/api/channels/single/${messageId}`, {
+    const response = await fetch(`/api/messages/single/${messageId}`, {
         headers: {
             "Content-Type": "application/json",
 		}
@@ -82,7 +83,7 @@ export const createSingleMessageThunk = (message, channelId) => async (dispatch)
 
 	if (response.ok) {
 		const data = await response.json();
-		// dispatch(createSingleMessageAction(data.message));
+		dispatch(createSingleMessageAction(data.message));
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -105,7 +106,7 @@ export const updateSingleMessageThunk = (message, messageId) => async (dispatch)
 
 	if (response.ok) {
 		const data = await response.json();
-		// dispatch(updateSingleMessageAction(data.message));
+		dispatch(updateSingleMessageAction(data.message));
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -126,7 +127,7 @@ export const deleteSingleMessageThunk = (messageId) => async (dispatch) => {
 	});
 
 	if (response.ok) {
-		// dispatch(deleteSingleMessageAction(messageId));
+		dispatch(deleteSingleMessageAction(messageId));
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -144,7 +145,8 @@ const initialState = { currentMessage: null, messages: [] };
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_ALL_MESSAGES:{
-            const newState = { ...state, currentMessage: state.currentMessage}
+			console.log(action.payload)
+            const newState = { ...state }
             newState.messages = action.payload
 			return newState;
         }
@@ -154,17 +156,22 @@ export default function reducer(state = initialState, action) {
             return newState;
         }
 		case CREATE_SINGLE_MESSAGE:{
-            const newState = { ...state, currentMessage: state.currentMessage, messages: [...state.messages]}
-            newState.currentMessage = action.payload
+            const newState = { ...state, messages: [...state.messages]}
             newState.messages.push(action.payload)
             return newState;
         }
 		case UPDATE_SINGLE_MESSAGE:{
-            const newState = { ...state, currentMessage:  state.currentMessage, messages: [...state.messages]}
-            const index = newState.message.findIndex(message => message.id === action.payload.id)
-            newState.currentMessage[index] = action.payload
+            const newState = { ...state, messages: [...state.messages]}
+            const index = newState.messages.findIndex(message => message.id === action.payload.id)
+            newState.messages[index] = action.payload
             return newState;
         }
+		case DELETE_SINGLE_MESSAGE:{
+			const newState = { ...state, messages: [...state.messages]}
+			// console.log(newState)
+			newState.messages = newState.messages.filter(message => message.id !== action.payload)
+			return newState;
+		}
 		default:
 			return state;
 	}

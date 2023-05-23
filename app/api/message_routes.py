@@ -11,7 +11,9 @@ message_routes = Blueprint('messages', __name__)
 @message_routes.route('/all/<int:channel_id>')
 @login_required
 def all_messages(channel_id):
+    # print('================================== Hitting route =========================')
     messages = Message.query.filter(Message.channel_id == channel_id)
+    # print(messages, '==========================================================')
     return {'messages': [message.to_dict() for message in messages]}
 
 #GET SINGLE MESSAGE BY MESSAGE ID

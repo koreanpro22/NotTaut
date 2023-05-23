@@ -4,6 +4,24 @@
     display: flex;
     gap: 15px;
     width: 100%;
+    height: 90%;
+}
+
+.single-workspace-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+    margin: 0px 10px;
+    padding: 10px;
+}
+
+.workspace-details-header {
+    margin: 15px;
+}
+
+.all-channels {
+    width: 90%;
 }
 
 .singleChannel {
@@ -12,11 +30,17 @@
     width: auto;
 }
 
-.channelName {
-    border: 1px solid black;
-
-}
-
-.channelName, .channelEdit, .channelDelete {
+.channel-name {
+    text-decoration: underline;
     cursor: pointer;
 }
+
+.edit-delete-channel-modals {
+    display: flex;
+    margin: 5px 0px;
+    gap: 6px;
+}
+
+/* .edit-delete-channel-modals > * {
+    cursor: pointer;
+} */

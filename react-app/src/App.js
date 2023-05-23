@@ -6,6 +6,8 @@ import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import Homepage from "./components/Homepage";
+import AllWorkspaces from "./components/AllWorkspaces";
+import SingleWorkspace from "./components/SingleWorkspace";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,7 +22,10 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path='/'>
-            <Homepage workspaceId='1'/>
+            <AllWorkspaces />
+          </Route>
+          <Route path='/workspace/:workspaceId'>
+            <SingleWorkspace />
           </Route>
           <Route path="/login" >
             <LoginFormPage />

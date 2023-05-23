@@ -34,6 +34,19 @@ function LoginFormModal() {
   }
   };
 
+  const handleDemoButton2 = async (e) => {
+    e.preventDefault();
+    const demoEmail = 'test1@aa.io'
+    const demoPassword = 'password'
+
+    const data = await dispatch(login(demoEmail, demoPassword));
+    if (data) {
+      setErrors(data);
+    } else {
+      closeModal()
+  }
+  };
+
   return (
     <>
       <h1>Log In</h1>
@@ -64,6 +77,7 @@ function LoginFormModal() {
         <button type="submit">Log In</button>
       </form>
       <button onClick={handleDemoButton}>Demo User</button>
+      <button onClick={handleDemoButton2}>Demo User 2</button>
     </>
   );
 }

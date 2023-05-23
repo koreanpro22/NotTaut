@@ -5,7 +5,7 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_workspaces(users):
     workspace1 = Workspace(
-        name='Channel 1 Test',
+        name='Workspace 1 Test',
         owner_id='1',
         workspace_users=users
     )

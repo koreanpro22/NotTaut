@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { createSingleChannelThunk } from "../../store/channel";
+import { createSingleChannelThunk, getSingleChannelThunk } from "../../store/channel";
 import { getSingleWorkspaceThunk } from "../../store/workspace";
 
 function CreateChannelModal({ workspaceId }) {

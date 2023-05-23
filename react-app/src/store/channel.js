@@ -157,7 +157,6 @@ export default function reducer(state = initialState, action) {
 		case CREATE_SINGLE_CHANNEL:{
             const newState = { ...state, currentChannel: state.currentChannel, channels: [...state.channels]}
             newState.currentChannel = action.payload
-            newState.channels.push(action.payload)
             return newState;
         }
 		case UPDATE_SINGLE_CHANNEL:{
@@ -168,7 +167,9 @@ export default function reducer(state = initialState, action) {
         }
 		case DELETE_SINGLE_CHANNEL: {
 			console.log('state channel', state.channels)
-			const newState = { ...state, currentChannel:  state.channels[0], channels: [...state.channels]}
+			const newState = { ...state, currentChannel: null, channels: [...state.channels]}
+			const index = newState.channels.findIndex(channel => channel.id === action.payload)
+			newState.channels.splice(index, 1)
 			return newState
 		}
 		default:
