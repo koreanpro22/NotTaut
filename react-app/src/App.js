@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
@@ -13,32 +13,50 @@ import { ChannelIdProvider } from "./context/ChannelIdProvider";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const sessionUser = useSelector(state => state.session.user)
+
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
   return (
-    <>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
-        <Switch>
-          <Route exact path='/'>
-            <AllWorkspaces />
-          </Route>
-          <Route path='/workspace/:workspaceId'>
-            <ChannelIdProvider>
-              <SingleWorkspace />
-            </ChannelIdProvider>
-          </Route>
-          <Route path="/login" >
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
-        </Switch>
-      )}
-    </>
+    <div>
+      {sessionUser ? <>
+          <Navigation isLoaded={isLoaded} />
+          {isLoaded && (
+            <Switch>
+              <Route exact path='/'>
+                <AllWorkspaces />
+              </Route>
+              <Route path='/workspace/:workspaceId'>
+                <ChannelIdProvider>
+                  <SingleWorkspace />
+                </ChannelIdProvider>
+              </Route>
+              <Route path="/login" >
+                <LoginFormPage />
+              </Route>
+              <Route path="/signup">
+                <SignupFormPage />
+              </Route>
+            </Switch>
+          )}
+        </> : <>
+          <Navigation isLoaded={isLoaded} />
+          {isLoaded && (
+            <Switch>
+              <Route exact path='/'>
+                <Homepage />
+              </Route>
+              <Route>
+                <h1>404 Page not Found</h1>
+              </Route>
+            </Switch>
+          )}
+        </>
+
+      }
+    </div>
   );
 }
 
