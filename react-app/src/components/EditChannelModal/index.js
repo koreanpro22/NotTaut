@@ -24,6 +24,7 @@ function EditChannelModal({ channel }) {
 			}
 			dispatch(updateSingleChannelThunk(newChannel, channel.id));
 			dispatch(getSingleChannelThunk(channel.id))
+			dispatch(getSingleWorkspaceThunk(channel.workspace.id))
 			dispatch(authenticate())
 			closeModal();
 
