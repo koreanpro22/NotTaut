@@ -27,7 +27,9 @@ class User(db.Model, UserMixin):
 
     workspaces_owned = db.relationship('Workspace', back_populates='owner')
     user_workspaces = db.relationship('Workspace', secondary=users_workspaces, back_populates='workspace_users')
+
     user_channels = db.relationship('Channel', secondary=users_channels, back_populates='channel_users')
+
     messages = db.relationship('Message', back_populates='user')
     thread_messages = db.relationship('Thread_Message', back_populates='user')
 

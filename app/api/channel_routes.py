@@ -37,7 +37,8 @@ def create_channel(workspace_id):
             name=form.data['name'],
             workspace_id=workspace_id,
             topic=form.data['topic'],
-            description=form.data['description']
+            description=form.data['description'],
+            channel_users=[current_user]
         )
         # Add board to database
         db.session.add(new_channel)

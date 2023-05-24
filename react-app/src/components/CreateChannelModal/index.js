@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { createSingleChannelThunk, getSingleChannelThunk } from "../../store/channel";
-import { getSingleWorkspaceThunk } from "../../store/workspace";
-
-function CreateChannelModal({ workspaceId }) {
+import { authenticate } from "../../store/session";
+function CreateChannelModal({ setCurrentChannelId, workspaceId }) {
 	console.log('hitting create channel modal')
 	const dispatch = useDispatch();
 	const [channelName, setChannelName] = useState("");
@@ -17,8 +16,9 @@ function CreateChannelModal({ workspaceId }) {
 			const newChannel = {
 				name: channelName
 			}
-			await dispatch(createSingleChannelThunk(newChannel, workspaceId));
-			await dispatch(getSingleWorkspaceThunk(workspaceId))
+			const res = await dispatch(createSingleChannelThunk(newChannel, workspaceId));
+			setCurrentChannelId(res.id)
+			await dispatch(authenticate())
 			closeModal();
 		}
 	};

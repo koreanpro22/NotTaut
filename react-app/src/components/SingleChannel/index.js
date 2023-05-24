@@ -7,25 +7,30 @@ import DeleteMessageModal from '../DeleteMessageModal';
 import EditMessageModal from '../EditMessageModal';
 import OpenModalButton from '../OpenModalButton';
 import { updateSingleMessageThunk } from '../../store/message';
+import EditChannelModal from '../EditChannelModal';
+import DeleteChannelModal from '../DeleteChannelModal';
+import { useChannelIdUpdate } from '../../context/ChannelIdProvider';
 
 function SingleChannel({ channelId }) {
     console.log('hitting single channel', channelId)
     const channel = useSelector(state => state.channel.currentChannel)
-    const currentUser = useSelector(state => state.session.user)
-    const messages = useSelector(state => state.message.messages)
+    const sessionUser = useSelector(state => state.session.user)
     const dispatch = useDispatch()
     const [message, setMessage] = useState('')
-    const [showEdit, setShowEdit] = useState(false)
-    const [newMessage, setNewMessage] = useState(message);
-    const [messageId, setMessageId] = useState()
+    const setCurrentChannelId = useChannelIdUpdate()
+
 
 
     useEffect(() => {
         dispatch(getSingleChannelThunk(channelId))
         dispatch(getAllMessagesThunk(channelId))
-    }, [dispatch, channelId, messages.length])
+    }, [dispatch, channelId])
+
+    console.log('CHANNEL ', channel)
 
     if (!channel) return null
+
+    const messages = channel.messages
 
     const createMessage = async (e) => {
         e.preventDefault()
@@ -36,22 +41,21 @@ function SingleChannel({ channelId }) {
         setMessage('')
     }
 
-    // const editMessage = async (e) => {
-    //     e.preventDefault()
-    //     if (newMessage) {
-    //         const message = {
-    //             text: newMessage
-    //         }
-    //         dispatch(updateSingleMessageThunk(message, messageId))
-    //         dispatch(getSingleChannelThunk(channelId))
-    //     }
-    // }
-
-    console.log(messages)
     return (
         <div className='single-channel-container'>
+            {console.log('hitting return single channel')}
             <div className='single-channel-header'>
-                <strong>Channel Name: {channel.name}</strong>
+                <div>
+                    <strong>Channel Name: {channel.name}</strong>
+                    <OpenModalButton
+                        buttonText='Edit'
+                        modalComponent={<EditChannelModal channel={channel}/>}
+                    />
+                    <OpenModalButton
+                        buttonText='Delete'
+                        modalComponent={<DeleteChannelModal channel={channel} setCurrentChannelId={setCurrentChannelId} />}
+                    />
+                </div>
                 <div>
                     {channel.channel_users.length} members
                 </div>
@@ -61,19 +65,8 @@ function SingleChannel({ channelId }) {
                     {messages.toReversed().map(message => {
                         return <>
                             <div className='single-message'>
-                                {/* <form onSubmit={editMessage}>
-                                <label>
-                                    <input
-                                        type="text"
-                                        value={newMessage}
-                                        onChange={(e) => setNewMessage(e.target.value)}
-                                        required
-                                    />
-                                </label>
-                                <button type="submit">Edit Message</button>
-                            </form> */}
                                 {message.text}
-                                {currentUser.id === message.user_id && <div className='message-edit-delete'>
+                                {sessionUser.id === message.user_id && <div className='message-edit-delete'>
                                     <OpenModalButton
                                         buttonText='Edit'
                                         modalComponent={<EditMessageModal message={message.text} channelId={channel.id} messageId={message.id} />}

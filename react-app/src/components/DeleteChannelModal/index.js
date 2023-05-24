@@ -4,8 +4,9 @@ import { useModal } from "../../context/Modal";
 import { deleteSingleChannelThunk } from "../../store/channel";
 import { getSingleWorkspaceThunk } from "../../store/workspace";
 import { useHistory } from "react-router-dom";
+import { authenticate } from "../../store/session";
 
-function DeleteChannelModal({ workspaceId, channelId }) {
+function DeleteChannelModal({ channel, setCurrentChannelId }) {
     console.log('hitting delete channel modal')
 
     const dispatch = useDispatch();
@@ -14,11 +15,11 @@ function DeleteChannelModal({ workspaceId, channelId }) {
 
     const handleDelete = async (e) => {
         e.preventDefault();
-        await dispatch(deleteSingleChannelThunk(channelId));
-        await dispatch(getSingleWorkspaceThunk(workspaceId))
-        history.push(`/workspace/${workspaceId}`);
+        dispatch(deleteSingleChannelThunk(channel.id));
+        setCurrentChannelId('2')
+        dispatch(authenticate())
+        history.push(`/workspace/${channel.workspace.id}`);
         closeModal();
-
     }
 
     return (

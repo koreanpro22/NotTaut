@@ -3,13 +3,14 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { getSingleChannelThunk, updateSingleChannelThunk } from "../../store/channel";
 import { getSingleWorkspaceThunk } from "../../store/workspace";
+import { authenticate } from "../../store/session";
 
-function EditChannelModal({name, topic, description, workspaceId, channelId }) {
+function EditChannelModal({ channel }) {
 	console.log('hitting edit channel modal')
 	const dispatch = useDispatch();
-	const [channelName, setChannelName] = useState(name || "");
-	const [channelTopic, setChannelTopic] = useState(topic || "");
-	const [channelDescription, setChannelDescription] = useState(description || "");
+	const [channelName, setChannelName] = useState(channel.name || "");
+	const [channelTopic, setChannelTopic] = useState(channel.topic || "");
+	const [channelDescription, setChannelDescription] = useState(channel.description || "");
 	const [errors, setErrors] = useState([]);
 	const { closeModal } = useModal();
 
@@ -21,9 +22,9 @@ function EditChannelModal({name, topic, description, workspaceId, channelId }) {
 				topic: channelTopic,
 				description: channelDescription
 			}
-			await dispatch(updateSingleChannelThunk(newChannel, channelId));
-			await dispatch(getSingleWorkspaceThunk(workspaceId))
-			await dispatch(getSingleChannelThunk(channelId))
+			dispatch(updateSingleChannelThunk(newChannel, channel.id));
+			dispatch(getSingleChannelThunk(channel.id))
+			dispatch(authenticate())
 			closeModal();
 
 		}

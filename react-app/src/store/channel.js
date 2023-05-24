@@ -84,7 +84,7 @@ export const createSingleChannelThunk = (channel, workspaceId) => async (dispatc
 	if (response.ok) {
 		const data = await response.json();
 		dispatch(createSingleChannelAction(data.channel));
-		return null;
+		return data.channel
 	} else if (response.status < 500) {
 		const data = await response.json();
 		if (data.errors) {
@@ -140,36 +140,33 @@ export const deleteSingleChannelThunk = (channelId) => async (dispatch) => {
 };
 
 
-const initialState = { currentChannel: null, channels: [] };
+const initialState = { currentChannel: null };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
-		case GET_ALL_CHANNELS:{
-            const newState = { ...state, currentChannel: state.currentChannel, channels: [...state.channels]}
-            newState.channels = action.payload
-			return newState;
-        }
 		case GET_SINGLE_CHANNEL:{
-            const newState = { ...state, currentChannel: state.currentChannel, channels: [...state.channels]}
+			console.log('hitting channel case')
+			console.log(state.currentChannel)
+            const newState = { ...state, currentChannel: state.currentChannel}
             newState.currentChannel = action.payload
+			console.log(newState.currentChannel)
             return newState;
         }
 		case CREATE_SINGLE_CHANNEL:{
-            const newState = { ...state, currentChannel: state.currentChannel, channels: [...state.channels]}
+            const newState = { ...state, currentChannel: state.currentChannel}
             newState.currentChannel = action.payload
             return newState;
         }
 		case UPDATE_SINGLE_CHANNEL:{
-            const newState = { ...state, currentChannel:  state.currentChannel, channels: [...state.channels]}
-            const index = newState.channels.findIndex(channel => channel.id === action.payload.id)
-            newState.channels[index] = action.payload
+            // const newState = { ...state, currentChannel: state.currentChannel}
+			const newState = { currentChannel: action.payload }
             return newState;
         }
 		case DELETE_SINGLE_CHANNEL: {
 			console.log('state channel', state.channels)
-			const newState = { ...state, currentChannel: null, channels: [...state.channels]}
-			const index = newState.channels.findIndex(channel => channel.id === action.payload)
-			newState.channels.splice(index, 1)
+			const newState = { ...state, currentChannel: null }
+			// const index = newState.channels.findIndex(channel => channel.id === action.payload)
+			// newState.channels.splice(index, 1)
 			return newState
 		}
 		default:

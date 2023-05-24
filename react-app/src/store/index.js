@@ -8,8 +8,8 @@ import workspace from './workspace';
 const rootReducer = combineReducers({
   session,
   channel,
-  message,
-  workspace
+  message
+  // workspace
 });
 
 

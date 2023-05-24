@@ -7,7 +7,6 @@ import { getAllWorkspaceThunk, getSingleWorkspaceThunk } from '../../store/works
 function Homepage(props) {
 
     const sessionUser = useSelector(state => state.session.user);
-    const workspaces = useSelector(state => state.workspace.workspaces);
     const [workspaceId, setWorkspaceId] = useState('')
 
     const dispatch = useDispatch()
@@ -18,11 +17,7 @@ function Homepage(props) {
     }, [dispatch])
 
 
-    if (!sessionUser || !workspaces.length) return null
-
-    if (!workspaceId) {
-        setWorkspaceId(workspaces[0].id)
-    }
+    if (!sessionUser) return null
 
     return (
         <div className='homepage-container'>

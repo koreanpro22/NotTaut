@@ -19,7 +19,9 @@ class Channel(db.Model, UserMixin):
     workspace_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('workspaces.id')))
 
     workspace = db.relationship('Workspace', back_populates='channels')
+
     channel_users = db.relationship('User', secondary=users_channels, back_populates='user_channels')
+
     messages = db.relationship('Message', back_populates='channel')
 
     def to_dict(self):

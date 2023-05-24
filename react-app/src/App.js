@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import Homepage from "./components/Homepage";
 import AllWorkspaces from "./components/AllWorkspaces";
 import SingleWorkspace from "./components/SingleWorkspace";
+import { ChannelIdProvider } from "./context/ChannelIdProvider";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,7 +26,9 @@ function App() {
             <AllWorkspaces />
           </Route>
           <Route path='/workspace/:workspaceId'>
-            <SingleWorkspace />
+            <ChannelIdProvider>
+              <SingleWorkspace />
+            </ChannelIdProvider>
           </Route>
           <Route path="/login" >
             <LoginFormPage />
