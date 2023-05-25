@@ -31,15 +31,16 @@ function SingleChannel({ channelId }) {
         socket = io();
         dispatch(getAllMessagesThunk(channelId))
         socket.on('chat', (chat) => {
-            dispatch(getAllMessagesThunk(channelId)).then(msg => setChannelMessages(...msg))
-            console.log(channelMessages)
+            console.log('Hitting socket ======================================================>')
             dispatch(getSingleChannelThunk(channelId))
+            dispatch(getAllMessagesThunk(channelId))
+
         })
 
         return (() => {
             socket.disconnect()
         })
-    }, [dispatch, channelId, channelMessages.length])
+    }, [dispatch, channelId, messages.length])
 
 
     console.log('CHANNEL ID ', channelId)
@@ -48,21 +49,20 @@ function SingleChannel({ channelId }) {
 
     if (!channel) return null
 
-
-    const createMessage = async (e) => {
+    const sendChat = async (e) => {
         e.preventDefault()
-        console.log('Channel Id when creating message', channel.id)
-        const newMessage = { 'text': message }
-        dispatch(createSingleMessageThunk(newMessage, channel.id))
-        dispatch(getSingleChannelThunk(channel.id))
+        await socket.emit('chat', { user: sessionUser.name, text: message, user_id: sessionUser.id, channel_id: channel.id})
+        dispatch(getAllMessagesThunk(channelId))
         setMessage('')
     }
 
-    const sendChat = (e) => {
+    const deleteChat = async (e, messageId) => {
         e.preventDefault()
-        socket.emit('chat', { user: sessionUser.name, text: message, user_id: sessionUser.id, channel_id: channel.id})
-        setMessage('')
+        await socket.emit('chat', { 'message_id': messageId})
+        dispatch(getAllMessagesThunk(channelId))
+
     }
+
 
     return (
         <div className='single-channel-container'>
@@ -85,6 +85,7 @@ function SingleChannel({ channelId }) {
             </div>
             <div className='message-container'>
                 <div className='all-messages-container'>
+                    {console.log('messages in return ', messages)}
                     {messages.toReversed().map(message => {
                         return <>
                             <div className='single-message'>
@@ -94,10 +95,11 @@ function SingleChannel({ channelId }) {
                                         buttonText='Edit'
                                         modalComponent={<EditMessageModal message={message.text} channelId={channel.id} messageId={message.id} />}
                                     />
-                                    <OpenModalButton
+                                    {/* <OpenModalButton
                                         buttonText='Delete'
                                         modalComponent={<DeleteMessageModal channelId={channel.id} messageId={message.id} />}
-                                    />
+                                    /> */}
+                                    <button onClick={(e) => deleteChat(e, message.id)}>Delete Message</button>
                                 </div>}
                             </div>
                         </>

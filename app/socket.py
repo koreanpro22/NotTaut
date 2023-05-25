@@ -14,15 +14,19 @@ socketio = SocketIO(cors_allowed_origins=origins)
 def handle_chat(data):
     print('HITING SOCKET.PY ===========================================>')
     if data != 'User connected!':
-        message = Message(
-            text=data['text'],
-            user_id=data['user_id'],
-            channel_id=data['channel_id']
-        )
-        print('MESSAGE ===========================================> ', message)
-        print('DB ===========================================> ', db.session)
-        db.session.add(message)
-        db.session.commit()
+        print('data ==================================> ', data)
+        if ('message_id' in data):
+            message = Message.query.get(data['message_id'])
+            db.session.delete(message)
+            db.session.commit()
+        else:
+            message = Message(
+                text=data['text'],
+                user_id=data['user_id'],
+                channel_id=data['channel_id']
+            )
+            print('MESSAGE ===========================================> ', message)
+            print('DB ===========================================> ', db.session)
+            db.session.add(message)
+            db.session.commit()
     emit('chat', data, broadcast=True)
-
-

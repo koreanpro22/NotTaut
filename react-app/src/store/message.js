@@ -36,24 +36,13 @@ const deleteSingleMessageAction = (messageId) => ({
 	payload: messageId,
 });
 
-export const getChannelMessages = (userId, channelId) => async (dispatch) => {
-	const response = await fetch(`/api/messages/${userId}/${channelId}`);
-	console.log('Response in Thunk', response)
-	if (response.ok) {
-		const messages = await response.json();
-		dispatch(getChannelMessagesAction(messages.messages));
-	}
-}
-
 export const getAllMessagesThunk = (channelId) => async (dispatch) => {
 	console.log('hitting all messages thunk')
-	const response = await fetch(`/api/messages/all/${channelId}`, {
-		headers: {
-			"Content-Type": "application/json",
-		}
-	});
+	const response = await fetch(`/api/messages/all/${channelId}`);
+	console.log('response in message thunk ', response)
 	if (response.ok) {
 		const data = await response.json();
+		console.log('data in message thunk ', data)
 		dispatch(getAllMessagesAction(data.messages));
 		return data.messages
 	} else if (response.status < 500) {
@@ -159,13 +148,14 @@ const initialState = { currentMessage: null, messages: [] };
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_CHANNEL_MESSAGES: {
-			const newState = { ...state }
+			const newState = {}
 			newState.messages = action.payload
 			return newState
 		}
 		case GET_ALL_MESSAGES: {
 			console.log(action.payload)
-			const newState = { ...state }
+			const newState = {}
+			console.log('message payload ', action.payload)
 			newState.messages = action.payload
 			return newState;
 		}

@@ -15,10 +15,9 @@ function DeleteChannelModal({ channel, setCurrentChannelId }) {
 
     const handleDelete = async (e) => {
         e.preventDefault();
-        dispatch(deleteSingleChannelThunk(channel.id));
-        setCurrentChannelId('2')
-        dispatch(authenticate())
-        dispatch(getSingleWorkspaceThunk(channel.workspace.id))
+        await dispatch(deleteSingleChannelThunk(channel.id));
+        await dispatch(authenticate())
+        await dispatch(getSingleWorkspaceThunk(channel.workspace.id))
         history.push(`/workspace/${channel.workspace.id}`);
         closeModal();
     }

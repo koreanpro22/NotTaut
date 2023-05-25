@@ -9,7 +9,7 @@ message_routes = Blueprint('messages', __name__)
 
 #GET ALL CHANNEL MESSAGES BY SENDER AND RECIPIENT ID
 @message_routes.route('/<int:sender_id>/<int:recipient_id>')
-def get_channel_message(sender_id, recipient_id):
+def get_channel_message(recipient_id):
     channel = Channel.query.get(recipient_id)
     channelDict = channel.to_dict_all()
     print('====================================>', channelDict)

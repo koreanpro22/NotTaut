@@ -17,7 +17,7 @@ function LoginFormModal() {
     if (data) {
       setErrors(data);
     } else {
-        closeModal()
+      closeModal()
     }
   };
 
@@ -31,7 +31,7 @@ function LoginFormModal() {
       setErrors(data);
     } else {
       closeModal()
-  }
+    }
   };
 
   const handleDemoButton2 = async (e) => {
@@ -44,20 +44,23 @@ function LoginFormModal() {
       setErrors(data);
     } else {
       closeModal()
-  }
+    }
   };
 
   return (
-    <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="login-modal-container">
+      <div className="login-modal-header">Log In</div>
+      {errors.length > 0 &&
         <ul>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
         </ul>
+      }
+      <form onSubmit={handleSubmit} className="login-form-container">
+
         <label>
-          Email
+          Email:
           <input
             type="text"
             value={email}
@@ -66,7 +69,7 @@ function LoginFormModal() {
           />
         </label>
         <label>
-          Password
+          Password:
           <input
             type="password"
             value={password}
@@ -74,11 +77,11 @@ function LoginFormModal() {
             required
           />
         </label>
-        <button type="submit">Log In</button>
+        <button type="submit" className="login-button">Log In</button>
       </form>
       <button onClick={handleDemoButton}>Demo User</button>
       <button onClick={handleDemoButton2}>Demo User 2</button>
-    </>
+    </div>
   );
 }
 
