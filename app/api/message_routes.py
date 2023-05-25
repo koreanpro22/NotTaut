@@ -7,6 +7,16 @@ from ..forms import CreateMessageForm, UpdateMessageForm
 message_routes = Blueprint('messages', __name__)
 
 
+#GET ALL CHANNEL MESSAGES BY SENDER AND RECIPIENT ID
+@message_routes.route('/<int:sender_id>/<int:recipient_id>')
+def get_channel_message(sender_id, recipient_id):
+    channel = Channel.query.get(recipient_id)
+    channelDict = channel.to_dict_all()
+    print('====================================>', channelDict)
+    messages = channelDict['messages']
+    return messages
+
+
 #GET ALL MESSAGES BY CHANNEL iD
 @message_routes.route('/all/<int:channel_id>')
 @login_required

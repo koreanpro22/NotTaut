@@ -1,5 +1,9 @@
 .profile-dropdown {
   position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 6px;
+  padding: 5px;
 }
 
 .hidden {
@@ -12,4 +16,10 @@
   justify-content: space-between;
   padding: 10px 100px;
   margin: 10px;
+}
+
+.login-signup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }

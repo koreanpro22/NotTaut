@@ -22,7 +22,7 @@ class Channel(db.Model, UserMixin):
 
     channel_users = db.relationship('User', secondary=users_channels, back_populates='user_channels')
 
-    messages = db.relationship('Message', back_populates='channel')
+    messages = db.relationship('Message', back_populates='channel', cascade="all, delete-orphan")
 
     def to_dict(self):
         return {

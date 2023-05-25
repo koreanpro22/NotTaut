@@ -25,13 +25,11 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.Date, default=datetime.today)
     updated_at = db.Column(db.Date, default=datetime.today)
 
-    workspaces_owned = db.relationship('Workspace', back_populates='owner')
-    user_workspaces = db.relationship('Workspace', secondary=users_workspaces, back_populates='workspace_users')
-
-    user_channels = db.relationship('Channel', secondary=users_channels, back_populates='channel_users')
-
-    messages = db.relationship('Message', back_populates='user')
-    thread_messages = db.relationship('Thread_Message', back_populates='user')
+    workspaces_owned = db.relationship('Workspace', back_populates='owner', cascade="all, delete-orphan")
+    user_workspaces = db.relationship('Workspace', secondary=users_workspaces, back_populates='workspace_users', cascade='all, delete')
+    user_channels = db.relationship('Channel', secondary=users_channels, back_populates='channel_users', cascade='all, delete')
+    messages = db.relationship('Message', back_populates='user', cascade="all, delete-orphan")
+    thread_messages = db.relationship('Thread_Message', back_populates='user', cascade="all, delete-orphan")
 
     @property
     def password(self):

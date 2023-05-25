@@ -18,6 +18,7 @@ function DeleteChannelModal({ channel, setCurrentChannelId }) {
         dispatch(deleteSingleChannelThunk(channel.id));
         setCurrentChannelId('2')
         dispatch(authenticate())
+        dispatch(getSingleWorkspaceThunk(channel.workspace.id))
         history.push(`/workspace/${channel.workspace.id}`);
         closeModal();
     }

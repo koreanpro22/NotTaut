@@ -10,27 +10,44 @@ import { updateSingleMessageThunk } from '../../store/message';
 import EditChannelModal from '../EditChannelModal';
 import DeleteChannelModal from '../DeleteChannelModal';
 import { useChannelIdUpdate } from '../../context/ChannelIdProvider';
+import { io } from 'socket.io-client';
+import { getChannelMessages } from '../../store/message';
+
+let socket;
 
 function SingleChannel({ channelId }) {
     console.log('hitting single channel', channelId)
     const channel = useSelector(state => state.channel.currentChannel)
     const sessionUser = useSelector(state => state.session.user)
+    const messages = useSelector(state => state.message.messages)
     const dispatch = useDispatch()
-    const [message, setMessage] = useState('')
+    const [message, setMessage] = useState('');
+    const [channelMessages, setChannelMessages] = useState([]);
+
     const setCurrentChannelId = useChannelIdUpdate()
-
-
 
     useEffect(() => {
         dispatch(getSingleChannelThunk(channelId))
+        socket = io();
         dispatch(getAllMessagesThunk(channelId))
-    }, [dispatch, channelId])
+        socket.on('chat', (chat) => {
+            dispatch(getAllMessagesThunk(channelId)).then(msg => setChannelMessages(...msg))
+            console.log(channelMessages)
+            dispatch(getSingleChannelThunk(channelId))
+        })
 
+        return (() => {
+            socket.disconnect()
+        })
+    }, [dispatch, channelId, channelMessages.length])
+
+
+    console.log('CHANNEL ID ', channelId)
     console.log('CHANNEL ', channel)
+    console.log('CHANNEL Messages', messages)
 
     if (!channel) return null
 
-    const messages = channel.messages
 
     const createMessage = async (e) => {
         e.preventDefault()
@@ -38,6 +55,12 @@ function SingleChannel({ channelId }) {
         const newMessage = { 'text': message }
         dispatch(createSingleMessageThunk(newMessage, channel.id))
         dispatch(getSingleChannelThunk(channel.id))
+        setMessage('')
+    }
+
+    const sendChat = (e) => {
+        e.preventDefault()
+        socket.emit('chat', { user: sessionUser.name, text: message, user_id: sessionUser.id, channel_id: channel.id})
         setMessage('')
     }
 
@@ -81,7 +104,19 @@ function SingleChannel({ channelId }) {
                     })}
                 </div >
                 <div className='create-message-container'>
-                    <form onSubmit={createMessage}>
+                    {/* <form onSubmit={createMessage}>
+                        <label>
+                            <input
+                                placeholder='Message {channel.name}'
+                                type="text"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                required
+                            />
+                        </label>
+                        <button type="submit">Send Message</button>
+                    </form> */}
+                    <form onSubmit={sendChat}>
                         <label>
                             <input
                                 placeholder='Message {channel.name}'

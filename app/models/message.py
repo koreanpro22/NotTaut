@@ -19,7 +19,7 @@ class Message(db.Model, UserMixin):
 
     channel = db.relationship('Channel', back_populates='messages')
     user = db.relationship('User', back_populates='messages')
-    thread_messages = db.relationship('Thread_Message', back_populates='messages')
+    thread_messages = db.relationship('Thread_Message', back_populates='messages', cascade="all, delete-orphan")
 
     #GET ALL MESSAGE INFORMATION
     def to_dict(self):
