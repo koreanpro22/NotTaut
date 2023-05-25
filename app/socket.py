@@ -4,7 +4,7 @@ from app.models import Message, db
 socketio = SocketIO()
 
 if os.environ.get('FLASK_ENV') == 'production':
-    origins = []
+    origins = ['https://nottaut.onrender.com']
 else:
     origins = '*'
 
