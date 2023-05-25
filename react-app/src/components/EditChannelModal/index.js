@@ -22,10 +22,10 @@ function EditChannelModal({ channel }) {
 				topic: channelTopic,
 				description: channelDescription
 			}
-			dispatch(updateSingleChannelThunk(newChannel, channel.id));
-			dispatch(getSingleChannelThunk(channel.id))
-			dispatch(getSingleWorkspaceThunk(channel.workspace.id))
-			dispatch(authenticate())
+			await dispatch(updateSingleChannelThunk(newChannel, channel.id));
+			await dispatch(getSingleChannelThunk(channel.id))
+			await dispatch(getSingleWorkspaceThunk(channel.workspace.id))
+			await dispatch(authenticate())
 			closeModal();
 
 		}
