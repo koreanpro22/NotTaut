@@ -5,9 +5,11 @@ import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import './Navigation.css';
+import { useHistory } from "react-router-dom";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+  const history = useHistory()
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -34,6 +36,7 @@ function ProfileButton({ user }) {
     e.preventDefault();
     setShowMenu(false);
     dispatch(logout());
+    history.push('/')
   };
 
   const dropdown = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -41,7 +44,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
+      <button onClick={openMenu} className="nav-menu-dropdown">
         <i className="fas fa-user-circle" />
       </button>
       <div className={dropdown} ref={ulRef}>
