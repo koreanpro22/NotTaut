@@ -12,6 +12,7 @@ import DeleteChannelModal from '../DeleteChannelModal';
 import { useChannelIdUpdate } from '../../context/ChannelIdProvider';
 import { io } from 'socket.io-client';
 import { getChannelMessages } from '../../store/message';
+import MessageModal from '../SingleMessageModal';
 
 let socket;
 
@@ -90,17 +91,9 @@ function SingleChannel({ channelId }) {
                         return <>
                             <div className='single-message'>
                                 {message.text}
-                                {sessionUser.id === message.user_id && <div className='message-edit-delete'>
-                                    <OpenModalButton
-                                        buttonText='Edit'
-                                        modalComponent={<EditMessageModal message={message.text} channelId={channel.id} messageId={message.id} />}
-                                    />
-                                    {/* <OpenModalButton
-                                        buttonText='Delete'
-                                        modalComponent={<DeleteMessageModal channelId={channel.id} messageId={message.id} />}
-                                    /> */}
-                                    <button onClick={(e) => deleteChat(e, message.id)}>Delete Message</button>
-                                </div>}
+                                {console.log('session user in map ', sessionUser)}
+                                {console.log('Message in map ', message)}
+                                <MessageModal message={message} deleteChat={deleteChat}/>
                             </div>
                         </>
                     })}
