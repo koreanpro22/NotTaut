@@ -64,7 +64,7 @@ export default function reducer(state = initialState, action) {
             return newState;
         }
 		case GET_SINGLE_WORKSPACE:{
-            const newState = { ...state, currentWorkspace: state.currentWorkspace, workspaces: [...state.workspaces]}
+            const newState = {}
             newState.currentWorkspace = action.payload
             return newState;
         }

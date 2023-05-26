@@ -17,16 +17,22 @@ function SingleWorkspace() {
     console.log('hitting workspace')
     const { workspaceId } = useParams()
     const sessionUser = useSelector(state => state.session.user)
+    const currentWorkspace = useSelector(state => state.workspace.currentWorkspace)
     const dispatch = useDispatch()
     const currentChannelId = useChannelId()
     const setCurrentChannelId = useChannelIdUpdate()
 
-    if (!sessionUser) return null
+    useEffect(() => {
+        dispatch(getSingleWorkspaceThunk(workspaceId))
+    }, [dispatch])
+    
+    if (!sessionUser || !currentWorkspace) return null
 
     const channels = sessionUser.user_channels.filter(channel => channel.workspace_id === +workspaceId)
     const workspaces = sessionUser.user_workspaces
 
     console.log('Current Channel Id', currentChannelId)
+
 
 
     if (channels.length && !currentChannelId) {
