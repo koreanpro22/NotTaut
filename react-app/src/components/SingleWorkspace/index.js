@@ -25,7 +25,7 @@ function SingleWorkspace() {
     useEffect(() => {
         dispatch(getSingleWorkspaceThunk(workspaceId))
     }, [dispatch])
-    
+
     if (!sessionUser || !currentWorkspace) return null
 
     const channels = sessionUser.user_channels.filter(channel => channel.workspace_id === +workspaceId)
@@ -57,11 +57,16 @@ function SingleWorkspace() {
                 <div>
                     <OpenModalButton
                         buttonText='Create New Channel'
-                        modalComponent={<CreateChannelModal setCurrentChannelId={setCurrentChannelId}  workspaceId={workspaceId} />}
+                        modalComponent={<CreateChannelModal setCurrentChannelId={setCurrentChannelId} workspaceId={workspaceId} />}
                     />
                 </div>
                 <div className='all-channels'>
-                    {channels.map(channel => {
+                    {console.log(currentWorkspace.channels)}
+                    {sessionUser.id === currentWorkspace.owner.id ? currentWorkspace.channels.map(channel => {
+                        return <div className='singleChannel' key={channel.id}>
+                            <div className='channel-name' onClick={() => handleChannelClick(channel.id)}>{channel.name}</div>
+                        </div>
+                    }) : channels.map(channel => {
                         return <div className='singleChannel' key={channel.id}>
                             <div className='channel-name' onClick={() => handleChannelClick(channel.id)}>{channel.name}</div>
                         </div>
