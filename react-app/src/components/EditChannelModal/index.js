@@ -23,10 +23,10 @@ function EditChannelModal({ channel }) {
 				description: channelDescription
 			}
 			await dispatch(updateSingleChannelThunk(newChannel, channel.id));
-			await dispatch(getSingleChannelThunk(channel.id))
-			await dispatch(getSingleWorkspaceThunk(channel.workspace.id))
-			await dispatch(authenticate())
 			closeModal();
+			// await dispatch(getSingleChannelThunk(channel.id))
+			await dispatch(authenticate())
+			await dispatch(getSingleWorkspaceThunk(channel.workspace.id))
 
 		}
 	};
