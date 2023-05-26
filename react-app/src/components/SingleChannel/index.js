@@ -96,8 +96,8 @@ function SingleChannel({ channelId }) {
                             <div className='single-message'>
                                 {message.text}
                                 {console.log('session user in map ', sessionUser)}
-                                {console.log('Message in map ', message)}
-                                <MessageModal message={message} deleteChat={deleteChat}/>
+                                {console.log('Message in map ', channel)}
+                                <MessageModal user={sessionUser} channel={channel} message={message} deleteChat={deleteChat}/>
                             </div>
                         </>
                     })}

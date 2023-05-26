@@ -7,7 +7,7 @@ import SignupFormModal from "../SignupFormModal";
 import { useHistory } from "react-router-dom";
 import EditMessageModal from "../EditMessageModal";
 
-function MessageModal({ message, deleteChat }) {
+function MessageModal({ user, channel, message, deleteChat }) {
     const dispatch = useDispatch();
     const history = useHistory()
     const [showMenu, setShowMenu] = useState(false);
@@ -43,16 +43,18 @@ function MessageModal({ message, deleteChat }) {
     // const closeMenu = () => setShowMenu(false);
 
 
-
+    console.log(channel)
     return (
         <div>
-            <div className='message-edit-delete'>
-                <OpenModalButton
-                    buttonText='Edit'
-                    modalComponent={<EditMessageModal message={message.text} channelId={message.channel_id} messageId={message.id} />}
-                />
-                <button onClick={(e) => deleteChat(e, message.id)}>Delete Message</button>
-            </div>
+            {(user.id === channel.workspace.owner_id || message.user_id === user.id) &&
+                <div className='message-edit-delete'>
+                    <OpenModalButton
+                        buttonText='Edit'
+                        modalComponent={<EditMessageModal message={message.text} channelId={message.channel_id} messageId={message.id} />}
+                    />
+                    <button onClick={(e) => deleteChat(e, message.id)}>Delete Message</button>
+                </div>
+            }
 
         </div>
 
