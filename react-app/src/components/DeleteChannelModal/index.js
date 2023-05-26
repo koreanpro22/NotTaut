@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useSelector} from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { deleteSingleChannelThunk } from "../../store/channel";
@@ -15,6 +15,7 @@ function DeleteChannelModal({ channel, setCurrentChannelId }) {
 
     const handleDelete = async (e) => {
         e.preventDefault();
+        setCurrentChannelId('');
         await dispatch(deleteSingleChannelThunk(channel.id));
         await dispatch(authenticate())
         await dispatch(getSingleWorkspaceThunk(channel.workspace.id))

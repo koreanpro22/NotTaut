@@ -27,6 +27,10 @@ function SingleChannel({ channelId }) {
 
     const setCurrentChannelId = useChannelIdUpdate()
 
+    // useEffect(() => {
+    //     dispatch(getSingleChannelThunk(channelId));
+    // }, [dispatch])
+
     useEffect(() => {
         dispatch(getSingleChannelThunk(channelId))
         socket = io();

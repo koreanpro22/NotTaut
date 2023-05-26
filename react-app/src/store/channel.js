@@ -52,6 +52,7 @@ export const getAllChannelsThunk = (workspaceId) => async (dispatch) => {
 };
 
 export const getSingleChannelThunk = (channelId) => async (dispatch) => {
+	console.log('hitting get single chanel thunk ===> ', channelId)
     const response = await fetch(`/api/channels/single/${channelId}`, {
         headers: {
             "Content-Type": "application/json",
@@ -62,6 +63,7 @@ export const getSingleChannelThunk = (channelId) => async (dispatch) => {
 		dispatch(getSingleChannelAction(data.channel));
 		return null;
 	} else if (response.status < 500) {
+		console.log('')
         const data = await response.json();
 		if (data.errors) {
             return data.errors;
@@ -146,8 +148,7 @@ export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_SINGLE_CHANNEL:{
 			console.log('hitting channel case')
-			console.log(state.currentChannel)
-            const newState = { ...state, currentChannel: state.currentChannel}
+            const newState = {}
             newState.currentChannel = action.payload
 			console.log(newState.currentChannel)
             return newState;
