@@ -56,14 +56,14 @@ function SingleChannel({ channelId }) {
 
     const sendChat = async (e) => {
         e.preventDefault()
-        await socket.emit('chat', { user: sessionUser.name, text: message, user_id: sessionUser.id, channel_id: channel.id})
+        await socket.emit('chat', { user: sessionUser.name, text: message, user_id: sessionUser.id, channel_id: channel.id })
         dispatch(getAllMessagesThunk(channelId))
         setMessage('')
     }
 
     const deleteChat = async (e, messageId) => {
         e.preventDefault()
-        await socket.emit('chat', { 'message_id': messageId})
+        await socket.emit('chat', { 'message_id': messageId })
         dispatch(getAllMessagesThunk(channelId))
 
     }
@@ -75,14 +75,16 @@ function SingleChannel({ channelId }) {
             <div className='single-channel-header'>
                 <div>
                     <strong>Channel Name: {channel.name}</strong>
-                    <OpenModalButton
-                        buttonText='Edit'
-                        modalComponent={<EditChannelModal channel={channel}/>}
-                    />
-                    <OpenModalButton
-                        buttonText='Delete'
-                        modalComponent={<DeleteChannelModal channel={channel} setCurrentChannelId={setCurrentChannelId} />}
-                    />
+                    {sessionUser.id === channel.workspace.owner_id && <div>
+                        <OpenModalButton
+                            buttonText='Edit'
+                            modalComponent={<EditChannelModal channel={channel} />}
+                        />
+                        <OpenModalButton
+                            buttonText='Delete'
+                            modalComponent={<DeleteChannelModal channel={channel} setCurrentChannelId={setCurrentChannelId} />}
+                        />
+                    </div>}
                 </div>
                 <div>
                     {channel.channel_users.length} members
@@ -97,7 +99,7 @@ function SingleChannel({ channelId }) {
                                 {message.text}
                                 {console.log('session user in map ', sessionUser)}
                                 {console.log('Message in map ', channel)}
-                                <MessageModal user={sessionUser} channel={channel} message={message} deleteChat={deleteChat}/>
+                                <MessageModal user={sessionUser} channel={channel} message={message} deleteChat={deleteChat} />
                             </div>
                         </>
                     })}

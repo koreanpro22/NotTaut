@@ -7,7 +7,7 @@ import "./SignupForm.css";
 function SignupFormModal() {
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState("");
-	const [username, setUsername] = useState("");
+	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [errors, setErrors] = useState([]);
@@ -15,8 +15,25 @@ function SignupFormModal() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		const validateErrors = []
+
+		if (!email.includes('@')) {
+			validateErrors.push('Email must be a valid email!')
+		}
+		
+		if (name.length > 40) {
+			validateErrors.push('Name must be max of 40 characters!')
+		}
+
+
+		if (validateErrors.length) {
+			setErrors(validateErrors)
+			return
+		}
+
 		if (password === confirmPassword) {
-			const data = await dispatch(signUp(username, email, password));
+			const data = await dispatch(signUp(name, email, password));
 			if (data) {
 				setErrors(data);
 			} else {
@@ -51,8 +68,8 @@ function SignupFormModal() {
 					Username
 					<input
 						type="text"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
+						value={name}
+						onChange={(e) => setName(e.target.value)}
 						required
 					/>
 				</label>

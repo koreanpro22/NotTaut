@@ -24,7 +24,7 @@ function SingleWorkspace() {
 
     useEffect(() => {
         dispatch(getSingleWorkspaceThunk(workspaceId))
-    }, [dispatch])
+    }, [dispatch, currentChannelId])
 
     if (!sessionUser || !currentWorkspace) return null
 
@@ -54,12 +54,12 @@ function SingleWorkspace() {
             </div>
             <div className='single-workspace-details'>
                 <h4 className='workspace-details-header'>Workspace Details</h4>
-                <div>
+                {sessionUser.id === currentWorkspace.owner.id && <div>
                     <OpenModalButton
                         buttonText='Create New Channel'
                         modalComponent={<CreateChannelModal setCurrentChannelId={setCurrentChannelId} workspaceId={workspaceId} />}
                     />
-                </div>
+                </div>}
                 <div className='all-channels'>
                     {console.log(currentWorkspace.channels)}
                     {sessionUser.id === currentWorkspace.owner.id ? currentWorkspace.channels.map(channel => {
