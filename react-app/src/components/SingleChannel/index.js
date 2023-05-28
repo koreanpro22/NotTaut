@@ -105,18 +105,6 @@ function SingleChannel({ channelId }) {
                     })}
                 </div >
                 <div className='create-message-container'>
-                    {/* <form onSubmit={createMessage}>
-                        <label>
-                            <input
-                                placeholder='Message {channel.name}'
-                                type="text"
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                                required
-                            />
-                        </label>
-                        <button type="submit">Send Message</button>
-                    </form> */}
                     <form onSubmit={sendChat}>
                         <label>
                             <input

@@ -1,5 +1,12 @@
 /* TODO Add site wide styles */
 #root {
     min-height: 100vh;
-    background-color: rgb(79, 79, 79);
+    background-color: rgb(191, 191, 191);
+    margin: none;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
 }

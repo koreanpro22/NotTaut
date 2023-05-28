@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin: 0px 30px;
 }
 
 .single-channel-header {
@@ -40,9 +41,5 @@
 .single-message {
     display: flex;
     justify-content: space-between;
-}
-
-.message-edit-delete {
-    display: flex;
-    gap: 10px;
+    margin: 10px;
 }

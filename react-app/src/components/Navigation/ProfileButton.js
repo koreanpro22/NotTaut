@@ -22,6 +22,7 @@ function ProfileButton({ user }) {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
+      console.log('e target ', e.target)
       if (!ulRef.current.contains(e.target)) {
         setShowMenu(false);
       }
@@ -44,9 +45,9 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu} className="nav-menu-dropdown">
+      <div onClick={openMenu} className="nav-menu-dropdown">
         <i className="fas fa-user-circle" />
-      </button>
+      </div>
       <div className={dropdown} ref={ulRef}>
         {user ? (
           <>
