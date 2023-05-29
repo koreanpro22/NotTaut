@@ -3,20 +3,22 @@
     flex-direction: column;
     align-items: center;
     /* justify-content: center; */
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 .workspace-tiles {
     border: 1px solid black;
-    border-radius: 20px;
-
+    border-radius: 8px;
+    background-color: rgb(255, 255, 255);
 }
 
 .single-workspace-tile {
     display: flex;
     flex-direction: column;
     border: 1px solid black;
-    margin: 10px;
+    border-radius: 4px;
+    background-color: rgb(193, 193, 193);
+    margin: 5px;
     padding: 10px;
 
 }

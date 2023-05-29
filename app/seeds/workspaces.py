@@ -9,7 +9,25 @@ def seed_workspaces(users):
         owner_id='1',
         workspace_users=users
     )
+    workspace2 = Workspace(
+        name='Workspace 2 Test',
+        owner_id='2',
+        workspace_users=users
+    )
+    workspace3 = Workspace(
+        name='Workspace 3 Test',
+        owner_id='3',
+        workspace_users=users
+    )
+    workspace4 = Workspace(
+        name='Workspace 4 Test',
+        owner_id='1',
+        workspace_users=users
+    )
     db.session.add(workspace1)
+    db.session.add(workspace2)
+    db.session.add(workspace3)
+    db.session.add(workspace4)
     db.session.commit()
 
 
