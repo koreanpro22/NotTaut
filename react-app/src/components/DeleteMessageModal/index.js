@@ -8,7 +8,7 @@ import { getAllMessagesThunk } from "../../store/message";
 
 let socket;
 
-function DeleteMessageModal({ channelId, messageId }) {
+function DeleteMessageModal({ messageId, channelId }) {
     console.log('hitting delete channel modal')
 
     socket = io();
@@ -16,18 +16,23 @@ function DeleteMessageModal({ channelId, messageId }) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
+    const deleteChat = async (e, messageId) => {
+        e.preventDefault()
+        await socket.emit('chat', { 'message_id': messageId })
+        dispatch(getAllMessagesThunk(channelId))
 
-
-    // const handleDelete = async (e) => {
-    //     e.preventDefault();
-    //     dispatch(deleteSingleMessageThunk(messageId))
-    // }
+    }
 
     return (
         <div>
             <h1>Delete Message</h1>
-            <div>Confirm</div>
-            <div onClick={() => closeModal()}>Cancel</div>
+            <button onClick={(e) => {
+                closeModal()
+                deleteChat(e, messageId)
+            }}>Confirm</button>
+            <button onClick={(e) => {
+                closeModal()
+            }}>Cancel</button>
         </div>
     );
 }
