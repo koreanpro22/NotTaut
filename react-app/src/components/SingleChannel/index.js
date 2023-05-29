@@ -2,16 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingleChannelThunk } from '../../store/channel';
 import './SingleChannel.css'
-import { createSingleMessageThunk, getAllMessagesThunk } from '../../store/message';
-import DeleteMessageModal from '../DeleteMessageModal';
-import EditMessageModal from '../EditMessageModal';
+import { getAllMessagesThunk } from '../../store/message';
 import OpenModalButton from '../OpenModalButton';
-import { updateSingleMessageThunk } from '../../store/message';
 import EditChannelModal from '../EditChannelModal';
 import DeleteChannelModal from '../DeleteChannelModal';
 import { useChannelIdUpdate } from '../../context/ChannelIdProvider';
 import { io } from 'socket.io-client';
-import { getChannelMessages } from '../../store/message';
 import MessageModal from '../SingleMessageModal';
 
 let socket;
@@ -23,13 +19,7 @@ function SingleChannel({ channelId }) {
     const messages = useSelector(state => state.message.messages)
     const dispatch = useDispatch()
     const [message, setMessage] = useState('');
-    const [channelMessages, setChannelMessages] = useState([]);
-
     const setCurrentChannelId = useChannelIdUpdate()
-
-    // useEffect(() => {
-    //     dispatch(getSingleChannelThunk(channelId));
-    // }, [dispatch])
 
     useEffect(() => {
         dispatch(getSingleChannelThunk(channelId))
@@ -74,7 +64,8 @@ function SingleChannel({ channelId }) {
             {console.log('hitting return single channel')}
             <div className='single-channel-header'>
                 <div>
-                    <strong>Channel Name: {channel.name}</strong>
+                    <strong>Channel Name: {channel.name} </strong>
+                    <i class="fas fa-chevron-down"></i>
                     {sessionUser.id === channel.workspace.owner_id && <div>
                         <OpenModalButton
                             buttonText='Edit'
@@ -96,8 +87,8 @@ function SingleChannel({ channelId }) {
                     {messages.toReversed().map(message => {
                         return <>
                             <div className='single-message'>
-                                {message.text}
-                                {console.log('session user in map ', sessionUser)}
+                                {message.text} {message.user.name} {message.created_at.split(' ')[1]}
+                                {console.log('session user in map ', message)}
                                 {console.log('Message in map ', channel)}
                                 <MessageModal user={sessionUser} channel={channel} message={message} deleteChat={deleteChat} />
                             </div>
@@ -107,7 +98,9 @@ function SingleChannel({ channelId }) {
                 <div className='create-message-container'>
                     <form onSubmit={sendChat}>
                         <label>
-                            <input
+                            <textarea
+                                className='create-message-area'
+                                // rows='4'
                                 placeholder='Message {channel.name}'
                                 type="text"
                                 value={message}
@@ -115,6 +108,9 @@ function SingleChannel({ channelId }) {
                                 required
                             />
                         </label>
+                        <div className='create-message-bottom'>
+
+                        </div>
                         <button type="submit">Send Message</button>
                     </form>
                 </div>
