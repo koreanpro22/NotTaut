@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, session, request
-from app.models import User, db
+from app.models import User, db, Workspace, Channel
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
@@ -62,11 +62,17 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        workspace = Workspace.query.get(1)
+        channel1 = Channel.query.get(1)
+        channel2 = Channel.query.get(2)
         user = User(
             name=form.data['name'],
             email=form.data['email'],
-            hashed_password=form.data['password']
+            hashed_password=form.data['password'],
+            user_workspaces=[workspace],
+            user_channels=[channel1, channel2]
         )
+
         db.session.add(user)
         db.session.commit()
         login_user(user)
