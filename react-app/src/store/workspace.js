@@ -1,6 +1,7 @@
 // constants
 const GET_ALL_WORKSPACE = "channel/GET_ALL_WORKSPACE";
 const GET_SINGLE_WORKSPACE = "channel/GET_SINGLE_WORKSPACE";
+const CREATE_SINGLE_WORKSPACE = "channel/CREATE_SINGLE_WORKSPACE";
 const CLEAR = "workspace/CLEAR";
 
 const getAllWorkspaceAction = (workspaces) => ({
@@ -10,6 +11,11 @@ const getAllWorkspaceAction = (workspaces) => ({
 
 const getSingleWorkspaceAction = (workspace) => ({
 	type: GET_SINGLE_WORKSPACE,
+	payload: workspace,
+});
+
+const createSingleWorkspaceAction = (workspace) => ({
+	type: CREATE_SINGLE_WORKSPACE,
 	payload: workspace,
 });
 
@@ -59,6 +65,8 @@ export const getSingleWorkspaceThunk = (workspaceId) => async (dispatch) => {
 	}
 };
 
+
+
 const initialState = { currentWorkspace: null, workspaces: [] };
 
 export default function reducer(state = initialState, action) {
@@ -72,6 +80,10 @@ export default function reducer(state = initialState, action) {
 			const newState = {}
 			newState.currentWorkspace = action.payload
 			return newState;
+		}
+		case CREATE_SINGLE_WORKSPACE: {
+			const newState = { ...state }
+			newState.currentWorkspace = action.payload
 		}
 		case CLEAR: {
 			return initialState;

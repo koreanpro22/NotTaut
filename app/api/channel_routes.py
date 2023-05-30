@@ -32,7 +32,6 @@ def create_channel(workspace_id):
     form = CreateChannelForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        # Uses values from the form instance to create new board
         new_channel = Channel(
             name=form.data['name'],
             workspace_id=workspace_id,
@@ -40,7 +39,6 @@ def create_channel(workspace_id):
             description=form.data['description'],
             channel_users=[current_user]
         )
-        # Add board to database
         db.session.add(new_channel)
         # Updates database
         db.session.commit()
