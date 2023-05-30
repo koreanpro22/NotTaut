@@ -5,6 +5,7 @@ const GET_SINGLE_MESSAGE = "message/GET_SINGLE_MESSAGE";
 const CREATE_SINGLE_MESSAGE = "message/CREATE_SINGLE_MESSAGE";
 const UPDATE_SINGLE_MESSAGE = "message/UPDATE_SINGLE_MESSAGE";
 const DELETE_SINGLE_MESSAGE = "message/DELETE_SINGLE_MESSAGE";
+const CLEAR = "message/CLEAR";
 
 const getChannelMessagesAction = (messages) => ({
 	type: GET_CHANNEL_MESSAGES,
@@ -35,6 +36,10 @@ const deleteSingleMessageAction = (messageId) => ({
 	type: DELETE_SINGLE_MESSAGE,
 	payload: messageId,
 });
+
+export const clearMessage = () => ({
+	type: CLEAR
+})
 
 export const getAllMessagesThunk = (channelId) => async (dispatch) => {
 	console.log('hitting all messages thunk')
@@ -180,6 +185,9 @@ export default function reducer(state = initialState, action) {
 			// console.log(newState)
 			newState.messages = newState.messages.filter(message => message.id !== action.payload)
 			return newState;
+		}
+		case CLEAR: {
+			return initialState;
 		}
 		default:
 			return state;

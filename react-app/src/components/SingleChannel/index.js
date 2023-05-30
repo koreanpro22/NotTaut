@@ -129,6 +129,7 @@ function SingleChannel({ channelId }) {
                                 placeholder={'Message #' + channel.name}
                                 type="text"
                                 value={message}
+                                maxLength={1000}
                                 onChange={(e) => setMessage(e.target.value)}
                                 required
                             />

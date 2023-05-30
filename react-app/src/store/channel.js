@@ -4,6 +4,7 @@ const GET_SINGLE_CHANNEL = "channel/GET_SINGLE_CHANNEL";
 const CREATE_SINGLE_CHANNEL = "channel/CREATE_SINGLE_CHANNEL";
 const UPDATE_SINGLE_CHANNEL = "channel/UPDATE_SINGLE_CHANNEL";
 const DELETE_SINGLE_CHANNEL = "channel/DELETE_SINGLE_CHANNEL";
+const CLEAR = "channel/CLEAR";
 
 const getAllChannelsAction = (channels) => ({
 	type: GET_ALL_CHANNELS,
@@ -29,6 +30,10 @@ const deleteSingleChannelAction = (channelId) => ({
 	type: DELETE_SINGLE_CHANNEL,
 	payload: channelId,
 });
+
+export const clearChannel = () => ({
+	type: CLEAR
+})
 
 
 export const getAllChannelsThunk = (workspaceId) => async (dispatch) => {
@@ -169,6 +174,10 @@ export default function reducer(state = initialState, action) {
 			// const index = newState.channels.findIndex(channel => channel.id === action.payload)
 			// newState.channels.splice(index, 1)
 			return newState
+		}
+		case CLEAR: {
+			console.log('hitting clear')
+			return initialState;
 		}
 		default:
 			return state;

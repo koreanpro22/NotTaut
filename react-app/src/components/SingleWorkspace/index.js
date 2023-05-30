@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSingleWorkspaceThunk } from '../../store/workspace';
+import { clearWorkspace, getSingleWorkspaceThunk } from '../../store/workspace';
 import './SingleWorkspace.css';
 import CreateChannelModal from '../CreateChannelModal';
 import OpenModalButton from '../OpenModalButton';
-import EditChannelModal from '../EditChannelModal';
-import DeleteChannelModal from '../DeleteChannelModal';
-import { getSingleChannelThunk } from '../../store/channel';
 import { useHistory, useParams } from 'react-router-dom';
 import SingleChannel from '../SingleChannel';
-import { authenticate } from '../../store/session';
 import { useChannelId, useChannelIdUpdate } from '../../context/ChannelIdProvider';
+import { clearChannel } from '../../store/channel';
+import { clearMessage } from '../../store/message';
 
 
 function SingleWorkspace() {
@@ -22,10 +20,11 @@ function SingleWorkspace() {
     const dispatch = useDispatch()
     const currentChannelId = useChannelId()
     const setCurrentChannelId = useChannelIdUpdate()
+    console.log('workspaceId ', workspaceId, currentWorkspace)
 
     useEffect(() => {
         dispatch(getSingleWorkspaceThunk(workspaceId))
-    }, [dispatch, currentChannelId])
+    }, [dispatch, currentChannelId, workspaceId])
 
     if (!sessionUser || !currentWorkspace) return null
 
@@ -46,16 +45,20 @@ function SingleWorkspace() {
 
     return (
         <div className='workspace-container'>
-            <div className='all-workspaces'>
+            {/* <div className='all-workspaces'>
                 {workspaces.map(workspace => {
-                    return <div onClick={() => {
+                    return <div onClick={async () => {
                         console.log(workspace.id)
-                        history.push(`/workspace/${workspace.id}`)
+                        console.log('hitting click')
+                        await history.push(`/workspace/${workspace.id}`)
+                        await dispatch(clearChannel())
+                        await dispatch(clearMessage())
+                        await dispatch(clearWorkspace())
                     }} className='workspace-list'>
                         {workspace.name}
                     </div>
                 })}
-            </div>
+            </div> */}
             <div className='single-workspace-details'>
                 <h4 className='workspace-details-header'>{currentWorkspace.name}</h4>
                 {sessionUser.id === currentWorkspace.owner.id && <div>

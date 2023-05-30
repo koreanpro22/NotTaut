@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './AllWorkspaces.css';
 import { NavLink, useHistory } from 'react-router-dom';
+import { clearChannel } from '../../store/channel';
+import { clearMessage } from '../../store/message';
+import { clearWorkspace } from '../../store/workspace';
 function AllWorkspaces() {
 
     const history = useHistory();
-
+    const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
+
+    useEffect(() => {
+        dispatch(clearChannel())
+        dispatch(clearMessage())
+        dispatch(clearWorkspace())
+    }, [dispatch])
 
     if (!sessionUser) return null
 

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { deleteSingleMessageThunk } from "../../store/message";
-import { getSingleChannelThunk } from "../../store/channel";
 import { io } from "socket.io-client";
 import { getAllMessagesThunk } from "../../store/message";
 
