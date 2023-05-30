@@ -31,6 +31,7 @@ function EditMessageModal({ message, channelId, messageId }) {
 					<input
 						type="text"
 						value={newMessage}
+						maxLength={1000}
 						onChange={(e) => setNewMessage(e.target.value)}
 						required
 					/>

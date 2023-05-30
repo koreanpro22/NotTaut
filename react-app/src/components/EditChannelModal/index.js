@@ -41,6 +41,7 @@ function EditChannelModal({ channel }) {
 					<input
 						type="text"
 						value={channelName}
+						maxLength={40}
 						onChange={(e) => setChannelName(e.target.value)}
 						required
 					/>
@@ -50,14 +51,16 @@ function EditChannelModal({ channel }) {
 					<input
 						type="text"
 						value={channelTopic}
+						maxLength={40}
 						onChange={(e) => setChannelTopic(e.target.value)}
-					/>
+						/>
 				</label>
 				<label>
 					Description
 					<input
 						type="text"
 						value={channelDescription}
+						maxLength={100}
 						onChange={(e) => setChannelDescription(e.target.value)}
 					/>
 				</label>
