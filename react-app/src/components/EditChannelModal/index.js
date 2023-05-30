@@ -4,6 +4,7 @@ import { useModal } from "../../context/Modal";
 import { getSingleChannelThunk, updateSingleChannelThunk } from "../../store/channel";
 import { getSingleWorkspaceThunk } from "../../store/workspace";
 import { authenticate } from "../../store/session";
+import './EditChannelModal.css';
 
 function EditChannelModal({ channel }) {
 	console.log('hitting edit channel modal')
@@ -32,7 +33,7 @@ function EditChannelModal({ channel }) {
 	};
 
 	return (
-		<div>
+		<div className="edit-channel-modal">
 			<h1>Edit Channel</h1>
 			<form onSubmit={handleSubmit}>
 				<label>

@@ -18,6 +18,7 @@ function SingleChannel({ channelId }) {
     const channel = useSelector(state => state.channel.currentChannel)
     const sessionUser = useSelector(state => state.session.user)
     const messages = useSelector(state => state.message.messages)
+    const workspace = useSelector(state => state.workspace.currentWorkspace)
     const dispatch = useDispatch()
     const [message, setMessage] = useState('');
     const setCurrentChannelId = useChannelIdUpdate()
@@ -77,6 +78,7 @@ function SingleChannel({ channelId }) {
 
     if (!channel) return null
 
+    console.log(workspace)
     return (
         <div className='single-channel-container'>
             {console.log('hitting return single channel')}
@@ -89,10 +91,11 @@ function SingleChannel({ channelId }) {
                             buttonText='Edit'
                             modalComponent={<EditChannelModal channel={channel} />}
                         />
-                        <OpenModalButton
+                        {channel.id != workspace.channels[0].id && <OpenModalButton
                             buttonText='Delete'
                             modalComponent={<DeleteChannelModal channel={channel} setCurrentChannelId={setCurrentChannelId} />}
-                        />
+                            />
+                        }
                     </div>}
                 </div>
                 <div>

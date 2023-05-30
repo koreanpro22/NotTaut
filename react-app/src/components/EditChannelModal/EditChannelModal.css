@@ -1,0 +1,8 @@
+.edit-channel-modal {
+    width: 300px;
+    padding: 10px 20px;
+}
+
+.edit-channel-modal > * {
+    color: black;
+}

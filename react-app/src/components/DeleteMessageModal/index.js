@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { io } from "socket.io-client";
 import { getAllMessagesThunk } from "../../store/message";
+import './DeleteMessageModal.css';
 
 let socket;
 
@@ -22,15 +23,17 @@ function DeleteMessageModal({ messageId, channelId }) {
     }
 
     return (
-        <div>
+        <div className="delete-message-modal">
             <h1>Delete Message</h1>
-            <button onClick={(e) => {
-                closeModal()
-                deleteChat(e, messageId)
-            }}>Confirm</button>
-            <button onClick={(e) => {
-                closeModal()
-            }}>Cancel</button>
+            <div className="confirm-delete">
+                <div onClick={(e) => {
+                    closeModal()
+                    deleteChat(e, messageId)
+                }}>Confirm</div>
+                <div onClick={(e) => {
+                    closeModal()
+                }}>Cancel</div>
+            </div>
         </div>
     );
 }

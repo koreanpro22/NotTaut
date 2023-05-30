@@ -1,10 +1,11 @@
-import React, { useState, useSelector} from "react";
+import React, { useState, useSelector } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { deleteSingleChannelThunk } from "../../store/channel";
 import { getSingleWorkspaceThunk } from "../../store/workspace";
 import { useHistory } from "react-router-dom";
 import { authenticate } from "../../store/session";
+import './DeleteChannelModal.css';
 
 function DeleteChannelModal({ channel, setCurrentChannelId }) {
     console.log('hitting delete channel modal')
@@ -24,11 +25,13 @@ function DeleteChannelModal({ channel, setCurrentChannelId }) {
     }
 
     return (
-        <div>
+        <div className="delete-channel-modal">
             {console.log('hitting return')}
             <h1>Delete Channel</h1>
-            <div onClick={handleDelete}>Confirm</div>
-            <div onClick={() => closeModal()}>Cancel</div>
+            <div className="confirm-delete">
+                <div onClick={handleDelete}>Confirm</div>
+                <div onClick={() => closeModal()}>Cancel</div>
+            </div>
         </div>
     );
 }

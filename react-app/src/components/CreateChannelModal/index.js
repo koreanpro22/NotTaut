@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { createSingleChannelThunk } from "../../store/channel";
 import { authenticate } from "../../store/session";
+import './CreateChannelModal.css';
 
 function CreateChannelModal({ setCurrentChannelId, workspaceId }) {
 	console.log('hitting create channel modal')
@@ -25,7 +26,7 @@ function CreateChannelModal({ setCurrentChannelId, workspaceId }) {
 	};
 
 	return (
-		<div>
+		<div className="create-channel-modal">
 			<h1>Create new Channel</h1>
 			<form onSubmit={handleSubmit}>
 				<label>

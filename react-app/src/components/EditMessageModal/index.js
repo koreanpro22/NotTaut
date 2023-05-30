@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { getSingleChannelThunk } from "../../store/channel";
 import { updateSingleMessageThunk } from "../../store/message";
+import './EditMessageModal.css';
 
 function EditMessageModal({ message, channelId, messageId }) {
 	const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function EditMessageModal({ message, channelId, messageId }) {
 	};
 
 	return (
-		<div>
+		<div className="edit-message-modal">
 			<h1>Edit Message</h1>
 			<form onSubmit={handleSubmit}>
 				<label>

@@ -1,0 +1,11 @@
+form > label {
+    color: black;
+}
+
+.create-channel-modal {
+    padding: 10px 20px;
+}
+
+.create-channel-modal > * {
+    color: black;
+}

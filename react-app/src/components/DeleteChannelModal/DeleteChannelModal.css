@@ -1,0 +1,17 @@
+.delete-channel-modal > * {
+    color: black;
+    padding: 10px 20px;
+}
+
+.confirm-delete > * {
+    color: black;
+}
+
+.confirm-delete > h1 {
+    margin: 10px;
+}
+
+.confirm-delete {
+    display: flex;
+    justify-content: space-around;
+}
