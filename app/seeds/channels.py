@@ -16,8 +16,36 @@ def seed_channels(users):
         channel_users=users
     )
 
+    channel3 = Channel(
+        name='Channel 3 Test',
+        workspace_id='2',
+        channel_users=users
+    )
+
+    channel4 = Channel(
+        name='Channel 4 Test',
+        workspace_id='2',
+        channel_users=users
+    )
+
+    channel5 = Channel(
+        name='Channel 5 Test',
+        workspace_id='3',
+        channel_users=users
+    )
+
+    channel6 = Channel(
+        name='Channel 6 Test',
+        workspace_id='3',
+        channel_users=users
+    )
+
     db.session.add(channel1)
     db.session.add(channel2)
+    db.session.add(channel3)
+    db.session.add(channel4)
+    db.session.add(channel5)
+    db.session.add(channel6)
     db.session.commit()
 
 
