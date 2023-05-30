@@ -51,23 +51,23 @@ function LoginFormModal() {
     <div className="login-modal-container">
       <div className="login-modal-header">Log In</div>
       {errors.length > 0 &&
-        <ul>
+        <div className="validation-errors">
           {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
+            <div className="error-message" key={idx}>{error.split(': ')[1]}</div>
           ))}
-        </ul>
+        </div>
       }
       <form onSubmit={handleSubmit} className="login-form-container">
 
         <label>
-          Email:
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          Email: {console.log(errors)} {errors.email && <span>{errors.email}</span>}
         </label>
+        <input
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
         <label>
           Password:
           <input

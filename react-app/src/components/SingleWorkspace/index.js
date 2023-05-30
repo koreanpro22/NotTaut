@@ -7,7 +7,7 @@ import OpenModalButton from '../OpenModalButton';
 import EditChannelModal from '../EditChannelModal';
 import DeleteChannelModal from '../DeleteChannelModal';
 import { getSingleChannelThunk } from '../../store/channel';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import SingleChannel from '../SingleChannel';
 import { authenticate } from '../../store/session';
 import { useChannelId, useChannelIdUpdate } from '../../context/ChannelIdProvider';
@@ -15,6 +15,7 @@ import { useChannelId, useChannelIdUpdate } from '../../context/ChannelIdProvide
 
 function SingleWorkspace() {
     console.log('hitting workspace')
+    const history = useHistory();
     const { workspaceId } = useParams()
     const sessionUser = useSelector(state => state.session.user)
     const currentWorkspace = useSelector(state => state.workspace.currentWorkspace)
@@ -47,13 +48,16 @@ function SingleWorkspace() {
         <div className='workspace-container'>
             <div className='all-workspaces'>
                 {workspaces.map(workspace => {
-                    return <div>
+                    return <div onClick={() => {
+                        console.log(workspace.id)
+                        history.push(`/workspace/${workspace.id}`)
+                    }} className='workspace-list'>
                         {workspace.name}
                     </div>
                 })}
             </div>
             <div className='single-workspace-details'>
-                <h4 className='workspace-details-header'>Workspace Details</h4>
+                <h4 className='workspace-details-header'>{currentWorkspace.name}</h4>
                 {sessionUser.id === currentWorkspace.owner.id && <div>
                     <OpenModalButton
                         buttonText='Create New Channel'

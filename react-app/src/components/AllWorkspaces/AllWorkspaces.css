@@ -2,25 +2,38 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
+    justify-content: center;
+    text-align: center;
     /* border: 1px solid black; */
 }
 
 .workspace-tiles {
     display: flex;
-    border: 1px solid black;
+    flex-flow: row wrap;
+    justify-content: center;
+    text-align: center;
+    align-items: start;
+    /* border: 1px solid white; */
+    width: fit-content;
     border-radius: 8px;
-    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(255, 255, 255); */
+    background-color: rgb(40, 40, 40);
     padding: 10px;
 }
 
 .single-workspace-tile {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    border: 1px solid white;
     border-radius: 4px;
     background-color: rgb(193, 193, 193);
     margin: 5px;
     padding: 10px;
+    cursor: pointer;
+}
+
+.single-workspace-tile > h3 {
+    text-decoration: none;
+    /* border: 1px solid black; */
 
 }

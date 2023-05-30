@@ -8,7 +8,8 @@ import EditChannelModal from '../EditChannelModal';
 import DeleteChannelModal from '../DeleteChannelModal';
 import { useChannelIdUpdate } from '../../context/ChannelIdProvider';
 import { io } from 'socket.io-client';
-import MessageModal from '../SingleMessageModal';
+import MessageModal from '../MessageModal';
+import '../MessageModal/MessageModal.css';
 
 let socket;
 
@@ -20,6 +21,9 @@ function SingleChannel({ channelId }) {
     const dispatch = useDispatch()
     const [message, setMessage] = useState('');
     const setCurrentChannelId = useChannelIdUpdate()
+    const timestamp = Date.now()
+    const todayDate = new Date(timestamp)
+    const [showOptions, setShowOptions] = useState(false);
 
     useEffect(() => {
         dispatch(getSingleChannelThunk(channelId))
@@ -37,12 +41,25 @@ function SingleChannel({ channelId }) {
         })
     }, [dispatch, channelId, messages.length])
 
+    // useEffect(() => {
+    //     const createMessage = document.querySelector('.create-message-area');
+    //     const keyDownHandler = event => {
+    //         console.log('User pressed: ', event.key);
+    //     };
+    //     createMessage.addEventListener("focus", (event) => {
+    //         console.log('hitting focus')
+    //         if (event.key === 'Enter') {
+    //             event.preventDefault();
+    //             sendChat(event);
+    //         }
+    //     })
+    //     document.addEventListener('keydown', keyDownHandler);
+    //     return () => {
+    //         document.removeEventListener('keydown', keyDownHandler);
+    //     };
 
-    console.log('CHANNEL ID ', channelId)
-    console.log('CHANNEL ', channel)
-    console.log('CHANNEL Messages', messages)
+    // }, []);
 
-    if (!channel) return null
 
     const sendChat = async (e) => {
         e.preventDefault()
@@ -58,6 +75,7 @@ function SingleChannel({ channelId }) {
 
     }
 
+    if (!channel) return null
 
     return (
         <div className='single-channel-container'>
@@ -87,10 +105,17 @@ function SingleChannel({ channelId }) {
                     {messages.toReversed().map(message => {
                         return <>
                             <div className='single-message'>
-                                {message.text} {message.user.name} {message.created_at.split(' ')[1]}
-                                {console.log('session user in map ', message)}
-                                {console.log('Message in map ', channel)}
-                                <MessageModal user={sessionUser} channel={channel} message={message} deleteChat={deleteChat} />
+                                <div className='single-message-detail'>
+                                    <div>
+                                        {message.user.name} {message.created_at.split(' ')[1]}
+                                    </div>
+                                    <div>
+                                        {message.text}
+                                    </div>
+                                </div>
+                                <div className='message-modal'>
+                                    <MessageModal user={sessionUser} channel={channel} message={message} deleteChat={deleteChat} />
+                                </div>
                             </div>
                         </>
                     })}
@@ -101,17 +126,16 @@ function SingleChannel({ channelId }) {
                             <textarea
                                 className='create-message-area'
                                 // rows='4'
-                                placeholder='Message {channel.name}'
+                                placeholder={'Message #' + channel.name}
                                 type="text"
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                                 required
                             />
                         </label>
-                        <div className='create-message-bottom'>
-
-                        </div>
-                        <button type="submit">Send Message</button>
+                        {/* <div className='create-message-bottom'>
+                        </div> */}
+                        <button type="submit" className='create-message-button'>Send Message</button>
                     </form>
                 </div>
             </div>

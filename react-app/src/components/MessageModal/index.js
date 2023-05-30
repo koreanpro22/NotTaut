@@ -1,23 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { logout } from "../../store/session";
+import React, { useState, useEffect } from "react";
 import OpenModalButton from "../OpenModalButton";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
-import { useHistory } from "react-router-dom";
 import EditMessageModal from "../EditMessageModal";
-import './SingleMessageModal.css'
+import './MessageModal.css'
 import DeleteMessageModal from "../DeleteMessageModal";
 
 function MessageModal({ user, channel, message, deleteChat }) {
-    const dispatch = useDispatch();
-    const history = useHistory()
+
     const [showOptions, setShowOptions] = useState(false);
-    const ulRef = useRef();
+
 
     const openOptions = () => {
         if (showOptions) return;
         setShowOptions(true);
+
     };
 
     useEffect(() => {
@@ -28,7 +23,7 @@ function MessageModal({ user, channel, message, deleteChat }) {
         return () => document.removeEventListener("click", closeOptions);
     }, [showOptions]);
 
-    const showEditDelete = 'message-edit-delete' + (showOptions ? '' : ' hidden');
+    const messageOption = 'message-edit-delete' + (showOptions ? '' : ' hidden');
     const closeOptions = () => setShowOptions(false);
 
     return (
@@ -36,8 +31,8 @@ function MessageModal({ user, channel, message, deleteChat }) {
             <div onClick={openOptions} className="triple-bar">
                 <i class="fas fa-bars"></i>
             </div>
-            {showOptions && <div className={showEditDelete}>
-                {(message.user_id === user.id) &&
+            {showOptions && <div className={messageOption}>
+                {(message.user.id === user.id) &&
                     <OpenModalButton
                         buttonText='Edit'
                         onItemClick={closeOptions}
@@ -47,11 +42,6 @@ function MessageModal({ user, channel, message, deleteChat }) {
                             messageId={message.id} />}
                     />
                 }
-                {/* {user.id === channel.workspace.owner_id && <button onClick={(e) => {
-                    closeOptions()
-                    deleteChat(e, message.id)
-                }
-                }>Delete</button>} */}
                 {user.id === channel.workspace.owner_id &&
                     <OpenModalButton
                         buttonText='Delete'

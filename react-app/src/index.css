@@ -1,10 +1,17 @@
 /* TODO Add site wide styles */
 #root {
     min-height: 100vh;
-    background-color: rgb(191, 191, 191);
+    background-color: rgb(40, 40, 40);
     margin: none;
 }
 
+* {
+    color: white;
+}
+
+button {
+    color: black;
+}
 
 body {
     margin: 0;

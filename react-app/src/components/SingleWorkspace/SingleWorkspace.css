@@ -2,17 +2,33 @@
 .workspace-container {
     /* border: 1px solid black; */
     display: flex;
-    gap: 15px;
+    /* gap: 15px; */
     width: 100%;
-    height: 90%;
+    height: 94vh;
+}
+.all-workspaces {
+    border: 1px solid rgb(85, 85, 85);
+    border-left: 2px solid rgb(85, 85, 85);
+    border-bottom: none;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 150px;
+    padding: 20px;
+}
+
+.workspace-list {
+    cursor: pointer;
 }
 
 .single-workspace-details {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid black;
-    margin: 0px 10px;
+    border: 1px solid rgb(85, 85, 85);
+    border-bottom: none;
+    /* margin: 0px 10px; */
     padding: 10px;
 }
 
@@ -40,7 +56,3 @@
     margin: 5px 0px;
     gap: 6px;
 }
-
-/* .edit-delete-channel-modals > * {
-    cursor: pointer;
-} */

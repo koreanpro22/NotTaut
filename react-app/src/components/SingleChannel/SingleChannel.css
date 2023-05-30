@@ -1,10 +1,12 @@
 .single-channel-container {
-    border: 1px solid black;
+    border: 1px solid rgb(85, 85, 85);
+    border-right: 2px solid rgb(85, 85, 85);
+    border-bottom: none;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 0px 30px;
+    margin-right: 10px;
 }
 
 .single-channel-header {
@@ -15,26 +17,24 @@
 }
 
 .message-container {
-    border-top: 1px solid black;
-    /* border: 1px solid black; */
+    border-top: 1px solid rgb(85, 85, 85);
     height: fill;
     display: flex;
     flex-direction: column;
     justify-content: end;
-    /* padding: 20px; */
 }
 
 .all-messages-container {
     display: flex;
     flex-flow: column-reverse;
-    border: 1px solid black;
     height: 90%;
     margin: 20px;
     gap: 10px
 }
 
 .create-message-container {
-    border: 1px solid black;
+    border: 1px solid rgb(85, 85, 85);
+    border-radius: 20px;
     margin: 15px;
 }
 
@@ -44,14 +44,44 @@
     margin: 10px;
 }
 
+/* .message-modal {
+    display: none;
+    position: relative;
+}
+
+.single-message:hover {
+    border: 2px solid green;
+
+}
+
+.single-message-detail:hover + .message-modal {
+    display: block;
+    cursor: pointer;
+} */
+
+.single-message-detail {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.single-message-detail > div {
+    width: 95%;
+}
+
 .create-message-area {
     width: 99%;
     height: 100%;
-    padding: 2px;
+    padding: 10px;
     overflow: hidden;
-    /* min-height: 50px; */
     background-color: rgb(0, 0, 0, 0);
     border: none;
+    resize: none;
+    color: rgb(255, 255, 255);
+}
+
+.create-message-area:focus {
+    outline: none;
 }
 
 .create-message-bottom {
@@ -59,4 +89,9 @@
     padding: 2px;
     padding-bottom: 1em;
 
+}
+
+.create-message-button {
+    border-radius: 10px;
+    margin: 10px 5px;
 }

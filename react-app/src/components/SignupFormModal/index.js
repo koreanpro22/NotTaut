@@ -21,7 +21,7 @@ function SignupFormModal() {
 		if (!email.includes('@')) {
 			validateErrors.push('Email must be a valid email!')
 		}
-		
+
 		if (name.length > 40) {
 			validateErrors.push('Name must be max of 40 characters!')
 		}
@@ -50,11 +50,11 @@ function SignupFormModal() {
 		<div className="signup-modal-container">
 			<div className="signup-modal-header">Sign Up</div>
 			<form onSubmit={handleSubmit} className="signup-form-container">
-				<ul>
+				<div>
 					{errors.map((error, idx) => (
-						<li key={idx}>{error}</li>
+						<div className='error-message' key={idx}>{error}</div>
 					))}
-				</ul>
+				</div>
 				<label>
 					Email
 					<input

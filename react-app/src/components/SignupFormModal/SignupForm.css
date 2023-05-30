@@ -8,7 +8,7 @@
 
 .signup-modal-header {
     font-size: 20px;
-
+    color: black;
 }
 
 .signup-form-container {
@@ -17,6 +17,10 @@
     gap: 10px;
     align-items: center;
     width: 200px;
+}
+
+.signup-form-container > label, .signup-form-container > label > input {
+    color: black;
 }
 
 .signup-button {
