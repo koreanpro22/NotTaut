@@ -13,7 +13,6 @@ function Navigation({ isLoaded }) {
 	const dispatch = useDispatch();
 
 	const clickHome = async () => {
-		await console.log('hitting clear')
 		history.push('/');
 		await dispatch(clearChannel())
 		await dispatch(clearMessage())

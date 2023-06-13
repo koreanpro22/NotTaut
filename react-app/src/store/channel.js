@@ -57,7 +57,6 @@ export const getAllChannelsThunk = (workspaceId) => async (dispatch) => {
 };
 
 export const getSingleChannelThunk = (channelId) => async (dispatch) => {
-	console.log('hitting get single chanel thunk ===> ', channelId)
     const response = await fetch(`/api/channels/single/${channelId}`, {
         headers: {
             "Content-Type": "application/json",
@@ -68,7 +67,6 @@ export const getSingleChannelThunk = (channelId) => async (dispatch) => {
 		dispatch(getSingleChannelAction(data.channel));
 		return null;
 	} else if (response.status < 500) {
-		console.log('')
         const data = await response.json();
 		if (data.errors) {
             return data.errors;
@@ -86,7 +84,6 @@ export const createSingleChannelThunk = (channel, workspaceId) => async (dispatc
 		},
 		body: JSON.stringify(channel),
 	});
-	console.log(response)
 
 	if (response.ok) {
 		const data = await response.json();
@@ -152,10 +149,8 @@ const initialState = { currentChannel: null };
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_SINGLE_CHANNEL:{
-			console.log('hitting channel case')
             const newState = {}
             newState.currentChannel = action.payload
-			console.log(newState.currentChannel)
             return newState;
         }
 		case CREATE_SINGLE_CHANNEL:{
@@ -164,20 +159,12 @@ export default function reducer(state = initialState, action) {
             return newState;
         }
 		case UPDATE_SINGLE_CHANNEL:{
-            // const newState = { ...state, currentChannel: state.currentChannel}
 			const newState = { currentChannel: action.payload }
             return newState;
         }
 		case DELETE_SINGLE_CHANNEL: {
-			console.log('state channel', state.channels)
-			const newState = { ...state, currentChannel: null }
-			// const index = newState.channels.findIndex(channel => channel.id === action.payload)
-			// newState.channels.splice(index, 1)
+			const newState = { currentChannel: null }
 			return newState
-		}
-		case CLEAR: {
-			console.log('hitting clear')
-			return initialState;
 		}
 		default:
 			return state;

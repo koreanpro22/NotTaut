@@ -1,25 +1,18 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { useModal } from "../../context/Modal";
 import { io } from "socket.io-client";
-import { getAllMessagesThunk } from "../../store/message";
 import './DeleteMessageModal.css';
 
 let socket;
 
-function DeleteMessageModal({ messageId, channelId }) {
-    console.log('hitting delete channel modal')
+function DeleteMessageModal({ messageId }) {
 
     socket = io();
-
-    const dispatch = useDispatch();
     const { closeModal } = useModal();
 
     const deleteChat = async (e, messageId) => {
         e.preventDefault()
         await socket.emit('chat', { 'message_id': messageId })
-        dispatch(getAllMessagesThunk(channelId))
-
     }
 
     return (

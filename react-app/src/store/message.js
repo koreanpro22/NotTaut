@@ -42,12 +42,9 @@ export const clearMessage = () => ({
 })
 
 export const getAllMessagesThunk = (channelId) => async (dispatch) => {
-	console.log('hitting all messages thunk')
 	const response = await fetch(`/api/messages/all/${channelId}`);
-	console.log('response in message thunk ', response)
 	if (response.ok) {
 		const data = await response.json();
-		console.log('data in message thunk ', data)
 		dispatch(getAllMessagesAction(data.messages));
 		return data.messages
 	} else if (response.status < 500) {
@@ -158,9 +155,7 @@ export default function reducer(state = initialState, action) {
 			return newState
 		}
 		case GET_ALL_MESSAGES: {
-			console.log(action.payload)
 			const newState = {}
-			console.log('message payload ', action.payload)
 			newState.messages = action.payload
 			return newState;
 		}
@@ -182,7 +177,6 @@ export default function reducer(state = initialState, action) {
 		}
 		case DELETE_SINGLE_MESSAGE: {
 			const newState = { ...state, messages: [...state.messages] }
-			// console.log(newState)
 			newState.messages = newState.messages.filter(message => message.id !== action.payload)
 			return newState;
 		}

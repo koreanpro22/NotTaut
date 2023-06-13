@@ -7,7 +7,6 @@ import { authenticate } from "../../store/session";
 import './EditChannelModal.css';
 
 function EditChannelModal({ channel }) {
-	console.log('hitting edit channel modal')
 	const dispatch = useDispatch();
 	const [channelName, setChannelName] = useState(channel.name || "");
 	const [channelTopic, setChannelTopic] = useState(channel.topic || "");

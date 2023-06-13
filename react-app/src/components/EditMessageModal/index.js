@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { getSingleChannelThunk } from "../../store/channel";
 import { updateSingleMessageThunk } from "../../store/message";
 import './EditMessageModal.css';
 
-function EditMessageModal({ message, channelId, messageId }) {
+function EditMessageModal({ message, messageId }) {
+	console.log('message', message)
 	const dispatch = useDispatch();
 	const [newMessage, setNewMessage] = useState(message);
 	const { closeModal } = useModal();
@@ -17,9 +17,7 @@ function EditMessageModal({ message, channelId, messageId }) {
 				text: newMessage
 			}
             dispatch(updateSingleMessageThunk(message, messageId))
-            dispatch(getSingleChannelThunk(channelId))
 			closeModal();
-
 		}
 	};
 

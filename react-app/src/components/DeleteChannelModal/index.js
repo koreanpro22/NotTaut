@@ -8,7 +8,6 @@ import { authenticate } from "../../store/session";
 import './DeleteChannelModal.css';
 
 function DeleteChannelModal({ channel, setCurrentChannelId }) {
-    console.log('hitting delete channel modal')
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -26,7 +25,6 @@ function DeleteChannelModal({ channel, setCurrentChannelId }) {
 
     return (
         <div className="delete-channel-modal">
-            {console.log('hitting return')}
             <h1>Delete Channel</h1>
             <div className="confirm-delete">
                 <div onClick={handleDelete}>Confirm</div>

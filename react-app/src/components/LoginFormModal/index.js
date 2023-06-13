@@ -60,7 +60,7 @@ function LoginFormModal() {
       <form onSubmit={handleSubmit} className="login-form-container">
 
         <label>
-          Email: {console.log(errors)} {errors.email && <span>{errors.email}</span>}
+          Email: {errors.email && <span>{errors.email}</span>}
         </label>
         <input
           type="text"

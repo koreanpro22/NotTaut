@@ -6,7 +6,6 @@ import { authenticate } from "../../store/session";
 import './CreateChannelModal.css';
 
 function CreateChannelModal({ setCurrentChannelId, workspaceId }) {
-	console.log('hitting create channel modal')
 	const dispatch = useDispatch();
 	const [channelName, setChannelName] = useState("");
 	const [errors, setErrors] = useState([]);

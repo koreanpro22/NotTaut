@@ -4,11 +4,10 @@ import EditMessageModal from "../EditMessageModal";
 import './MessageModal.css'
 import DeleteMessageModal from "../DeleteMessageModal";
 
-function MessageModal({ user, channel, message, deleteChat }) {
+function MessageModal({ user, channel, message }) {
+    console.log('message modal', message)
 
     const [showOptions, setShowOptions] = useState(false);
-
-
     const openOptions = () => {
         if (showOptions) return;
         setShowOptions(true);
@@ -17,9 +16,7 @@ function MessageModal({ user, channel, message, deleteChat }) {
 
     useEffect(() => {
         if (!showOptions) return;
-
         document.addEventListener("click", closeOptions);
-
         return () => document.removeEventListener("click", closeOptions);
     }, [showOptions]);
 
@@ -38,7 +35,6 @@ function MessageModal({ user, channel, message, deleteChat }) {
                         onItemClick={closeOptions}
                         modalComponent={<EditMessageModal
                             message={message.text}
-                            channelId={message.channel_id}
                             messageId={message.id} />}
                     />
                 }
@@ -49,7 +45,6 @@ function MessageModal({ user, channel, message, deleteChat }) {
                         modalComponent={<DeleteMessageModal
                             messageId={message.id}
                             channelId={message.channel_id}
-                            deleteChat={deleteChat}
                         />}
                     />
                 }
