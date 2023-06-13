@@ -7,8 +7,6 @@ import OpenModalButton from '../OpenModalButton';
 import { useHistory, useParams } from 'react-router-dom';
 import SingleChannel from '../SingleChannel';
 import { useChannelId, useChannelIdUpdate } from '../../context/ChannelIdProvider';
-import { clearChannel } from '../../store/channel';
-import { clearMessage } from '../../store/message';
 
 
 function SingleWorkspace() {

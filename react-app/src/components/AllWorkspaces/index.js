@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './AllWorkspaces.css';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { clearChannel } from '../../store/channel';
 import { clearMessage } from '../../store/message';
 import { clearWorkspace } from '../../store/workspace';

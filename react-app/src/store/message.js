@@ -7,20 +7,20 @@ const UPDATE_SINGLE_MESSAGE = "message/UPDATE_SINGLE_MESSAGE";
 const DELETE_SINGLE_MESSAGE = "message/DELETE_SINGLE_MESSAGE";
 const CLEAR = "message/CLEAR";
 
-const getChannelMessagesAction = (messages) => ({
-	type: GET_CHANNEL_MESSAGES,
-	payload: messages,
-});
+// const getChannelMessagesAction = (messages) => ({
+// 	type: GET_CHANNEL_MESSAGES,
+// 	payload: messages,
+// });
 
-const getAllMessagesAction = (messages) => ({
+const getChannelMessagesAction = (messages) => ({
 	type: GET_ALL_MESSAGES,
 	payload: messages,
 });
 
-const getSingleMessageAction = (message) => ({
-	type: GET_SINGLE_MESSAGE,
-	payload: message,
-});
+// const getSingleMessageAction = (message) => ({
+// 	type: GET_SINGLE_MESSAGE,
+// 	payload: message,
+// });
 
 const createSingleMessageAction = (message) => ({
 	type: CREATE_SINGLE_MESSAGE,
@@ -41,11 +41,11 @@ export const clearMessage = () => ({
 	type: CLEAR
 })
 
-export const getAllMessagesThunk = (channelId) => async (dispatch) => {
+export const getChannelMessagesThunk = (channelId) => async (dispatch) => {
 	const response = await fetch(`/api/messages/all/${channelId}`);
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(getAllMessagesAction(data.messages));
+		dispatch(getChannelMessagesAction(data.messages));
 		return data.messages
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -57,25 +57,25 @@ export const getAllMessagesThunk = (channelId) => async (dispatch) => {
 	}
 };
 
-export const getSingleMessageThunk = (messageId) => async (dispatch) => {
-	const response = await fetch(`/api/messages/single/${messageId}`, {
-		headers: {
-			"Content-Type": "application/json",
-		}
-	});
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(getSingleMessageAction(data.message));
-		return null;
-	} else if (response.status < 500) {
-		const data = await response.json();
-		if (data.errors) {
-			return data.errors;
-		}
-	} else {
-		return response
-	}
-};
+// export const getSingleMessageThunk = (messageId) => async (dispatch) => {
+// 	const response = await fetch(`/api/messages/single/${messageId}`, {
+// 		headers: {
+// 			"Content-Type": "application/json",
+// 		}
+// 	});
+// 	if (response.ok) {
+// 		const data = await response.json();
+// 		dispatch(getSingleMessageAction(data.message));
+// 		return null;
+// 	} else if (response.status < 500) {
+// 		const data = await response.json();
+// 		if (data.errors) {
+// 			return data.errors;
+// 		}
+// 	} else {
+// 		return response
+// 	}
+// };
 
 export const createSingleMessageThunk = (message, channelId) => async (dispatch) => {
 	const response = await fetch(`/api/messages/single/${channelId}`, {
@@ -151,6 +151,7 @@ export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_CHANNEL_MESSAGES: {
 			const newState = {}
+			console.log('store messages ', action.payload)
 			newState.messages = action.payload
 			return newState
 		}
