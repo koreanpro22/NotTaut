@@ -5,13 +5,11 @@ import './MessageModal.css'
 import DeleteMessageModal from "../DeleteMessageModal";
 
 function MessageModal({ user, channel, message }) {
-    console.log('message modal', message)
 
     const [showOptions, setShowOptions] = useState(false);
     const openOptions = () => {
         if (showOptions) return;
         setShowOptions(true);
-
     };
 
     useEffect(() => {

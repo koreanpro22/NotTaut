@@ -22,7 +22,6 @@ def single_channel(channel_id):
 
     if not channel:
         return {'errors': ['Channel does not exist']}, 404
-
     return {'channel': channel.to_dict_all()}
 
 #CREATE CHANNEL BY

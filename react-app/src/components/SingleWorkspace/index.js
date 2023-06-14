@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearWorkspace, getSingleWorkspaceThunk } from '../../store/workspace';
+import { getSingleWorkspaceThunk } from '../../store/workspace';
 import './SingleWorkspace.css';
 import CreateChannelModal from '../CreateChannelModal';
 import OpenModalButton from '../OpenModalButton';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import SingleChannel from '../SingleChannel';
 import { useChannelId, useChannelIdUpdate } from '../../context/ChannelIdProvider';
 
-
 function SingleWorkspace() {
-    const history = useHistory();
     const { workspaceId } = useParams()
     const sessionUser = useSelector(state => state.session.user)
     const currentWorkspace = useSelector(state => state.workspace.currentWorkspace)

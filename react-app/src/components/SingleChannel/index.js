@@ -16,7 +16,7 @@ let socket;
 function SingleChannel({ channelId }) {
     const channel = useSelector(state => state.channel.currentChannel)
     const sessionUser = useSelector(state => state.session.user)
-    const messages = useSelector(state => state.message.messages)
+    const allMessages = useSelector(state => state.message.messages)
     const workspace = useSelector(state => state.workspace.currentWorkspace)
     const dispatch = useDispatch()
     const [message, setMessage] = useState('');
@@ -38,7 +38,7 @@ function SingleChannel({ channelId }) {
         return (() => {
             socket.disconnect()
         })
-    }, [dispatch, channelId, messages.length])
+    }, [dispatch, channelId, Object.values(allMessages).length])
 
     const sendChat = async (e) => {
         e.preventDefault()
@@ -48,6 +48,9 @@ function SingleChannel({ channelId }) {
     }
 
     if (!channel) return null
+
+    const messages = Object.values(allMessages);
+    console.log('messages ', messages)
 
     return (
         <div className='single-channel-container'>
@@ -60,7 +63,7 @@ function SingleChannel({ channelId }) {
                             buttonText='Edit'
                             modalComponent={<EditChannelModal channel={channel} />}
                         />
-                        {channel.id != workspace.channels[0].id && <OpenModalButton
+                        {channel.id !== workspace.channels[0].id && <OpenModalButton
                             buttonText='Delete'
                             modalComponent={<DeleteChannelModal channel={channel} setCurrentChannelId={setCurrentChannelId} />}
                             />

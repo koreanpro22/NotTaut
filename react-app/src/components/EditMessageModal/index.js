@@ -5,7 +5,6 @@ import { updateSingleMessageThunk } from "../../store/message";
 import './EditMessageModal.css';
 
 function EditMessageModal({ message, messageId }) {
-	console.log('message', message)
 	const dispatch = useDispatch();
 	const [newMessage, setNewMessage] = useState(message);
 	const { closeModal } = useModal();

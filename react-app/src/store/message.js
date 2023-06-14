@@ -1,6 +1,6 @@
 // constants
 const GET_CHANNEL_MESSAGES = "message/GET_CHANNEL_MESSAGES";
-const GET_ALL_MESSAGES = "message/GET_ALL_MESSAGES";
+const GET_ALL_CHANNEL_MESSAGES = "message/GET_ALL_CHANNEL_MESSAGES";
 const GET_SINGLE_MESSAGE = "message/GET_SINGLE_MESSAGE";
 const CREATE_SINGLE_MESSAGE = "message/CREATE_SINGLE_MESSAGE";
 const UPDATE_SINGLE_MESSAGE = "message/UPDATE_SINGLE_MESSAGE";
@@ -13,7 +13,7 @@ const CLEAR = "message/CLEAR";
 // });
 
 const getChannelMessagesAction = (messages) => ({
-	type: GET_ALL_MESSAGES,
+	type: GET_ALL_CHANNEL_MESSAGES,
 	payload: messages,
 });
 
@@ -85,7 +85,6 @@ export const createSingleMessageThunk = (message, channelId) => async (dispatch)
 		},
 		body: JSON.stringify(message),
 	});
-
 	if (response.ok) {
 		const data = await response.json();
 		dispatch(createSingleMessageAction(data.message));
@@ -108,7 +107,6 @@ export const updateSingleMessageThunk = (message, messageId) => async (dispatch)
 		},
 		body: JSON.stringify(message),
 	});
-
 	if (response.ok) {
 		const data = await response.json();
 		dispatch(updateSingleMessageAction(data.message));
@@ -130,7 +128,6 @@ export const deleteSingleMessageThunk = (messageId) => async (dispatch) => {
 			"Content-Type": "application/json",
 		}
 	});
-
 	if (response.ok) {
 		dispatch(deleteSingleMessageAction(messageId));
 		return null;
@@ -145,19 +142,22 @@ export const deleteSingleMessageThunk = (messageId) => async (dispatch) => {
 };
 
 
-const initialState = { currentMessage: null, messages: [] };
+const initialState = { currentMessage: null, messages: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_CHANNEL_MESSAGES: {
 			const newState = {}
-			console.log('store messages ', action.payload)
 			newState.messages = action.payload
 			return newState
 		}
-		case GET_ALL_MESSAGES: {
-			const newState = {}
-			newState.messages = action.payload
+		case GET_ALL_CHANNEL_MESSAGES: {
+			const messages = action.payload
+			const newState = { messages: {} }
+			messages.forEach(m => {
+				const id = m.id
+				newState.messages[id] = m
+			});
 			return newState;
 		}
 		case GET_SINGLE_MESSAGE: {
