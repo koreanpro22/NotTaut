@@ -49,3 +49,18 @@ class Channel(db.Model, UserMixin):
             'channel_users': [user.to_dict() for user in self.channel_users],
             'messages': [message.to_dict() for message in self.messages]
         }
+
+    def to_dict_relationship(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'topic': self.topic,
+            'description': self.description,
+            'dm': self.dm,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'workspace_id': self.workspace_id,
+            'workspace': self.workspace.to_dict(),
+            'channel_users': [user.id for user in self.channel_users],
+            'messages': [message.id for message in self.messages]
+        }

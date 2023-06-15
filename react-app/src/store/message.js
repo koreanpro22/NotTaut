@@ -160,14 +160,16 @@ export default function reducer(state = initialState, action) {
 			});
 			return newState;
 		}
-		case GET_SINGLE_MESSAGE: {
-			const newState = { ...state, currentMessage: state.currentMessage, messages: [...state.messages] }
-			newState.currentMessage = action.payload
-			return newState;
-		}
+		// case GET_SINGLE_MESSAGE: {
+			// 	const newState = { ...state, currentMessage: state.currentMessage, messages: [...state.messages] }
+			// 	newState.currentMessage = action.payload
+		// 	return newState;
+		// }
 		case CREATE_SINGLE_MESSAGE: {
-			const newState = { ...state, messages: [...state.messages] }
-			newState.messages.push(action.payload)
+			const message = action.payload
+			const newState = { ...state }
+			console.log(newState)
+			newState.messages[message.id] = message
 			return newState;
 		}
 		case UPDATE_SINGLE_MESSAGE: {

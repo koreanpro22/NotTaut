@@ -81,3 +81,24 @@ class User(db.Model, UserMixin):
             'messages': [message.to_dict() for message in self.messages],
             'thread_messages': [thread_message.to_dict() for thread_message in self.thread_messages]
         }
+
+    def to_dict_relationship(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'display_name': self.display_name,
+            'name_pronunciation': self.name_pronunciation,
+            'email': self.email,
+            'status': self.status,
+            'hashed_password': self.hashed_password,
+            'profile_pic': self.profile_pic,
+            'title': self.title,
+            'phone_number': self.phone_number,
+            'timezone': self.timezone,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'user_workspaces': [workspace.id for workspace in self.user_workspaces],
+            'user_channels': [channel.id for channel in self.user_channels],
+            'messages': [message.id for message in self.messages],
+            'thread_messages': [thread_message.id for thread_message in self.thread_messages]
+        }

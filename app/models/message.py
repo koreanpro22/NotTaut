@@ -43,3 +43,16 @@ class Message(db.Model, UserMixin):
             'user': self.user.to_dict(),
             'thread_messages': [thread_message.to_dict() for thread_message in self.thread_messages]
         }
+
+    def to_dict_relationship(self):
+        return {
+            'id': self.id,
+            'text': self.text,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'user_id': self.user_id,
+            'channel_id': self.channel_id,
+            'channel': self.channel.to_dict(),
+            'user': self.user.to_dict(),
+            'thread_messages': [thread_message.id for thread_message in self.thread_messages]
+        }

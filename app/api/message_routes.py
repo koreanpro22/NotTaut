@@ -12,7 +12,6 @@ message_routes = Blueprint('messages', __name__)
 def get_channel_message(recipient_id):
     channel = Channel.query.get(recipient_id)
     channelDict = channel.to_dict_all()
-    print('====================================>', channelDict)
     messages = channelDict['messages']
     return messages
 
@@ -21,9 +20,7 @@ def get_channel_message(recipient_id):
 @message_routes.route('/all/<int:channel_id>')
 @login_required
 def all_messages(channel_id):
-    # print('================================== Hitting route =========================')
     messages = Message.query.filter(Message.channel_id == channel_id)
-    # print(messages, '==========================================================')
     return {'messages': [message.to_dict_all() for message in messages]}
 
 #GET SINGLE MESSAGE BY MESSAGE ID
@@ -54,9 +51,7 @@ def create_message(channel_id):
 @message_routes.route('/single/<int:message_id>', methods=['PUT'])
 @login_required
 def update_message(message_id):
-
     message = Message.query.get(message_id)
-
     form = UpdateMessageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():

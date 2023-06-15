@@ -53,3 +53,14 @@ class Workspace(db.Model, UserMixin):
             'workspace_users': [user.to_dict() for user in self.workspace_users],
             'channels': [channel.to_dict() for channel in self.channels]
         }
+
+    def to_dict_relationship(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'owner': self.owner.to_dict(),
+            'workspace_users': [user.id for user in self.workspace_users],
+            'channels': [channel.id for channel in self.channels]
+        }
