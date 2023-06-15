@@ -17,6 +17,7 @@ function SingleChannel({ channelId }) {
     const channel = useSelector(state => state.channel.currentChannel)
     const sessionUser = useSelector(state => state.session.user)
     const allMessages = useSelector(state => state.message.messages)
+    console.log(allMessages)
     const workspace = useSelector(state => state.workspace.currentWorkspace)
     const dispatch = useDispatch()
     const [message, setMessage] = useState('');
@@ -29,9 +30,9 @@ function SingleChannel({ channelId }) {
         socket = io();
         socket.on('chat', (chat) => {
             console.log('Hitting socket ======================================================>')
+            dispatch(getSingleChannelThunk(channelId))
+            dispatch(getAllChannelMessagesThunk(channelId))
         })
-        dispatch(getSingleChannelThunk(channelId))
-        dispatch(getAllChannelMessagesThunk(channelId))
 
         return (() => {
             socket.disconnect()
