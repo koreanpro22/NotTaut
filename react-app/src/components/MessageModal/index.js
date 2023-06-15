@@ -23,10 +23,11 @@ function MessageModal({ user, channel, message }) {
 
     return (
         <div className="edit-delete-container">
-            <div onClick={openOptions} className="triple-bar">
-                <i class="fas fa-bars"></i>
-            </div>
-            {showOptions && <div className={messageOption}>
+            {(user.id === channel.workspace.owner_id || user.id === message.user.id) &&
+                <div onClick={openOptions} className="triple-bar">
+                    <i class="fas fa-bars"></i>
+                </div>}
+            {showOptions ? <div className={messageOption}>
                 {(message.user.id === user.id) &&
                     <OpenModalButton
                         buttonText='Edit'
@@ -36,17 +37,17 @@ function MessageModal({ user, channel, message }) {
                             messageId={message.id} />}
                     />
                 }
-                {user.id === channel.workspace.owner_id &&
-                    <OpenModalButton
-                        buttonText='Delete'
-                        onItemClick={closeOptions}
-                        modalComponent={<DeleteMessageModal
-                            messageId={message.id}
-                            channelId={message.channel_id}
-                        />}
-                    />
+                {console.log('message in button', message)}
+                {<OpenModalButton
+                    buttonText='Delete'
+                    onItemClick={closeOptions}
+                    modalComponent={<DeleteMessageModal
+                        messageId={message.id}
+                        channelId={message.channel_id}
+                    />}
+                />
                 }
-            </div>}
+            </div> : null}
         </div>
 
     );
