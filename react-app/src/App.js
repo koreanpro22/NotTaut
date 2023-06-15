@@ -54,7 +54,6 @@ function App() {
             </Switch>
           )}
         </>
-
       }
     </div>
   );

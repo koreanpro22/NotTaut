@@ -12,7 +12,7 @@ const CLEAR = "message/CLEAR";
 // 	payload: messages,
 // });
 
-const getChannelMessagesAction = (messages) => ({
+const getAllChannelMessagesAction = (messages) => ({
 	type: GET_ALL_CHANNEL_MESSAGES,
 	payload: messages,
 });
@@ -41,11 +41,11 @@ export const clearMessage = () => ({
 	type: CLEAR
 })
 
-export const getChannelMessagesThunk = (channelId) => async (dispatch) => {
+export const getAllChannelMessagesThunk = (channelId) => async (dispatch) => {
 	const response = await fetch(`/api/messages/all/${channelId}`);
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(getChannelMessagesAction(data.messages));
+		dispatch(getAllChannelMessagesAction(data.messages));
 		return data.messages
 	} else if (response.status < 500) {
 		const data = await response.json();
@@ -146,11 +146,11 @@ const initialState = { currentMessage: null, messages: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
-		case GET_CHANNEL_MESSAGES: {
-			const newState = {}
-			newState.messages = action.payload
-			return newState
-		}
+		// case GET_CHANNEL_MESSAGES: {
+		// 	const newState = {}
+		// 	newState.messages = action.payload
+		// 	return newState
+		// }
 		case GET_ALL_CHANNEL_MESSAGES: {
 			const messages = action.payload
 			const newState = { messages: {} }
@@ -167,9 +167,10 @@ export default function reducer(state = initialState, action) {
 		// }
 		case CREATE_SINGLE_MESSAGE: {
 			const message = action.payload
-			const newState = { ...state }
+			const newState = { ...state, messages: { ...state.messages } }
 			console.log(newState)
 			newState.messages[message.id] = message
+			console.log(newState)
 			return newState;
 		}
 		case UPDATE_SINGLE_MESSAGE: {

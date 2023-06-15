@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingleChannelThunk } from '../../store/channel';
 import './SingleChannel.css'
-import { getChannelMessagesThunk } from '../../store/message';
+import { getAllChannelMessagesThunk } from '../../store/message';
 import OpenModalButton from '../OpenModalButton';
 import EditChannelModal from '../EditChannelModal';
 import DeleteChannelModal from '../DeleteChannelModal';
@@ -26,14 +26,12 @@ function SingleChannel({ channelId }) {
     const [showOptions, setShowOptions] = useState(false);
 
     useEffect(() => {
-        dispatch(getSingleChannelThunk(channelId))
         socket = io();
-        dispatch(getChannelMessagesThunk(channelId))
         socket.on('chat', (chat) => {
             console.log('Hitting socket ======================================================>')
-            dispatch(getSingleChannelThunk(channelId))
-            dispatch(getChannelMessagesThunk(channelId))
         })
+        dispatch(getSingleChannelThunk(channelId))
+        dispatch(getAllChannelMessagesThunk(channelId))
 
         return (() => {
             socket.disconnect()
@@ -43,14 +41,13 @@ function SingleChannel({ channelId }) {
     const sendChat = async (e) => {
         e.preventDefault()
         await socket.emit('chat', { user: sessionUser.name, text: message, user_id: sessionUser.id, channel_id: channel.id })
-        dispatch(getChannelMessagesThunk(channelId))
+        dispatch(getAllChannelMessagesThunk(channelId))
         setMessage('')
     }
 
     if (!channel) return null
 
     const messages = Object.values(allMessages);
-    console.log('messages ', messages)
 
     return (
         <div className='single-channel-container'>
