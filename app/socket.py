@@ -31,3 +31,4 @@ def handle_chat(data):
             db.session.add(message)
         db.session.commit()
     emit('chat', data, broadcast=True)
+

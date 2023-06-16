@@ -4,20 +4,22 @@ import './AllWorkspaces.css';
 import { useHistory } from 'react-router-dom';
 import { clearChannel } from '../../store/channel';
 import { clearMessage } from '../../store/message';
-import { clearWorkspace } from '../../store/workspace';
+import { clearWorkspace, getAllUserWorkspacesThunk } from '../../store/workspace';
 function AllWorkspaces() {
 
     const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
+    const allWorkspaces = useSelector(state => state.workspace.allWorkspaces);
 
     useEffect(() => {
-        dispatch(clearChannel())
-        dispatch(clearMessage())
-        dispatch(clearWorkspace())
+        // dispatch(clearChannel())
+        // dispatch(clearMessage())
+        // dispatch(clearWorkspace())
+        dispatch(getAllUserWorkspacesThunk())
     }, [dispatch])
 
-    if (!sessionUser) return null
+    if (!sessionUser || !allWorkspaces) return null
 
 
     // default workspace image = https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8Zunm_NQV4NA39v57qA4FPasJnxrAxzwyYLGLGI7YBw&usqp=CAU&ec=48665701
@@ -26,7 +28,7 @@ function AllWorkspaces() {
         <div className='all-workspaces-container'>
             <h1>Choose your workspace</h1>
             <div className='workspace-tiles'>
-                {sessionUser.user_workspaces.map(workspace => {
+                {allWorkspaces.map(workspace => {
                     return <div onClick={() => {
                         history.push(`/workspace/${workspace.id}`)
                     }}>

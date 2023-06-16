@@ -5,3 +5,4 @@ from .update_channel_form import UpdateChannelForm
 from .create_message_form import CreateMessageForm
 from .update_message_form import UpdateMessageForm
 from .create_workspace_form import CreateWorkspaceForm
+from .update_workspace_form import UpdateWorkspaceForm

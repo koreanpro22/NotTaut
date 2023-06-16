@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSingleWorkspaceThunk } from '../../store/workspace';
+// import { getSingleWorkspaceThunk } from '../../store/workspace';
 import './SingleWorkspace.css';
 import CreateChannelModal from '../CreateChannelModal';
 import OpenModalButton from '../OpenModalButton';
@@ -9,7 +9,7 @@ import SingleChannel from '../SingleChannel';
 import { useChannelId, useChannelIdUpdate } from '../../context/ChannelIdProvider';
 
 function SingleWorkspace() {
-    const { workspaceId } = useParams()
+    const { workspaceId } = useParams();
     const sessionUser = useSelector(state => state.session.user)
     const currentWorkspace = useSelector(state => state.workspace.currentWorkspace)
     const dispatch = useDispatch()
@@ -17,7 +17,7 @@ function SingleWorkspace() {
     const setCurrentChannelId = useChannelIdUpdate()
 
     useEffect(() => {
-        dispatch(getSingleWorkspaceThunk(workspaceId))
+        // dispatch(getSingleWorkspaceThunk(workspaceId))
     }, [dispatch, currentChannelId, workspaceId])
 
     if (!sessionUser || !currentWorkspace) return null
