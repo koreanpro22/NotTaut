@@ -6,6 +6,9 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import './Navigation.css';
 import { useHistory } from "react-router-dom";
+import { clearChannel } from "../../store/channel";
+import { clearWorkspace } from "../../store/workspace";
+import { clearMessage } from "../../store/message";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -36,6 +39,9 @@ function ProfileButton({ user }) {
     e.preventDefault();
     setShowMenu(false);
     await dispatch(logout());
+    dispatch(clearWorkspace());
+    dispatch(clearChannel());
+    dispatch(clearMessage());
     history.push('/')
   };
 

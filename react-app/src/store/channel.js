@@ -40,7 +40,6 @@ export const clearChannel = () => ({
 	type: CLEAR
 })
 
-
 export const getAllChannelsThunk = (channels, workspaceId) => async (dispatch) => {
 	if (channels && channels.length) return
     const response = await fetch(`/api/channels/all/${workspaceId}`, {
@@ -186,6 +185,9 @@ export default function reducer(state = initialState, action) {
 			const newState = { ...state, allChannels : { ...state.allChannels }}
 			newState.currentChannel = action.payload
 			return newState
+		}
+		case CLEAR: {
+			return initialState
 		}
 		default:
 			return state;

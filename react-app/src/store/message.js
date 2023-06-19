@@ -30,6 +30,10 @@ const deleteSingleMessageAction = (messageId) => ({
 	payload: messageId,
 });
 
+export const clearMessage = () => ({
+	type: CLEAR
+})
+
 export const getAllChannelMessagesThunk = (channelId) => async (dispatch) => {
 	const response = await fetch(`/api/messages/all/${channelId}`);
 	if (response.ok) {
