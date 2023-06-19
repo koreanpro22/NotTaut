@@ -12,7 +12,7 @@ workspace_routes = Blueprint('workspaces', __name__)
 def all_workspaces():
     user = User.query.get(current_user.id)
     user_workspaces = user.user_workspaces
-    return {'workspaces': [workspace.to_dict() for workspace in user_workspaces]}
+    return {'workspaces': [workspace.to_dict_relationship() for workspace in user_workspaces]}
 
 #GET SINGLE WORKSPACE BY WORKSPACE ID
 @workspace_routes.route('/single/<int:workspace_id>')
@@ -20,7 +20,7 @@ def all_workspaces():
 def single_workspace(workspace_id):
     workspace = Workspace.query.get(workspace_id)
     print(workspace)
-    return {'workspace': workspace.to_dict_all()}
+    return {'workspace': workspace.to_dict_relationship()}
 
 @workspace_routes.route('/', methods=['POST'])
 @login_required

@@ -25,7 +25,7 @@ function MessageModal({ user, channel, message }) {
         <div className="edit-delete-container">
             {(user.id === channel.workspace.owner_id || user.id === message.user.id) &&
                 <div onClick={openOptions} className="triple-bar">
-                    <i class="fas fa-bars"></i>
+                    <i className="fas fa-bars"></i>
                 </div>}
             {showOptions ? <div className={messageOption}>
                 {(message.user.id === user.id) &&

@@ -60,6 +60,7 @@ class Workspace(db.Model, UserMixin):
             'name': self.name,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
+            'owner_id': self.owner_id,
             'owner': self.owner.to_dict(),
             'workspace_users': [user.id for user in self.workspace_users],
             'channels': [channel.id for channel in self.channels]

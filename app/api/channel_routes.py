@@ -12,7 +12,7 @@ channel_routes = Blueprint('channels', __name__)
 @login_required
 def all_channels(workspace_id):
     channels = Channel.query.filter(Channel.workspace_id == workspace_id)
-    return {'channels': [channel.to_dict() for channel in channels]}
+    return {'channels': [channel.to_dict_relationship() for channel in channels]}
 
 #GET SINGLE CHANNEL BY CHANNEL ID
 @channel_routes.route('/single/<int:channel_id>')

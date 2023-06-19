@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllChannelsThunk, getSingleChannelThunk } from '../../store/channel';
+import { getAllChannelsThunk } from '../../store/channel';
 import './SingleChannel.css'
 import { getAllChannelMessagesThunk } from '../../store/message';
 import OpenModalButton from '../OpenModalButton';
@@ -16,11 +16,11 @@ let socket;
 
 function SingleChannel({ channelId }) {
     const { workspaceId } = useParams();
-    const channel = useSelector(state => state.channel.currentChannel)
-    const allChannels = useSelector(state => state.channel.allWorkspaceChannels)
+    const allChannels = useSelector(state => state.channel.allChannels)
+    const channel = allChannels[channelId]
+    console.log(allChannels[channelId])
     const sessionUser = useSelector(state => state.session.user)
     const allMessages = useSelector(state => state.message.messages)
-    console.log(allMessages)
     const workspace = useSelector(state => state.workspace.currentWorkspace)
     const dispatch = useDispatch()
     const [message, setMessage] = useState('')
@@ -33,7 +33,6 @@ function SingleChannel({ channelId }) {
         socket = io();
         socket.on('chat', (chat) => {
             console.log('Hitting socket ======================================================>')
-            dispatch(getSingleChannelThunk(channel, channelId))
             dispatch(getAllChannelsThunk(workspaceId))
             dispatch(getAllChannelMessagesThunk(channelId))
         })
@@ -49,7 +48,6 @@ function SingleChannel({ channelId }) {
         dispatch(getAllChannelMessagesThunk(channelId))
         setMessage('')
     }
-    console.log(channel)
 
     if (!channel) return null
 
@@ -60,7 +58,7 @@ function SingleChannel({ channelId }) {
             <div className='single-channel-header'>
                 <div>
                     <strong>Channel Name: {channel.name} </strong>
-                    <i class="fas fa-chevron-down"></i>
+                    <i className="fas fa-chevron-down"></i>
                     {sessionUser.id === channel.workspace.owner_id && <div>
                         <OpenModalButton
                             buttonText='Edit'

@@ -9,6 +9,7 @@ else:
     origins = '*'
 
 socketio = SocketIO(cors_allowed_origins=origins)
+# message id, text + message id, text foreign key id
 
 @socketio.on("chat")
 def handle_chat(data):
@@ -31,4 +32,3 @@ def handle_chat(data):
             db.session.add(message)
         db.session.commit()
     emit('chat', data, broadcast=True)
-

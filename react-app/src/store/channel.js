@@ -1,6 +1,6 @@
 // constants
 const GET_ALL_CHANNELS = "channel/GET_ALL_CHANNELS";
-const GET_SINGLE_CHANNEL = "channel/GET_SINGLE_CHANNEL";
+// const GET_SINGLE_CHANNEL = "channel/GET_SINGLE_CHANNEL";
 const CREATE_SINGLE_CHANNEL = "channel/CREATE_SINGLE_CHANNEL";
 const UPDATE_SINGLE_CHANNEL = "channel/UPDATE_SINGLE_CHANNEL";
 const DELETE_SINGLE_CHANNEL = "channel/DELETE_SINGLE_CHANNEL";
@@ -11,10 +11,10 @@ const getAllChannelsAction = (channels) => ({
 	payload: channels,
 });
 
-const getSingleChannelAction = (channel) => ({
-	type: GET_SINGLE_CHANNEL,
-	payload: channel,
-});
+// const getSingleChannelAction = (channel) => ({
+// 	type: GET_SINGLE_CHANNEL,
+// 	payload: channel,
+// });
 
 const createSingleChannelAction = (channel) => ({
 	type: CREATE_SINGLE_CHANNEL,
@@ -36,7 +36,8 @@ export const clearChannel = () => ({
 })
 
 
-export const getAllChannelsThunk = (workspaceId) => async (dispatch) => {
+export const getAllChannelsThunk = (channels, workspaceId) => async (dispatch) => {
+	if (channels && channels.length) return
     const response = await fetch(`/api/channels/all/${workspaceId}`, {
         headers: {
             "Content-Type": "application/json",
@@ -56,25 +57,25 @@ export const getAllChannelsThunk = (workspaceId) => async (dispatch) => {
 	}
 };
 
-export const getSingleChannelThunk = (channelId) => async (dispatch) => {
-    const response = await fetch(`/api/channels/single/${channelId}`, {
-        headers: {
-            "Content-Type": "application/json",
-		}
-	});
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(getSingleChannelAction(data.channel));
-		return null;
-	} else if (response.status < 500) {
-        const data = await response.json();
-		if (data.errors) {
-            return data.errors;
-		}
-	} else {
-        return response
-	}
-};
+// export const getSingleChannelThunk = (channelId) => async (dispatch) => {
+//     const response = await fetch(`/api/channels/single/${channelId}`, {
+//         headers: {
+//             "Content-Type": "application/json",
+// 		}
+// 	});
+// 	if (response.ok) {
+// 		const data = await response.json();
+// 		dispatch(getSingleChannelAction(data.channel));
+// 		return null;
+// 	} else if (response.status < 500) {
+//         const data = await response.json();
+// 		if (data.errors) {
+//             return data.errors;
+// 		}
+// 	} else {
+//         return response
+// 	}
+// };
 
 export const createSingleChannelThunk = (channel, workspaceId) => async (dispatch) => {
 	const response = await fetch(`/api/channels/single/${workspaceId}`, {
@@ -144,26 +145,35 @@ export const deleteSingleChannelThunk = (channelId) => async (dispatch) => {
 };
 
 
-const initialState = { currentChannel: null };
+const initialState = { currentChannel: null, allChannels: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
-		case GET_SINGLE_CHANNEL:{
-            const newState = {}
-            newState.currentChannel = action.payload
-            return newState;
-        }
+		case GET_ALL_CHANNELS: {
+			const newState = { ...state, allChannels : { ...state.allChannels } }
+			action.payload.forEach(channel => {
+				newState.allChannels[channel.id] = channel
+			});
+			return newState
+		}
+		// case GET_SINGLE_CHANNEL:{
+        //     const newState = {}
+        //     newState.currentChannel = action.payload
+        //     return newState;
+        // }
 		case CREATE_SINGLE_CHANNEL:{
-            const newState = { ...state, currentChannel: state.currentChannel}
-            newState.currentChannel = action.payload
+            const newState = { ...state, allChannels : { ...state.allChannels }}
+            newState.allChannels[action.payload.id] = action.payload
             return newState;
         }
 		case UPDATE_SINGLE_CHANNEL:{
-			const newState = { currentChannel: action.payload }
+			const newState = { ...state, allChannels : { ...state.allChannels }}
+			newState.allChannels[action.payload.id] = action.payload
             return newState;
         }
 		case DELETE_SINGLE_CHANNEL: {
-			const newState = { currentChannel: null }
+			const newState = { ...state, allChannels : { ...state.allChannels }}
+			delete newState.allChannels[action.payload]
 			return newState
 		}
 		default:

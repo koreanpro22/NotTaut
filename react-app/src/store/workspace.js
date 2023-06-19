@@ -29,7 +29,8 @@ export const clearWorkspace = () => ({
 	type: CLEAR
 })
 
-export const getAllUserWorkspacesThunk = () => async (dispatch) => {
+export const getAllUserWorkspacesThunk = (workspaces) => async (dispatch) => {
+	if (workspaces && workspaces.length) return
 	const response = await fetch(`/api/workspaces/all`, {
 		headers: {
 			"Content-Type": "application/json",
@@ -119,13 +120,13 @@ export const updateSingleWorkspaceThunk = (name, workspaceId) => async (dispatch
 	}
 };
 
-const initialState = { currentWorkspace: null, allWorkspaces: null };
+const initialState = { currentWorkspace: null, allWorkspaces: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_ALL_USER_WORKSPACES: {
-			const newState = { ...state }
-			newState.allWorkspaces = action.payload
+			const newState = { ...state, allWorkspaces: {} }
+			action.payload.map(workspace => newState.allWorkspaces[workspace.id] = workspace)
 			return newState;
 		}
 		case GET_SINGLE_WORKSPACE: {
@@ -135,7 +136,7 @@ export default function reducer(state = initialState, action) {
 		}
 		case CREATE_SINGLE_WORKSPACE: {
 			const newState = { ...state }
-			newState.currentWorkspace = action.payload
+			newState.allWorkspaces[action.payload.id] = action.payload
 			return newState
 		}
 		case CLEAR: {

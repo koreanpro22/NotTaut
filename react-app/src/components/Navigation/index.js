@@ -14,9 +14,9 @@ function Navigation({ isLoaded }) {
 
 	const clickHome = async () => {
 		history.push('/');
-		await dispatch(clearChannel())
-		await dispatch(clearMessage())
-		await dispatch(clearWorkspace())
+		// await dispatch(clearChannel())
+		// await dispatch(clearMessage())
+		// await dispatch(clearWorkspace())
 	}
 
 	return (
