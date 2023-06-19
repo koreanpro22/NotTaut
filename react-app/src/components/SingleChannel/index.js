@@ -14,11 +14,10 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom';
 
 let socket;
 
-function SingleChannel({ channelId }) {
+function SingleChannel({ channels, channelId }) {
     const { workspaceId } = useParams();
     const allChannels = useSelector(state => state.channel.allChannels)
     const channel = allChannels[channelId]
-    console.log(allChannels[channelId])
     const sessionUser = useSelector(state => state.session.user)
     const allMessages = useSelector(state => state.message.messages)
     const workspace = useSelector(state => state.workspace.currentWorkspace)
@@ -49,7 +48,7 @@ function SingleChannel({ channelId }) {
         setMessage('')
     }
 
-    if (!channel) return null
+    if (channelId === '0') return null
 
     const messages = Object.values(allMessages);
 
@@ -64,7 +63,7 @@ function SingleChannel({ channelId }) {
                             buttonText='Edit'
                             modalComponent={<EditChannelModal channel={channel} />}
                         />
-                        {channel.id !== workspace.channels[0].id && <OpenModalButton
+                        {channel.id !== channels[0].id && <OpenModalButton
                             buttonText='Delete'
                             modalComponent={<DeleteChannelModal channel={channel} setCurrentChannelId={setCurrentChannelId} />}
                             />

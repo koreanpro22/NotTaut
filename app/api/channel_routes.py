@@ -14,15 +14,15 @@ def all_channels(workspace_id):
     channels = Channel.query.filter(Channel.workspace_id == workspace_id)
     return {'channels': [channel.to_dict_relationship() for channel in channels]}
 
-#GET SINGLE CHANNEL BY CHANNEL ID
-@channel_routes.route('/single/<int:channel_id>')
-@login_required
-def single_channel(channel_id):
-    channel = Channel.query.get(channel_id)
+# #GET SINGLE CHANNEL BY CHANNEL ID
+# @channel_routes.route('/single/<int:channel_id>')
+# @login_required
+# def single_channel(channel_id):
+#     channel = Channel.query.get(channel_id)
 
-    if not channel:
-        return {'errors': ['Channel does not exist']}, 404
-    return {'channel': channel.to_dict_all()}
+#     if not channel:
+#         return {'errors': ['Channel does not exist']}, 404
+#     return {'channel': channel.to_dict_all()}
 
 #CREATE CHANNEL BY
 @channel_routes.route('/single/<int:workspace_id>', methods=['POST'])
@@ -41,7 +41,7 @@ def create_channel(workspace_id):
         db.session.add(new_channel)
         # Updates database
         db.session.commit()
-        return { 'channel': new_channel.to_dict_all() }
+        return { 'channel': new_channel.to_dict_relationship() }
     # Returns validation errors
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
@@ -59,7 +59,7 @@ def update_channel(channel_id):
         channel.topic=form.data['topic']
         channel.description=form.data['description']
         db.session.commit()
-        return { 'channel': channel.to_dict_all() }
+        return { 'channel': channel.to_dict_relationship() }
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 #DELETE CHANNEL BY ID

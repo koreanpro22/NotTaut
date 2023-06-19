@@ -15,10 +15,13 @@ function SingleWorkspace() {
     const allWorkspacesObj = useSelector(state => state.workspace.allWorkspaces);
     const allWorkspaces = Object.values(allWorkspacesObj)
     const allChannelsObj = useSelector(state => state.channel.allChannels)
+    console.log("🚀 ~ file: index.js:18 ~ SingleWorkspace ~ allChannelsObj:", allChannelsObj)
     const allChannels = Object.values(allChannelsObj)
+    console.log("🚀 ~ file: index.js:21 ~ SingleWorkspace ~ allChannels:", allChannels)
     const channels = allChannels.filter(channel => channel.workspace_id === +workspaceId)
+    console.log("🚀 ~ file: index.js:23 ~ SingleWorkspace ~ channels:", channels)
     const dispatch = useDispatch()
-    const [channelId, setChannelId] = useState('0')
+    const [channelId, setChannelId] = useState()
     const currentChannelId = useChannelId()
     const setCurrentChannelId = useChannelIdUpdate()
 
@@ -37,10 +40,13 @@ function SingleWorkspace() {
 
     if (!channels.length) return null
 
+
     const handleChannelClick = async (channelId) => {
         // setCurrentChannelId(channelId)
         setChannelId(channelId)
     }
+
+    if (!channelId) setChannelId(channels[0].id)
 
     return (
         <div className='workspace-container'>
@@ -61,12 +67,11 @@ function SingleWorkspace() {
                         return <div className='singleChannel' key={channel.id}>
                             <div className='channel-name' onClick={() => handleChannelClick(channel.id)}>{channel.name}</div>
                         </div>
-
                     })}
                 </div>
             </div>
             {/* <SingleChannel channelId={currentChannelId} /> */}
-            <SingleChannel channelId={channelId} />
+            <SingleChannel channels={channels} channelId={channelId} />
         </div>
     );
 }
