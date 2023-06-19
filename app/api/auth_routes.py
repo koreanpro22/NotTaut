@@ -62,21 +62,16 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        workspace = Workspace.query.get(1)
-        channel1 = Channel.query.get(1)
-        channel2 = Channel.query.get(2)
         user = User(
             name=form.data['name'],
             email=form.data['email'],
-            hashed_password=form.data['password'],
-            user_workspaces=[workspace],
-            user_channels=[channel1, channel2]
+            password=form.data['password']
         )
 
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        return user.to_dict_all()
+        return user.to_dict_relationship()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 

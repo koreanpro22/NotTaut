@@ -29,13 +29,26 @@ def create_workspace():
     if form.validate_on_submit():
         new_workspace = Workspace(
             name=form.data['name'],
-            owner_id=current_user['id']
+            owner_id=current_user.id,
+            workspace_users=[current_user]
         )
         # Add board to database
         db.session.add(new_workspace)
         # Updates database
         db.session.commit()
-        return { 'workspace': new_workspace.to_dict_all() }
+
+
+
+        general_channel = Channel(
+            name='General',
+            workspace_id=new_workspace.id,
+            channel_users=[current_user]
+        )
+
+        db.session.add(general_channel)
+        db.session.commit()
+
+        return { 'workspace': new_workspace.to_dict_relationship() }
     # Returns validation errors
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 

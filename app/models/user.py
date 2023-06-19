@@ -1,5 +1,5 @@
-from .db import db, environment, SCHEMA
 from werkzeug.security import generate_password_hash, check_password_hash
+from .db import db, environment, SCHEMA
 from flask_login import UserMixin
 from datetime import datetime
 from .user_channel import users_channels

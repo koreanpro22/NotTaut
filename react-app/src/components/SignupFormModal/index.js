@@ -3,8 +3,10 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { signUp } from "../../store/session";
 import "./SignupForm.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function SignupFormModal() {
+	const history = useHistory();
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState("");
 	const [name, setName] = useState("");
@@ -38,6 +40,7 @@ function SignupFormModal() {
 				setErrors(data);
 			} else {
 				closeModal();
+				history.push('/')
 			}
 		} else {
 			setErrors([
