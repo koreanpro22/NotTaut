@@ -1,9 +1,9 @@
 // constants
 const GET_ALL_CHANNELS = "channel/GET_ALL_CHANNELS";
-// const GET_SINGLE_CHANNEL = "channel/GET_SINGLE_CHANNEL";
 const CREATE_SINGLE_CHANNEL = "channel/CREATE_SINGLE_CHANNEL";
 const UPDATE_SINGLE_CHANNEL = "channel/UPDATE_SINGLE_CHANNEL";
 const DELETE_SINGLE_CHANNEL = "channel/DELETE_SINGLE_CHANNEL";
+const SET_CURRENT_CHANNEL = "channel/SET_CURRENT_CHANNEL";
 const CLEAR = "channel/CLEAR";
 
 const getAllChannelsAction = (channels) => ({
@@ -28,6 +28,11 @@ const updateSingleChannelAction = (channel) => ({
 
 const deleteSingleChannelAction = (channelId) => ({
 	type: DELETE_SINGLE_CHANNEL,
+	payload: channelId,
+});
+
+const setCurrentChannelAction = (channelId) => ({
+	type: SET_CURRENT_CHANNEL,
 	payload: channelId,
 });
 
@@ -144,6 +149,10 @@ export const deleteSingleChannelThunk = (channelId) => async (dispatch) => {
 	}
 };
 
+export const setCurrentChannelThunk = (channelId) => async (dispatch) => {
+	dispatch(setCurrentChannelAction(channelId))
+};
+
 
 const initialState = { currentChannel: null, allChannels: {} };
 
@@ -156,14 +165,10 @@ export default function reducer(state = initialState, action) {
 			});
 			return newState
 		}
-		// case GET_SINGLE_CHANNEL:{
-        //     const newState = {}
-        //     newState.currentChannel = action.payload
-        //     return newState;
-        // }
 		case CREATE_SINGLE_CHANNEL:{
             const newState = { ...state, allChannels : { ...state.allChannels }}
             newState.allChannels[action.payload.id] = action.payload
+			newState.currentChannel = action.payload.id
             return newState;
         }
 		case UPDATE_SINGLE_CHANNEL:{
@@ -174,6 +179,12 @@ export default function reducer(state = initialState, action) {
 		case DELETE_SINGLE_CHANNEL: {
 			const newState = { ...state, allChannels : { ...state.allChannels }}
 			delete newState.allChannels[action.payload]
+			newState.currentChannel = null
+			return newState
+		}
+		case SET_CURRENT_CHANNEL: {
+			const newState = { ...state, allChannels : { ...state.allChannels }}
+			newState.currentChannel = action.payload
 			return newState
 		}
 		default:

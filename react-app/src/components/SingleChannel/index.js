@@ -6,7 +6,6 @@ import { deleteSingleMessageThunk, getAllChannelMessagesThunk, updateSingleMessa
 import OpenModalButton from '../OpenModalButton';
 import EditChannelModal from '../EditChannelModal';
 import DeleteChannelModal from '../DeleteChannelModal';
-import { useChannelIdUpdate } from '../../context/ChannelIdProvider';
 import { io } from 'socket.io-client';
 import MessageModal from '../MessageModal';
 import '../MessageModal/MessageModal.css';
@@ -16,27 +15,25 @@ let socket;
 
 function SingleChannel({ channels, channelId }) {
     const { workspaceId } = useParams();
+    const dispatch = useDispatch()
     const allChannels = useSelector(state => state.channel.allChannels)
-    const channel = allChannels[channelId]
+    const currentChannelId = useSelector(state => state.channel.currentChannel)
+    console.log('Channel Id in single channel component ', currentChannelId)
     const sessionUser = useSelector(state => state.session.user)
     const allMessagesObj = useSelector(state => state.message.messages)
     const allMessages = Object.values(allMessagesObj)
-    const workspace = useSelector(state => state.workspace.currentWorkspace)
-    const dispatch = useDispatch()
     const [message, setMessage] = useState('')
-    const setCurrentChannelId = useChannelIdUpdate()
     const timestamp = Date.now()
     const todayDate = new Date(timestamp)
     const [showOptions, setShowOptions] = useState(false);
 
     useEffect(() => {
         dispatch(getAllChannelsThunk(workspaceId))
-        dispatch(getAllChannelMessagesThunk(channelId))
+        // dispatch(getAllChannelMessagesThunk(channelId))
     }, [channelId])
 
     useEffect(() => {
         socket = io();
-
         socket.on('chat', (chat) => {
             if (chat.message_id) {
                 if (Object.values(chat).length > 1) {
@@ -49,29 +46,20 @@ function SingleChannel({ channels, channelId }) {
             }
             dispatch(getAllChannelsThunk(workspaceId))
         })
-
         return (() => {
             socket.disconnect()
         })
     }, [io])
 
-    // useEffect(() => {
-    //     socket.on('chat', (chat) => {
-    //         dispatch(getAllChannelsThunk(workspaceId))
-    //         dispatch(getAllChannelMessagesThunk(channelId))
-    //     })
-
-    // }, [dispatch, channelId, Object.values(allMessages).length])
-
     const sendChat = async (e) => {
         e.preventDefault()
         await socket.emit('chat', { user: sessionUser.name, text: message, user_id: sessionUser.id, channel_id: channel.id })
-        // dispatch(getAllChannelMessagesThunk(channelId))
         setMessage('')
     }
 
-    if (channelId === '0') return null
+    if (!channelId) return null
 
+    const channel = allChannels[channelId]
     const messages = allMessages.filter(message => message.channel_id === +channelId)
 
     return (
@@ -87,7 +75,7 @@ function SingleChannel({ channels, channelId }) {
                         />
                         {channel.id !== channels[0].id && <OpenModalButton
                             buttonText='Delete'
-                            modalComponent={<DeleteChannelModal channel={channel} setCurrentChannelId={setCurrentChannelId} />}
+                            modalComponent={<DeleteChannelModal channel={channel} />}
                             />
                         }
                     </div>}
@@ -130,8 +118,6 @@ function SingleChannel({ channels, channelId }) {
                                 required
                             />
                         </label>
-                        {/* <div className='create-message-bottom'>
-                        </div> */}
                         <button type="submit" className='create-message-button'>Send Message</button>
                     </form>
                 </div>

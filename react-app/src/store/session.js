@@ -46,7 +46,6 @@ export const login = (email, password) => async (dispatch) => {
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
-		console.log("🚀 ~ file: session.js:49 ~ login ~ data:", data)
 		if (data.errors) {
 			return data.errors;
 		}
@@ -82,7 +81,6 @@ export const signUp = (name, email, password) => async (dispatch) => {
 
 	if (response.ok) {
 		const data = await response.json();
-		console.log("🚀 ~ file: session.js:84 ~ signUp ~ data:", data)
 		const formData = new FormData();
 		formData.append('name', `${data.name}'s workspace`)
 		await dispatch(setUser(data))
@@ -92,7 +90,7 @@ export const signUp = (name, email, password) => async (dispatch) => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				name : `${data.name}'s workspace`
+				name: `${data.name}'s workspace`
 			}),
 		})
 		return;
@@ -107,15 +105,15 @@ export const signUp = (name, email, password) => async (dispatch) => {
 	}
 };
 
-const initialState = { user: null, allUsers : null };
+const initialState = { user: null, allUsers: null };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER:
 			return { user: action.payload };
-			case REMOVE_USER:
-				return { ...state,user: null };
-				default:
-					return state;
+		case REMOVE_USER:
+			return { ...state, user: null };
+		default:
+			return state;
 	}
 }

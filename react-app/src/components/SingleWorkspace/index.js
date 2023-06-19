@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import CreateChannelModal from '../CreateChannelModal';
 import OpenModalButton from '../OpenModalButton';
 import SingleChannel from '../SingleChannel';
-import { useChannelId, useChannelIdUpdate } from '../../context/ChannelIdProvider';
 import { getAllUserWorkspacesThunk } from '../../store/workspace';
-import { getAllChannelsThunk } from '../../store/channel';
+import { getAllChannelsThunk, setCurrentChannelThunk } from '../../store/channel';
 import './SingleWorkspace.css';
 
 function SingleWorkspace() {
@@ -16,35 +15,32 @@ function SingleWorkspace() {
     const allWorkspaces = Object.values(allWorkspacesObj)
     const allChannelsObj = useSelector(state => state.channel.allChannels)
     const allChannels = Object.values(allChannelsObj)
+    const currentChannelId = useSelector(state => state.channel.currentChannel);
+    console.log('Single workspace loaded ==> Current Channel Id', currentChannelId)
     const channels = allChannels.filter(channel => channel.workspace_id === +workspaceId)
     const dispatch = useDispatch()
-    const [channelId, setChannelId] = useState()
-    const currentChannelId = useChannelId()
-    const setCurrentChannelId = useChannelIdUpdate()
 
     useEffect(() => {
         dispatch(getAllUserWorkspacesThunk(allWorkspaces))
         dispatch(getAllChannelsThunk(channels, workspaceId))
+        // dispatch(setCurrentChannelThunk())
     }, [dispatch])
 
     if (!sessionUser || !allWorkspaces.length) return null
 
     const currentWorkspace = allWorkspacesObj[workspaceId]
 
-    // if (!channels.length && !currentChannelId) {
-    //     setCurrentChannelId(channels[0].id)
-    // }
-
     if (!channels.length) return null
 
-
     const handleChannelClick = async (channelId) => {
-        // setCurrentChannelId(channelId)
-        setChannelId(channelId)
+        dispatch(setCurrentChannelThunk(channelId))
     }
 
-    if (!channelId) setChannelId(channels[0].id)
-
+    if (!currentChannelId) {
+        dispatch(setCurrentChannelThunk(channels[0].id))
+    }
+    // if (!channelId && (!allChannelsObj.channelId || !channels[0].id === channelId)) setChannelId(channels[0].id)
+    console.log('channels in workspace ', channels)
     return (
         <div className='workspace-container'>
             <div className='single-workspace-details'>
@@ -52,7 +48,7 @@ function SingleWorkspace() {
                 {sessionUser.id === currentWorkspace.owner_id && <div>
                     <OpenModalButton
                         buttonText='Create New Channel'
-                        modalComponent={<CreateChannelModal setCurrentChannelId={setCurrentChannelId} workspaceId={workspaceId} />}
+                        modalComponent={<CreateChannelModal workspaceId={workspaceId} />}
                     />
                 </div>}
                 <div className='all-channels'>
@@ -67,8 +63,7 @@ function SingleWorkspace() {
                     })}
                 </div>
             </div>
-            {/* <SingleChannel channelId={currentChannelId} /> */}
-            <SingleChannel channels={channels} channelId={channelId} />
+            <SingleChannel channels={channels} channelId={currentChannelId}/>
         </div>
     );
 }

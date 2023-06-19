@@ -21,7 +21,7 @@ def seed_channels(users):
         workspace_id='2',
         channel_users=users
     )
-
+    
     channel4 = Channel(
         name='Channel 4 Test',
         workspace_id='2',

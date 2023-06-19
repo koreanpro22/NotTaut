@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import { authenticate } from "../../store/session";
 import './DeleteChannelModal.css';
 
-function DeleteChannelModal({ channel, setCurrentChannelId }) {
+function DeleteChannelModal({ channel }) {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -15,7 +15,6 @@ function DeleteChannelModal({ channel, setCurrentChannelId }) {
 
     const handleDelete = async (e) => {
         e.preventDefault();
-        setCurrentChannelId('');
         await dispatch(deleteSingleChannelThunk(channel.id));
         await dispatch(authenticate())
         await dispatch(getSingleWorkspaceThunk(channel.workspace.id))

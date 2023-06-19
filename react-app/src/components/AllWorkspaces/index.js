@@ -9,7 +9,10 @@ function AllWorkspaces() {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const allWorkspacesObj = useSelector(state => state.workspace.allWorkspaces);
+    console.log("🚀 ~ file: index.js:12 ~ AllWorkspaces ~ allWorkspacesObj:", allWorkspacesObj)
     const allWorkspaces = Object.values(allWorkspacesObj)
+    console.log('All workspaces for user ', allWorkspaces)
+    // const workspaces = allWorkspaces.filter(workspace => workspace.)
 
     useEffect(() => {
         dispatch(getAllUserWorkspacesThunk(allWorkspaces))
@@ -17,9 +20,11 @@ function AllWorkspaces() {
 
     if (!sessionUser || !allWorkspaces.length) return null
 
+    console.log("🚀 ~ file: index.js:44 ~ AllWorkspaces ~ sessionUser:", sessionUser)
+    sessionUser.user_workspaces.map(workspaceId => console.log(workspaceId))
+
 
     // default workspace image = https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8Zunm_NQV4NA39v57qA4FPasJnxrAxzwyYLGLGI7YBw&usqp=CAU&ec=48665701
-
     return (
         <div className='all-workspaces-container'>
             <h1>Choose your workspace</h1>
