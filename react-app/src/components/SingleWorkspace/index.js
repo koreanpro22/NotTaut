@@ -15,11 +15,8 @@ function SingleWorkspace() {
     const allWorkspacesObj = useSelector(state => state.workspace.allWorkspaces);
     const allWorkspaces = Object.values(allWorkspacesObj)
     const allChannelsObj = useSelector(state => state.channel.allChannels)
-    // console.log("🚀 ~ file: index.js:18 ~ SingleWorkspace ~ allChannelsObj:", allChannelsObj)
     const allChannels = Object.values(allChannelsObj)
-    // console.log("🚀 ~ file: index.js:21 ~ SingleWorkspace ~ allChannels:", allChannels)
     const channels = allChannels.filter(channel => channel.workspace_id === +workspaceId)
-    // console.log("🚀 ~ file: index.js:23 ~ SingleWorkspace ~ channels:", channels)
     const dispatch = useDispatch()
     const [channelId, setChannelId] = useState()
     const currentChannelId = useChannelId()

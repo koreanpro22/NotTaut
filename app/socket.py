@@ -14,12 +14,9 @@ socketio = SocketIO(cors_allowed_origins=origins)
 @socketio.on("chat")
 def handle_chat(data):
     if data != 'User connected!':
-        print('hitting socket backend ================================================>')
         if ('message_id' in data):
             message = Message.query.get(data['message_id'])
-            print('hitting edit ==================================================================> ', data)
             if (len(data) > 1):
-                print('hitting edit ==================================================================> ', data)
                 message.text = data['text']
             else:
                 db.session.delete(message)

@@ -39,7 +39,6 @@ function MessageModal({ user, channel, message, socket }) {
                             socket={socket} />}
                     />
                 }
-                {console.log('message in button', message)}
                 {<OpenModalButton
                     buttonText='Delete'
                     onItemClick={closeOptions}

@@ -10,7 +10,6 @@ function AllWorkspaces() {
     const sessionUser = useSelector(state => state.session.user);
     const allWorkspacesObj = useSelector(state => state.workspace.allWorkspaces);
     const allWorkspaces = Object.values(allWorkspacesObj)
-    console.log(allWorkspaces)
 
     useEffect(() => {
         dispatch(getAllUserWorkspacesThunk(allWorkspaces))

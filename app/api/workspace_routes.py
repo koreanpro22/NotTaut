@@ -19,7 +19,6 @@ def all_workspaces():
 @login_required
 def single_workspace(workspace_id):
     workspace = Workspace.query.get(workspace_id)
-    print(workspace)
     return {'workspace': workspace.to_dict_relationship()}
 
 @workspace_routes.route('/', methods=['POST'])

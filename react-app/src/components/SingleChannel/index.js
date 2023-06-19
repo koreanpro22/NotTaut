@@ -20,9 +20,7 @@ function SingleChannel({ channels, channelId }) {
     const channel = allChannels[channelId]
     const sessionUser = useSelector(state => state.session.user)
     const allMessagesObj = useSelector(state => state.message.messages)
-    // console.log("🚀 ~ file: index.js:23 ~ SingleChannel ~ allMessagesObj:", allMessagesObj)
     const allMessages = Object.values(allMessagesObj)
-    // console.log("🚀 ~ file: index.js:25 ~ SingleChannel ~ allMessages:", allMessages)
     const workspace = useSelector(state => state.workspace.currentWorkspace)
     const dispatch = useDispatch()
     const [message, setMessage] = useState('')
@@ -32,18 +30,15 @@ function SingleChannel({ channels, channelId }) {
     const [showOptions, setShowOptions] = useState(false);
 
     useEffect(() => {
-        console.log('hitting off channel Id')
         dispatch(getAllChannelsThunk(workspaceId))
         dispatch(getAllChannelMessagesThunk(channelId))
     }, [channelId])
 
     useEffect(() => {
-        console.log('hitting off socket')
         socket = io();
 
         socket.on('chat', (chat) => {
             if (chat.message_id) {
-                console.log("🚀 ~ file: index.js:48 ~ socket.on ~ chat:", chat)
                 if (Object.values(chat).length > 1) {
                     dispatch(updateSingleMessageThunk(chat))
                 } else {
@@ -62,7 +57,6 @@ function SingleChannel({ channels, channelId }) {
 
     // useEffect(() => {
     //     socket.on('chat', (chat) => {
-    //         console.log('Hitting socket ======================================================>')
     //         dispatch(getAllChannelsThunk(workspaceId))
     //         dispatch(getAllChannelMessagesThunk(channelId))
     //     })
@@ -79,7 +73,6 @@ function SingleChannel({ channels, channelId }) {
     if (channelId === '0') return null
 
     const messages = allMessages.filter(message => message.channel_id === +channelId)
-    // console.log("🚀 ~ file: index.js:75 ~ SingleChannel ~ messages:", messages)
 
     return (
         <div className='single-channel-container'>

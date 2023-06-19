@@ -10,24 +10,11 @@ function EditMessageModal({ message, messageId, channelId, socket }) {
 	const [newMessage, setNewMessage] = useState(message);
 	const { closeModal } = useModal();
 	const updateChat = async (e) => {
-		console.log('hitting edit')
 		closeModal();
 		e.preventDefault()
 		await socket.emit('chat', { 'text' : newMessage, 'message_id' : messageId })
         // dispatch(getAllChannelMessagesThunk(channelId))
 	}
-
-
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		if (newMessage) {
-			const message = {
-				text: newMessage
-			}
-            dispatch(updateSingleMessageThunk(message, messageId))
-			closeModal();
-		}
-	};
 
 	return (
 		<div className="edit-message-modal">
