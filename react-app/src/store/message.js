@@ -27,9 +27,12 @@ const createSingleMessageAction = (message) => ({
 	payload: message,
 });
 
-const updateSingleMessageAction = (message) => ({
+const updateSingleMessageAction = (text, messageId) => ({
 	type: UPDATE_SINGLE_MESSAGE,
-	payload: message,
+	payload: {
+		text,
+		messageId
+	}
 });
 
 const deleteSingleMessageAction = (messageId) => ({
@@ -99,46 +102,12 @@ export const createSingleMessageThunk = (message, channelId) => async (dispatch)
 	}
 };
 
-export const updateSingleMessageThunk = (message, messageId) => async (dispatch) => {
-	const response = await fetch(`/api/messages/single/${messageId}`, {
-		method: "PUT",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(message),
-	});
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(updateSingleMessageAction(data.message));
-		return null;
-	} else if (response.status < 500) {
-		const data = await response.json();
-		if (data.errors) {
-			return data.errors;
-		}
-	} else {
-		return response
-	}
+export const updateSingleMessageThunk = ({ text, message_id}) => async (dispatch) => {
+	dispatch(updateSingleMessageAction(text, message_id))
 };
 
 export const deleteSingleMessageThunk = (messageId) => async (dispatch) => {
-	const response = await fetch(`/api/messages/${messageId}`, {
-		method: "DELETE",
-		headers: {
-			"Content-Type": "application/json",
-		}
-	});
-	if (response.ok) {
-		dispatch(deleteSingleMessageAction(messageId));
-		return null;
-	} else if (response.status < 500) {
-		const data = await response.json();
-		if (data.errors) {
-			return data.errors;
-		}
-	} else {
-		return response
-	}
+	dispatch(deleteSingleMessageAction(messageId))
 };
 
 
@@ -153,7 +122,7 @@ export default function reducer(state = initialState, action) {
 		// }
 		case GET_ALL_CHANNEL_MESSAGES: {
 			const messages = action.payload
-			const newState = { messages: {} }
+			const newState = { messages: { ...state.messages } }
 			messages.forEach(m => {
 				const id = m.id
 				newState.messages[id] = m
@@ -174,14 +143,13 @@ export default function reducer(state = initialState, action) {
 			return newState;
 		}
 		case UPDATE_SINGLE_MESSAGE: {
-			const newState = { ...state, messages: [...state.messages] }
-			const index = newState.messages.findIndex(message => message.id === action.payload.id)
-			newState.messages[index] = action.payload
+			const newState = { ...state, messages: { ...state.messages } }
+			newState.messages[action.payload.messageId].text = action.payload.text
 			return newState;
 		}
 		case DELETE_SINGLE_MESSAGE: {
-			const newState = { ...state, messages: [...state.messages] }
-			newState.messages = newState.messages.filter(message => message.id !== action.payload)
+			const newState = { ...state, messages: { ...state.messages } }
+			delete newState.messages[action.payload]
 			return newState;
 		}
 		case CLEAR: {

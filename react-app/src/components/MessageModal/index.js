@@ -4,7 +4,7 @@ import EditMessageModal from "../EditMessageModal";
 import './MessageModal.css'
 import DeleteMessageModal from "../DeleteMessageModal";
 
-function MessageModal({ user, channel, message }) {
+function MessageModal({ user, channel, message, socket }) {
 
     const [showOptions, setShowOptions] = useState(false);
     const openOptions = () => {
@@ -34,7 +34,9 @@ function MessageModal({ user, channel, message }) {
                         onItemClick={closeOptions}
                         modalComponent={<EditMessageModal
                             message={message.text}
-                            messageId={message.id} />}
+                            messageId={message.id}
+                            channelId={channel.id}
+                            socket={socket} />}
                     />
                 }
                 {console.log('message in button', message)}
@@ -44,6 +46,7 @@ function MessageModal({ user, channel, message }) {
                     modalComponent={<DeleteMessageModal
                         messageId={message.id}
                         channelId={message.channel_id}
+                        socket={socket}
                     />}
                 />
                 }

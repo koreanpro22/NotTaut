@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllChannelsThunk } from '../../store/channel';
 import './SingleChannel.css'
-import { getAllChannelMessagesThunk } from '../../store/message';
+import { deleteSingleMessageThunk, getAllChannelMessagesThunk, updateSingleMessageThunk } from '../../store/message';
 import OpenModalButton from '../OpenModalButton';
 import EditChannelModal from '../EditChannelModal';
 import DeleteChannelModal from '../DeleteChannelModal';
@@ -19,7 +19,10 @@ function SingleChannel({ channels, channelId }) {
     const allChannels = useSelector(state => state.channel.allChannels)
     const channel = allChannels[channelId]
     const sessionUser = useSelector(state => state.session.user)
-    const allMessages = useSelector(state => state.message.messages)
+    const allMessagesObj = useSelector(state => state.message.messages)
+    // console.log("🚀 ~ file: index.js:23 ~ SingleChannel ~ allMessagesObj:", allMessagesObj)
+    const allMessages = Object.values(allMessagesObj)
+    // console.log("🚀 ~ file: index.js:25 ~ SingleChannel ~ allMessages:", allMessages)
     const workspace = useSelector(state => state.workspace.currentWorkspace)
     const dispatch = useDispatch()
     const [message, setMessage] = useState('')
@@ -29,28 +32,54 @@ function SingleChannel({ channels, channelId }) {
     const [showOptions, setShowOptions] = useState(false);
 
     useEffect(() => {
+        console.log('hitting off channel Id')
+        dispatch(getAllChannelsThunk(workspaceId))
+        dispatch(getAllChannelMessagesThunk(channelId))
+    }, [channelId])
+
+    useEffect(() => {
+        console.log('hitting off socket')
         socket = io();
+
         socket.on('chat', (chat) => {
-            console.log('Hitting socket ======================================================>')
+            if (chat.message_id) {
+                console.log("🚀 ~ file: index.js:48 ~ socket.on ~ chat:", chat)
+                if (Object.values(chat).length > 1) {
+                    dispatch(updateSingleMessageThunk(chat))
+                } else {
+                    dispatch(deleteSingleMessageThunk(chat.message_id))
+                }
+            } else {
+                dispatch(getAllChannelMessagesThunk(channelId))
+            }
             dispatch(getAllChannelsThunk(workspaceId))
-            dispatch(getAllChannelMessagesThunk(channelId))
         })
 
         return (() => {
             socket.disconnect()
         })
-    }, [dispatch, channelId, Object.values(allMessages).length])
+    }, [io])
+
+    // useEffect(() => {
+    //     socket.on('chat', (chat) => {
+    //         console.log('Hitting socket ======================================================>')
+    //         dispatch(getAllChannelsThunk(workspaceId))
+    //         dispatch(getAllChannelMessagesThunk(channelId))
+    //     })
+
+    // }, [dispatch, channelId, Object.values(allMessages).length])
 
     const sendChat = async (e) => {
         e.preventDefault()
         await socket.emit('chat', { user: sessionUser.name, text: message, user_id: sessionUser.id, channel_id: channel.id })
-        dispatch(getAllChannelMessagesThunk(channelId))
+        // dispatch(getAllChannelMessagesThunk(channelId))
         setMessage('')
     }
 
     if (channelId === '0') return null
 
-    const messages = Object.values(allMessages);
+    const messages = allMessages.filter(message => message.channel_id === +channelId)
+    // console.log("🚀 ~ file: index.js:75 ~ SingleChannel ~ messages:", messages)
 
     return (
         <div className='single-channel-container'>
@@ -88,7 +117,7 @@ function SingleChannel({ channels, channelId }) {
                                     </div>
                                 </div>
                                 <div className='message-modal'>
-                                    <MessageModal user={sessionUser} channel={channel} message={message} />
+                                    <MessageModal user={sessionUser} channel={channel} message={message} socket={socket}/>
                                 </div>
                             </div>
                         </>

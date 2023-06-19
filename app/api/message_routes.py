@@ -21,7 +21,7 @@ def get_channel_message(recipient_id):
 @login_required
 def all_messages(channel_id):
     messages = Message.query.filter(Message.channel_id == channel_id)
-    return {'messages': [message.to_dict_all() for message in messages]}
+    return {'messages': [message.to_dict_relationship() for message in messages]}
 
 #GET SINGLE MESSAGE BY MESSAGE ID
 @message_routes.route('/single/<int:message_id>')

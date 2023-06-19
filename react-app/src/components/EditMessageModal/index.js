@@ -1,23 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { io } from "socket.io-client";
-import { updateSingleMessageThunk } from "../../store/message";
+import { getAllChannelMessagesThunk, updateSingleMessageThunk } from "../../store/message";
 import './EditMessageModal.css';
 
-let socket;
-
-function EditMessageModal({ message, messageId }) {
+function EditMessageModal({ message, messageId, channelId, socket }) {
 
 	const dispatch = useDispatch();
 	const [newMessage, setNewMessage] = useState(message);
 	const { closeModal } = useModal();
-	socket = io();
 	const updateChat = async (e) => {
 		console.log('hitting edit')
 		closeModal();
 		e.preventDefault()
 		await socket.emit('chat', { 'text' : newMessage, 'message_id' : messageId })
+        // dispatch(getAllChannelMessagesThunk(channelId))
 	}
 
 
