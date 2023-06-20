@@ -25,7 +25,6 @@ function EditChannelModal({ channel }) {
 			await dispatch(updateSingleChannelThunk(newChannel, channel.id));
 			closeModal();
 			// await dispatch(getSingleChannelThunk(channel.id))
-			await dispatch(authenticate())
 			await dispatch(getSingleWorkspaceThunk(channel.workspace.id))
 
 		}
