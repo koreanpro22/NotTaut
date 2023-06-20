@@ -47,7 +47,7 @@ function SingleChannel({ channels, channelId }) {
                 console.log('channel id', currentChannelId)
                 // console.log('channel id', channelId)
                 // dispatch(getAllChannelMessagesThunk(messages, currentChannelId))
-                dispatch(createSingleMessageThunk(chat, currentChannelId))
+                // dispatch(createSingleMessageThunk(chat, currentChannelId))
             }
             dispatch(getAllChannelMessagesThunk(messages, currentChannelId))
             // dispatch(getAllChannelsThunk(workspaceId))
