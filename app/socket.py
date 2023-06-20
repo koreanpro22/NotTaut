@@ -28,4 +28,7 @@ def handle_chat(data):
             )
             db.session.add(message)
         db.session.commit()
+    # print('MESSAGE IN SOCKET PY ===================================>', message)
+    # print('DICT MESSAGE IN SOCKET PY ===================================>', message.to_dict())
+    # print('ALL MESSAGE IN SOCKET PY ===================================>', message.to_dict_all())
     emit('chat', data, broadcast=True)

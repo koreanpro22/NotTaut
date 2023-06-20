@@ -36,6 +36,7 @@ function SingleChannel({ channels, channelId }) {
     useEffect(() => {
         socket = io();
         socket.on('chat', (chat) => {
+            // console.log('Inside Socket chat', chat)
             if (chat.message_id) {
                 if (Object.values(chat).length > 1) {
                     dispatch(updateSingleMessageThunk(chat))
@@ -43,7 +44,6 @@ function SingleChannel({ channels, channelId }) {
                     dispatch(deleteSingleMessageThunk(chat.message_id))
                 }
             } else {
-                console.log('dispatch in chat', chat)
                 console.log('channel id', currentChannelId)
                 // console.log('channel id', channelId)
                 // dispatch(getAllChannelMessagesThunk(messages, currentChannelId))

@@ -20,7 +20,7 @@ function DeleteChannelModal({ channel }) {
         console.log('handle delete =====> ', allChannels[channel.id])
         await dispatch(deleteChannelMessagesAction(allChannels[channel.id].messages))
         await dispatch(deleteSingleChannelThunk(channel.id));
-        await dispatch(authenticate())
+        // await dispatch(authenticate())
         // await dispatch(getSingleWorkspaceThunk(channel.workspace.id))
         history.push(`/workspace/${channel.workspace.id}`);
         closeModal();
