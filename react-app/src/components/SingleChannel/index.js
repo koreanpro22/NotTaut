@@ -87,7 +87,7 @@ function SingleChannel({ channels, channelId }) {
                             modalComponent={<DeleteChannelModal channel={channel} />}
                             />
                         }
-                    </div>}a
+                    </div>}
                 </div>
                 <div>
                     {channel.channel_users.length} members
