@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { getAllChannelMessagesThunk, updateSingleMessageThunk } from "../../store/message";
 import './EditMessageModal.css';
 
 function EditMessageModal({ message, messageId, channelId, socket }) {
@@ -13,7 +12,6 @@ function EditMessageModal({ message, messageId, channelId, socket }) {
 		closeModal();
 		e.preventDefault()
 		await socket.emit('chat', { 'text' : newMessage, 'message_id' : messageId })
-        // dispatch(getAllChannelMessagesThunk(channelId))
 	}
 
 	return (

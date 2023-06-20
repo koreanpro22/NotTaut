@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllChannelsThunk, setCurrentChannelThunk } from '../../store/channel';
 import './SingleChannel.css'
-import { deleteSingleMessageThunk, getAllChannelMessagesThunk, updateSingleMessageThunk } from '../../store/message';
+import { createSingleMessageThunk, deleteSingleMessageThunk, getAllChannelMessagesThunk, updateSingleMessageThunk } from '../../store/message';
 import OpenModalButton from '../OpenModalButton';
 import EditChannelModal from '../EditChannelModal';
 import DeleteChannelModal from '../DeleteChannelModal';
@@ -21,6 +21,8 @@ function SingleChannel({ channels, channelId }) {
     const sessionUser = useSelector(state => state.session.user)
     const allMessagesObj = useSelector(state => state.message.messages)
     const allMessages = Object.values(allMessagesObj)
+    const messages = allMessages.filter(message => message.channel_id === +channelId)
+    console.log("🚀 ~ file: index.js:25 ~ SingleChannel ~ messages:", messages)
     const [message, setMessage] = useState('')
     // const timestamp = Date.now()
     // const todayDate = new Date(timestamp)
@@ -28,8 +30,8 @@ function SingleChannel({ channels, channelId }) {
 
     useEffect(() => {
         dispatch(getAllChannelsThunk(workspaceId))
-        dispatch(getAllChannelMessagesThunk(channelId))
-    }, [channelId])
+        dispatch(getAllChannelMessagesThunk(messages, channelId))
+    }, [dispatch, channelId])
 
     useEffect(() => {
         socket = io();
@@ -43,9 +45,11 @@ function SingleChannel({ channels, channelId }) {
             } else {
                 console.log('dispatch in chat', chat)
                 console.log('channel id', currentChannelId)
-                dispatch(getAllChannelMessagesThunk(currentChannelId))
+                // console.log('channel id', channelId)
+                // dispatch(getAllChannelMessagesThunk(messages, currentChannelId))
+                dispatch(createSingleMessageThunk(chat, currentChannelId))
             }
-            dispatch(getAllChannelMessagesThunk(currentChannelId))
+            dispatch(getAllChannelMessagesThunk(messages, currentChannelId))
             // dispatch(getAllChannelsThunk(workspaceId))
         })
         return (() => {
@@ -56,6 +60,7 @@ function SingleChannel({ channels, channelId }) {
     const sendChat = async (e) => {
         e.preventDefault()
         await socket.emit('chat', { user: sessionUser.name, text: message, user_id: sessionUser.id, channel_id: channel.id })
+        dispatch(getAllChannelMessagesThunk(messages, currentChannelId))
         setMessage('')
     }
 
@@ -65,10 +70,6 @@ function SingleChannel({ channels, channelId }) {
     }
 
     const channel = allChannels[channelId]
-    const messages = allMessages.filter(message => message.channel_id === +channelId)
-    console.log("🚀 ~ file: index.js:65 ~ SingleChannel ~ messages:", messages)
-
-
 
     return (
         <div className='single-channel-container'>
@@ -86,7 +87,7 @@ function SingleChannel({ channels, channelId }) {
                             modalComponent={<DeleteChannelModal channel={channel} />}
                             />
                         }
-                    </div>}
+                    </div>}a
                 </div>
                 <div>
                     {channel.channel_users.length} members

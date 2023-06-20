@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { createSingleChannelThunk } from "../../store/channel";
+import { createSingleChannelThunk, setCurrentChannelThunk } from "../../store/channel";
 import './CreateChannelModal.css';
 
 function CreateChannelModal({ workspaceId }) {
@@ -16,7 +16,8 @@ function CreateChannelModal({ workspaceId }) {
 			const newChannel = {
 				name: channelName
 			}
-			dispatch(createSingleChannelThunk(newChannel, workspaceId));
+			const res = await dispatch(createSingleChannelThunk(newChannel, workspaceId));
+			dispatch(setCurrentChannelThunk(res.id))
 			closeModal();
 		}
 	};

@@ -16,7 +16,7 @@ function AllWorkspaces() {
 
     useEffect(() => {
         dispatch(getAllUserWorkspacesThunk(allWorkspaces))
-    }, [dispatch])
+    }, [dispatch, allWorkspaces.length])
 
     if (!sessionUser || !allWorkspaces.length) return null
 

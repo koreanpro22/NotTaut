@@ -1,7 +1,6 @@
 import React from "react";
 import { useModal } from "../../context/Modal";
 import './DeleteMessageModal.css';
-import { getAllChannelMessagesThunk } from "../../store/message";
 import { useDispatch } from "react-redux";
 
 function DeleteMessageModal({ messageId, channelId, socket }) {
@@ -12,7 +11,6 @@ function DeleteMessageModal({ messageId, channelId, socket }) {
     const deleteChat = async (e, messageId) => {
         e.preventDefault()
         await socket.emit('chat', { 'message_id': messageId })
-        // dispatch(getAllChannelMessagesThunk(channelId))
     }
 
     return (
