@@ -14,8 +14,8 @@ class Channel(db.Model, UserMixin):
     topic = db.Column(db.String(40), nullable=True)
     description = db.Column(db.String(100), nullable=True)
     dm = db.Column(db.Boolean, nullable=True)
-    created_at = db.Column(db.Date, default=datetime.today)
-    updated_at = db.Column(db.Date, default=datetime.today)
+    created_at = db.Column(db.Date, default=datetime.utcnow)
+    updated_at = db.Column(db.Date, default=datetime.utcnow)
     workspace_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('workspaces.id')))
 
     workspace = db.relationship('Workspace', back_populates='channels')
@@ -31,8 +31,6 @@ class Channel(db.Model, UserMixin):
             'topic': self.topic,
             'description': self.description,
             'dm': self.dm,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at,
             'workspace_id': self.workspace_id
         }
 
