@@ -58,26 +58,9 @@ export const getAllChannelMessagesThunk = (messages, channelId) => async (dispat
 	}
 };
 
-export const createSingleMessageThunk = (message, channelId) => async (dispatch) => {
-	const response = await fetch(`/api/messages/single/${channelId}`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(message),
-	});
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(createSingleMessageAction(data.message));
-		return null;
-	} else if (response.status < 500) {
-		const data = await response.json();
-		if (data.errors) {
-			return data.errors;
-		}
-	} else {
-		return response
-	}
+export const createSingleMessageThunk = (message) => async (dispatch) => {
+	dispatch(createSingleMessageAction(message));
+
 };
 
 export const updateSingleMessageThunk = ({ text, message_id}) => async (dispatch) => {

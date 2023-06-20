@@ -55,9 +55,7 @@ class User(db.Model, UserMixin):
             'profile_pic': self.profile_pic,
             'title': self.title,
             'phone_number': self.phone_number,
-            'timezone': self.timezone,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'timezone': self.timezone
         }
 
     #GET ALL USER RELATIONSHIPS

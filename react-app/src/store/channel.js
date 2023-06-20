@@ -5,6 +5,7 @@ const UPDATE_SINGLE_CHANNEL = "channel/UPDATE_SINGLE_CHANNEL";
 const DELETE_SINGLE_CHANNEL = "channel/DELETE_SINGLE_CHANNEL";
 const SET_CURRENT_CHANNEL = "channel/SET_CURRENT_CHANNEL";
 const CLEAR = "channel/CLEAR";
+const CLEAR_CURRENT_CHANNEL = "channel/CLEAR_CURRENT_CHANNEL";
 
 const getAllChannelsAction = (channels) => ({
 	type: GET_ALL_CHANNELS,
@@ -38,6 +39,10 @@ const setCurrentChannelAction = (channelId) => ({
 
 export const clearChannel = () => ({
 	type: CLEAR
+})
+
+export const clearCurrentChannel = () => ({
+	type: CLEAR_CURRENT_CHANNEL
 })
 
 export const getAllChannelsThunk = (channels, workspaceId) => async (dispatch) => {
@@ -187,7 +192,15 @@ export default function reducer(state = initialState, action) {
 			return newState
 		}
 		case CLEAR: {
+			console.log('clearing back to initial state =====>', initialState)
 			return initialState
+		}
+		case CLEAR_CURRENT_CHANNEL: {
+			const newState = { ...state, allChannels : { ...state.allChannels }}
+			console.log('clearing back to initial state =====>', newState)
+			newState.currentChannel = null
+			console.log('clearing back to initial state =====>', newState)
+			return newState
 		}
 		default:
 			return state;

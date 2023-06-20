@@ -3,7 +3,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import { clearChannel } from '../../store/channel';
+import { clearChannel, clearCurrentChannel } from '../../store/channel';
 import { clearMessage } from '../../store/message';
 import { clearWorkspace } from '../../store/workspace';
 
@@ -14,6 +14,7 @@ function Navigation({ isLoaded }) {
 
 	const clickHome = async () => {
 		history.push('/');
+		dispatch(clearCurrentChannel())
 		// await dispatch(clearChannel())
 		// await dispatch(clearMessage())
 		// await dispatch(clearWorkspace())
