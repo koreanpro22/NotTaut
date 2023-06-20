@@ -16,14 +16,12 @@ function SingleWorkspace() {
     const allChannelsObj = useSelector(state => state.channel.allChannels)
     const allChannels = Object.values(allChannelsObj)
     const currentChannelId = useSelector(state => state.channel.currentChannel);
-    console.log('Single workspace loaded ==> Current Channel Id', currentChannelId)
     const channels = allChannels.filter(channel => channel.workspace_id === +workspaceId)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getAllUserWorkspacesThunk(allWorkspaces))
         dispatch(getAllChannelsThunk(channels, workspaceId))
-        // dispatch(setCurrentChannelThunk())
     }, [dispatch])
 
     if (!sessionUser || !allWorkspaces.length) return null
@@ -39,7 +37,6 @@ function SingleWorkspace() {
     if (!currentChannelId) {
         dispatch(setCurrentChannelThunk(channels[0].id))
     }
-    // if (!channelId && (!allChannelsObj.channelId || !channels[0].id === channelId)) setChannelId(channels[0].id)
     console.log('channels in workspace ', channels)
     return (
         <div className='workspace-container'>

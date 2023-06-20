@@ -1,5 +1,6 @@
 // constants
 const GET_ALL_CHANNEL_MESSAGES = "message/GET_ALL_CHANNEL_MESSAGES";
+const DELETE_CHANNEL_MESSAGES = "message/DELETE_CHANNEL_MESSAGES";
 const CREATE_SINGLE_MESSAGE = "message/CREATE_SINGLE_MESSAGE";
 const UPDATE_SINGLE_MESSAGE = "message/UPDATE_SINGLE_MESSAGE";
 const DELETE_SINGLE_MESSAGE = "message/DELETE_SINGLE_MESSAGE";
@@ -11,6 +12,10 @@ const getAllChannelMessagesAction = (messages) => ({
 	payload: messages,
 });
 
+export const deleteChannelMessagesAction = (messages) => ({
+	type: DELETE_CHANNEL_MESSAGES,
+	payload: messages
+})
 
 const createSingleMessageAction = (message) => ({
 	type: CREATE_SINGLE_MESSAGE,
@@ -92,10 +97,20 @@ export default function reducer(state = initialState, action) {
 		// }
 		case GET_ALL_CHANNEL_MESSAGES: {
 			const messages = action.payload
+			console.log('GET ALL CHANNEL MESSAGES', messages)
 			const newState = { messages: { ...state.messages } }
 			messages.forEach(m => {
 				const id = m.id
 				newState.messages[id] = m
+			});
+			return newState;
+		}
+		case DELETE_CHANNEL_MESSAGES: {
+			const messages = action.payload
+			const newState = { messages: { ...state.messages } }
+			messages.forEach(id => {
+				console.log(id)
+				delete newState.messages[id]
 			});
 			return newState;
 		}
@@ -117,6 +132,7 @@ export default function reducer(state = initialState, action) {
 		}
 		case DELETE_SINGLE_MESSAGE: {
 			const newState = { ...state, messages: { ...state.messages } }
+			console.log(newState)
 			delete newState.messages[action.payload]
 			return newState;
 		}
