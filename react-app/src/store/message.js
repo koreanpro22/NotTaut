@@ -40,9 +40,7 @@ export const clearMessage = () => ({
 })
 
 export const getAllChannelMessagesThunk = (messages, channelId) => async (dispatch) => {
-	console.log('Hitting get message thunk')
 	if (messages.length) return
-	console.log('Hitting past return')
 	const response = await fetch(`/api/messages/all/${channelId}`);
 	if (response.ok) {
 		const data = await response.json();
