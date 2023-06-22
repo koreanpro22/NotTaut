@@ -48,7 +48,7 @@ function SingleChannel({ channels, channelId }) {
                 console.log("🚀 ~ file: index.js:49 ~ socket.on ~ chat:", chat)
                 dispatch(createSingleMessageThunk(chat))
             }
-            dispatch(getAllChannelMessagesThunk(messages, currentChannelId))
+            // dispatch(getAllChannelMessagesThunk(messages, currentChannelId))
         })
         return (() => {
             socket.disconnect()
