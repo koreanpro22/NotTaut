@@ -59,6 +59,6 @@ class Channel(db.Model, UserMixin):
             'updated_at': self.updated_at,
             'workspace_id': self.workspace_id,
             'workspace': self.workspace.to_dict(),
-            'channel_users': [user.id for user in self.channel_users],
+            'channel_users': {user.id : user.id for user in self.channel_users},
             'messages': [message.id for message in self.messages]
         }

@@ -96,6 +96,7 @@ class User(db.Model, UserMixin):
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'user_workspaces': [workspace.id for workspace in self.user_workspaces],
+            # 'user_workspaces': {workspace.id: workspace.id for workspace in self.user_workspaces},
             'user_channels': [channel.id for channel in self.user_channels],
             'messages': [message.id for message in self.messages],
             'thread_messages': [thread_message.id for thread_message in self.thread_messages]

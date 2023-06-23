@@ -2,9 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { deleteSingleChannelThunk } from "../../store/channel";
-import { getSingleWorkspaceThunk } from "../../store/workspace";
 import { useHistory } from "react-router-dom";
-import { authenticate } from "../../store/session";
 import './DeleteChannelModal.css';
 import { deleteChannelMessagesAction } from "../../store/message";
 

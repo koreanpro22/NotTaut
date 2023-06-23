@@ -25,12 +25,17 @@ def single_workspace(workspace_id):
 @login_required
 def create_workspace():
     form = CreateWorkspaceForm()
+    # user email addressess passed in
+    # users = form.data['users']
+    # db_users = []
+    # [db_users.append(User.query.get(email)) for email in users]
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         new_workspace = Workspace(
             name=form.data['name'],
             owner_id=current_user.id,
             workspace_users=[current_user]
+            # workspace_users=db_users w/ current_user
         )
         # Add board to database
         db.session.add(new_workspace)

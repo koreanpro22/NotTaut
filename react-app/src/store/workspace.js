@@ -1,6 +1,5 @@
 // constants
 const GET_ALL_USER_WORKSPACES = "workspace/GET_ALL_USER_WORKSPACES";
-const GET_SINGLE_WORKSPACE = "workspace/GET_SINGLE_WORKSPACE";
 const CREATE_SINGLE_WORKSPACE = "workspace/CREATE_SINGLE_WORKSPACE";
 const UPDATE_SINGLE_WORKSPACE = "workspace/UPDATE_SINGLE_WORKSPACE";
 const CLEAR = "workspace/CLEAR";
@@ -8,11 +7,6 @@ const CLEAR = "workspace/CLEAR";
 const getAllUserWorkspacesAction = (workspaces) => ({
 	type: GET_ALL_USER_WORKSPACES,
 	payload: workspaces,
-});
-
-const getSingleWorkspaceAction = (workspace) => ({
-	type: GET_SINGLE_WORKSPACE,
-	payload: workspace,
 });
 
 const createSingleWorkspaceAction = (workspace) => ({
@@ -50,29 +44,6 @@ export const getAllUserWorkspacesThunk = (workspaces) => async (dispatch) => {
 		return response
 	}
 };
-
-export const getSingleWorkspaceThunk = (name) => async (dispatch) => {
-	const response = await fetch(`/api/workspaces/`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({ name })
-	});
-
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(createSingleWorkspaceAction(data));
-		return null;
-	} else if (response.status < 500) {
-		const data = await response.json();
-		if (data.errors) {
-			return data.errors;
-		}
-	} else {
-		return response
-	}
-}
 
 export const createSingleWorkspaceThunk = (name) => async (dispatch) => {
 	const response = await fetch(`/api/workspaces/`, {
@@ -120,18 +91,13 @@ export const updateSingleWorkspaceThunk = (name, workspaceId) => async (dispatch
 	}
 };
 
-const initialState = { currentWorkspace: null, allWorkspaces: {} };
+const initialState = { allWorkspaces: {} };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_ALL_USER_WORKSPACES: {
 			const newState = { ...state, allWorkspaces: {} }
 			action.payload.map(workspace => newState.allWorkspaces[workspace.id] = workspace)
-			return newState;
-		}
-		case GET_SINGLE_WORKSPACE: {
-			const newState = {}
-			newState.currentWorkspace = action.payload
 			return newState;
 		}
 		case CREATE_SINGLE_WORKSPACE: {

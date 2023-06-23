@@ -36,7 +36,6 @@ function SingleChannel({ channels, channelId }) {
     useEffect(() => {
         socket = io();
         socket.on('chat', (chat) => {
-            console.log('Inside Socket chat', chat)
             if (chat.message_id) {
                 if (Object.values(chat).length > 1) {
                     dispatch(updateSingleMessageThunk(chat))
@@ -44,11 +43,8 @@ function SingleChannel({ channels, channelId }) {
                     dispatch(deleteSingleMessageThunk(chat.message_id))
                 }
             } else {
-                console.log('channel id', currentChannelId)
-                console.log("🚀 ~ file: index.js:49 ~ socket.on ~ chat:", chat)
                 dispatch(createSingleMessageThunk(chat))
             }
-            // dispatch(getAllChannelMessagesThunk(messages, currentChannelId))
         })
         return (() => {
             socket.disconnect()
@@ -69,6 +65,11 @@ function SingleChannel({ channels, channelId }) {
 
     const channel = allChannels[channelId]
 
+    const formatCreatedAtDate = (dateStr) => {
+        const hms = dateStr.split(' ')[1].split(':')
+        return +hms[0] > 12 ? `${+hms[0]-12}:${hms[1]} pm` : `${+hms[0]}:${hms[1]} am`
+    }
+
     return (
         <div className='single-channel-container'>
             <div className='single-channel-header'>
@@ -87,9 +88,7 @@ function SingleChannel({ channels, channelId }) {
                         }
                     </div>}
                 </div>
-                <div>
-                    {channel.channel_users.length} members
-                </div>
+                <div>{Object.keys(channel['channel_users']).length} members </div>
             </div>
             <div className='message-container'>
                 <div className='all-messages-container'>
@@ -98,11 +97,11 @@ function SingleChannel({ channels, channelId }) {
                             <div className='single-message'>
                                 <div className='single-message-detail'>
                                     <div>
-                                        {message.user.name} {message.created_at.split(' ')[1]}
+                                        {message.user.name} {formatCreatedAtDate(message.created_at)}
                                     </div>
-                                    <div>
+                                    <p>
                                         {message.text}
-                                    </div>
+                                    </p>
                                 </div>
                                 <div className='message-modal'>
                                     <MessageModal user={sessionUser} channel={channel} message={message} socket={socket}/>
@@ -116,7 +115,6 @@ function SingleChannel({ channels, channelId }) {
                         <label>
                             <textarea
                                 className='create-message-area'
-                                // rows='4'
                                 placeholder={'Message #' + channel.name}
                                 type="text"
                                 value={message}

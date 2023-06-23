@@ -1,11 +1,9 @@
 import React from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import { clearChannel, clearCurrentChannel } from '../../store/channel';
-import { clearMessage } from '../../store/message';
-import { clearWorkspace } from '../../store/workspace';
+import { clearCurrentChannel } from '../../store/channel';
 
 function Navigation({ isLoaded }) {
 	const sessionUser = useSelector(state => state.session.user);
@@ -15,15 +13,12 @@ function Navigation({ isLoaded }) {
 	const clickHome = async () => {
 		history.push('/');
 		dispatch(clearCurrentChannel())
-		// await dispatch(clearChannel())
-		// await dispatch(clearMessage())
-		// await dispatch(clearWorkspace())
 	}
 
 	return (
 		<div className='navbar'>
 			<div onClick={clickHome} className='home-button'>
-				Home
+				All Workspaces
 			</div>
 			{isLoaded && (
 				<div>
