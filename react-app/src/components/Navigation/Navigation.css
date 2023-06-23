@@ -1,5 +1,7 @@
 .profile-dropdown {
   position: absolute;
+  top: 35px;
+  right: 22px;
   background-color: rgb(40, 40, 40);
   border: 1px solid white;
   border-radius: 6px;
@@ -11,12 +13,12 @@
 }
 
 .navbar {
-  border: 2px solid black;
+  /* border: 2px solid rgb(0, 0, 0); */
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
-  padding: 10px 100px;
-  background-color: black;
+  padding: 10px 50px;
+  background-color: rgb(15, 15, 15);
 }
 
 .login-signup {
@@ -30,16 +32,22 @@
 .home-button {
   color: rgb(255, 255, 255);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .nav-menu-dropdown {
-  border: 1px solid green;
-  /* background-color: black; */
+  background-color: rgb(106, 106, 106);
   cursor: pointer;
-  /* width: 25px;
-  height: 25px; */
-  border-radius: 50px;
+  width: 25px;
+  height: 25px;
+  border-radius: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.nav-logo {
+  width: 25px;
 }

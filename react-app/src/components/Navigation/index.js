@@ -18,7 +18,7 @@ function Navigation({ isLoaded }) {
 	return (
 		<div className='navbar'>
 			<div onClick={clickHome} className='home-button'>
-				All Workspaces
+				<img className='nav-logo' src='favicon.ico'></img> { sessionUser ? 'All Workspaces' : 'NotTaut'}
 			</div>
 			{isLoaded && (
 				<div>
