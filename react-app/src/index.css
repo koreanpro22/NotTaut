@@ -9,8 +9,14 @@
     color: white;
 }
 
+p {
+    font-family: 'Dosis';
+}
+
 button {
     color: black;
+    cursor: pointer;
+    
 }
 
 body {

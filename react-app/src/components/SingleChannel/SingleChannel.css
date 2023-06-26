@@ -18,7 +18,7 @@
 
 .message-container {
     border-top: 1px solid rgb(85, 85, 85);
-    height: fill;
+    min-height: 830px;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -27,7 +27,8 @@
 .all-messages-container {
     display: flex;
     flex-flow: column-reverse;
-    height: 90%;
+    max-height: 650px;
+    overflow-y: auto;
     margin: 20px;
     gap: 10px
 }
@@ -53,7 +54,6 @@
 
 .single-message:hover {
     border: 2px solid green;
-
 }
 
 .single-message-detail:hover + .message-modal {
@@ -72,7 +72,7 @@
 }
 
 .create-message-area {
-    /* width:  */
+    width: 98%;
     height: 100%;
     margin: 15px;
     overflow: hidden;

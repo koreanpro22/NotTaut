@@ -13,11 +13,8 @@
     justify-content: center;
     text-align: center;
     align-items: start;
-    /* border: 1px solid white; */
     width: fit-content;
     border-radius: 8px;
-    /* background-color: rgb(255, 255, 255); */
-    background-color: rgb(40, 40, 40);
     padding: 10px;
 }
 
@@ -34,6 +31,5 @@
 
 .single-workspace-tile > h3 {
     text-decoration: none;
-    /* border: 1px solid black; */
 
 }
