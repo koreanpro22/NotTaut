@@ -67,7 +67,7 @@ function SingleChannel({ channels, channelId }) {
 
     const formatCreatedAtDate = (dateStr) => {
         const hms = dateStr.split(' ')[1].split(':')
-        return +hms[0] > 12 ? `${+hms[0]-12}:${hms[1]} pm` : `${+hms[0]}:${hms[1]} am`
+        return +hms[0] > 12 ? `${+hms[0] - 12}:${hms[1]} pm` : `${+hms[0]}:${hms[1]} am`
     }
 
     return (
@@ -84,7 +84,7 @@ function SingleChannel({ channels, channelId }) {
                         {channel.id !== channels[0].id && <OpenModalButton
                             buttonText='Delete'
                             modalComponent={<DeleteChannelModal channel={channel} />}
-                            />
+                        />
                         }
                     </div>}
                 </div>
@@ -93,37 +93,38 @@ function SingleChannel({ channels, channelId }) {
             <div className='message-container'>
                 <div className='all-messages-container'>
                     {messages.toReversed().map(message => {
-                        return <>
-                            <div className='single-message'>
-                                <div className='single-message-detail'>
-                                    <div>
-                                        {message.user.name} {formatCreatedAtDate(message.created_at)}
-                                    </div>
-                                    <p>
-                                        {message.text}
-                                    </p>
+                        return <div className='single-message'>
+                            <div className='single-message-detail'>
+                                <div>
+                                    {message.user.name} {formatCreatedAtDate(message.created_at)}
                                 </div>
-                                <div className='message-modal'>
-                                    <MessageModal user={sessionUser} channel={channel} message={message} socket={socket}/>
-                                </div>
+                                <p>
+                                    {message.text}
+                                </p>
                             </div>
-                        </>
+                            <div className='message-modal'>
+                                <MessageModal user={sessionUser} channel={channel} message={message} socket={socket} />
+                            </div>
+                        </div>
                     })}
                 </div >
                 <div className='create-message-container'>
-                    <form onSubmit={sendChat}>
-                        <label>
-                            <textarea
-                                className='create-message-area'
-                                placeholder={'Message #' + channel.name}
-                                type="text"
-                                value={message}
-                                maxLength={1000}
-                                onChange={(e) => setMessage(e.target.value)}
-                                required
-                            />
-                        </label>
-                        <button type="submit" className='create-message-button'>Send Message</button>
+                    <form onSubmit={sendChat} className='create-message-form'>
+                        {/* <label> */}
+                        <textarea
+                            className='create-message-area'
+                            placeholder={'Message #' + channel.name}
+                            type="text"
+                            value={message}
+                            maxLength={1000}
+                            onChange={(e) => setMessage(e.target.value)}
+                            required
+                        />
+                        {/* </label> */}
+                        <div>
+                            {message.length + ' /1000 '}
+                            <button type="submit" className='create-message-button'> Send Message <i className="fas fa-location-arrow send-arrow"></i></button>
+                        </div>
                     </form>
                 </div>
             </div>
