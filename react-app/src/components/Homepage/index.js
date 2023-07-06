@@ -53,12 +53,11 @@ function Homepage() {
                         Welcome to Not Taut!
                     </h1>
                     <p>
-                        NotTaut provides users quick and easy accessabilty to communicate with others live via chat.
+                        NotTaut provides users quick and easy accessabilty to communicate with others via real-time chat.
                     </p>
                 </div>
                 <div className='home-body'>
-                        {/* <Carousel responsive={responsive}> */}
-                        <h1>Take a look at the features!</h1>
+                        <h1 id='feature-carousel-title'>Take a look at the features!</h1>
                         <Carousel
                             swipeable={false}
                             draggable={false}
@@ -78,7 +77,7 @@ function Homepage() {
                             <div className='single-feature'>
                                 <h3>Workspace Feature</h3>
                                 <p>Having multiple workspaces to be able to maintain different teams. Creating a new workspace with the ablilty to invite users.</p>
-                                <img id='workspace-feature-img' src={'../../../../static/all-workspaces.PNG'} style={{ width: '450px' }}></img>
+                                <img id='workspace-feature-img' src={'../../../../static/workspace-feature-img.PNG'} style={{ width: '450px' }}></img>
                             </div>
                             <div className='single-feature'>
                                 <h3>Channel Feature</h3>
