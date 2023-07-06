@@ -28,20 +28,66 @@ function SingleWorkspace() {
     if (!sessionUser || !allWorkspaces.length || !channels.length) return null
     if (!currentChannelId) dispatch(setCurrentChannelThunk(channels[0].id))
 
+
+    const handleThreads = () => {
+        alert('Feature Coming Soon!')
+    }
+
+    const handleLater = () => {
+        alert('Feature Coming Soon!')
+
+    }
+
+    const handleMentionsReactions = () => {
+        alert('Feature Coming Soon!')
+
+    }
+
+    const handleDraftsSent = () => {
+        alert('Feature Coming Soon!')
+
+    }
+
+    const handleAllChannels = () => {
+        alert('Feature Coming Soon!')
+
+    }
+
+    const handleChannelOption = () => {
+
+    }
+
     const currentWorkspace = allWorkspacesObj[workspaceId]
     const handleChannelClick = async (channelId) => dispatch(setCurrentChannelThunk(channelId))
 
     return (
         <div className='workspace-container'>
             <div className='single-workspace-details'>
-                <h4 className='workspace-details-header'>{currentWorkspace.name}</h4>
-                {sessionUser.id === currentWorkspace.owner_id && <div>
-                    <OpenModalButton
-                        buttonText='Create New Channel'
-                        modalComponent={<CreateChannelModal workspaceId={workspaceId} />}
-                    />
-                </div>}
+                <div>
+                    <h4 className='workspace-details-header'>{currentWorkspace.name}
+                    {/* <i class="fas fa-chevron-down"></i> */}
+                    </h4>
+                </div>
+                <div className='extra-features'>
+                    {/* <div onClick={handleThreads}> <i class="fas fa-comment-dots"></i> Threads</div>
+                    <div onClick={handleLater} > <i class="fas fa-bookmark"></i> Later</div>
+                    <div onClick={handleMentionsReactions} > <i class="fas fa-at"></i> Mentions & Reactions</div>
+                    <div onClick={handleDraftsSent} ><i class="fas fa-paper-plane"></i> Drafts & Sent</div> */}
+                    <div onClick={handleAllChannels} ><i class="fas fa-search"></i> All Channels</div>
+                </div>
                 <div className='all-channels'>
+                    {sessionUser.id === currentWorkspace.owner_id && <div>
+                        <div>
+                            {/* Closes all channels list */}
+                            {/* <i class="fas fa-chevron-down"></i> */}
+                            Channels <i class="fas fa-chevron-down" onClick={handleChannelOption}></i>
+                        </div>
+                        <OpenModalButton
+                            buttonText='New Channel'
+                            className='create-channel-button'
+                            modalComponent={<CreateChannelModal workspaceId={workspaceId} />}
+                        />
+                    </div>}
                     {sessionUser.id === currentWorkspace.owner_id ? channels.map(channel => {
                         return <div className='singleChannel' key={channel.id}>
                             <div className='channel-name' onClick={() => handleChannelClick(channel.id)}>{channel.name}</div>
@@ -53,7 +99,7 @@ function SingleWorkspace() {
                     })}
                 </div>
             </div>
-            <SingleChannel channels={channels} channelId={currentChannelId}/>
+            <SingleChannel channels={channels} channelId={currentChannelId} />
         </div>
     );
 }

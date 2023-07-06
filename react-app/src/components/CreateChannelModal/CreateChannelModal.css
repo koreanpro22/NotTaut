@@ -4,6 +4,7 @@ form > label {
 
 .create-channel-modal {
     padding: 10px 20px;
+    background-color: aliceblue;
 }
 
 .create-channel-modal > * {
