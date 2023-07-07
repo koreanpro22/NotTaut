@@ -83,8 +83,7 @@ export const signUp = (name, email, password) => async (dispatch) => {
 		const data = await response.json();
 		const formData = new FormData();
 		formData.append('name', `${data.name}'s workspace`)
-		await dispatch(setUser(data))
-		fetch("/api/workspaces/", {
+		await fetch("/api/workspaces/", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -93,6 +92,7 @@ export const signUp = (name, email, password) => async (dispatch) => {
 				name: `${data.name}'s workspace`
 			}),
 		})
+		await dispatch(setUser(data))
 		return;
 
 	} else if (response.status < 500) {
