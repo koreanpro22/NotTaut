@@ -13,6 +13,8 @@ function DeleteMessageModal({ messageId, channelId, socket }) {
         await socket.emit('chat', { 'message_id': messageId })
     }
 
+    
+
     return (
         <div className="delete-message-modal">
             <h1>Delete Message</h1>

@@ -17,7 +17,7 @@ function EditMessageModal({ message, messageId, channelId, socket }) {
 	return (
 		<div className="edit-message-modal">
 			<h1>Edit Message</h1>
-			<form>
+			<form onSubmit={(e) => updateChat(e)}>
 				<label>
 					<input
 						type="text"
@@ -28,7 +28,7 @@ function EditMessageModal({ message, messageId, channelId, socket }) {
 					/>
 				</label>
 			</form>
-			<button onClick={(e) => updateChat(e)}>Edit Message</button>
+			<button type='submit'>Edit Message</button>
 		</div>
 	);
 }
