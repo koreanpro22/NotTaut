@@ -64,24 +64,21 @@ function SingleWorkspace() {
         <div className='workspace-container'>
             <div className='single-workspace-details'>
                 <div>
-                    <h4 className='workspace-details-header'>{currentWorkspace.name}
-                    {/* <i class="fas fa-chevron-down"></i> */}
-                    </h4>
+                    <h4 className='workspace-details-header'>{currentWorkspace.name} <i class="fas fa-chevron-down"></i></h4>
                 </div>
-                {/* <div className='extra-features'>
+                <div className='extra-features'>
                     <div onClick={handleThreads}> <i class="fas fa-comment-dots"></i> Threads</div>
                     <div onClick={handleLater} > <i class="fas fa-bookmark"></i> Later</div>
                     <div onClick={handleMentionsReactions} > <i class="fas fa-at"></i> Mentions & Reactions</div>
                     <div onClick={handleDraftsSent} ><i class="fas fa-paper-plane"></i> Drafts & Sent</div>
                     <div onClick={handleAllChannels} ><i class="fas fa-search"></i> All Channels</div>
-                </div> */}
+                </div>
                 <div className='all-channels'>
                     {sessionUser.id === currentWorkspace.owner_id && <div>
                         <div>
                             {/* Closes all channels list */}
                             {/* <i class="fas fa-chevron-down"></i> */}
-                            Channels
-                            {/* <i class="fas fa-chevron-down" onClick={handleChannelOption}></i> */}
+                            Channels <i class="fas fa-chevron-down" onClick={handleChannelOption}></i>
                         </div>
                         <OpenModalButton
                             buttonText='New Channel'

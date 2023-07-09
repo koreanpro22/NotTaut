@@ -70,8 +70,6 @@ function SingleChannel({ channels, channelId }) {
         const currentHms = +hms[0] - 4
 
         return currentHms < 0 ? `${currentHms+12}:${hms[1]} pm` : currentHms < 12 ? `${currentHms}:${hms[1]} am` : `${currentHms-11}:${hms[1]} pm`
-
-        // return hms[0]-4 > 12 ? `${hms[0] - 4 - 12}:${hms[1]} pm` : `${hms[0]-4}:${hms[1]} am`
     }
 
     return (
@@ -79,7 +77,7 @@ function SingleChannel({ channels, channelId }) {
             <div className='single-channel-header'>
                 <div>
                     <strong>Channel Name: {channel.name} </strong>
-                    {/* <i className="fas fa-chevron-down"></i> */}
+                    <i className="fas fa-chevron-down"></i>
                     {sessionUser.id === channel.workspace.owner_id && <div>
                         <OpenModalButton
                             buttonText='Edit'
