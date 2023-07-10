@@ -31,5 +31,24 @@
 
 .single-workspace-tile > h3 {
     text-decoration: none;
+}
 
+.create-workspace-container {
+    border: 1px solid white;
+    margin: 8px;
+    padding: 4px;
+}
+
+.create-workspace-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.create-workspace-form > label {
+    display: inline;
+}
+
+.hide {
+    display: none;
 }

@@ -56,8 +56,8 @@ export const createSingleWorkspaceThunk = (name) => async (dispatch) => {
 
 	if (response.ok) {
 		const data = await response.json();
-		dispatch(createSingleWorkspaceAction(data));
-		return null;
+		await dispatch(createSingleWorkspaceAction(data));
+		return data;
 	} else if (response.status < 500) {
 		const data = await response.json();
 		if (data.errors) {

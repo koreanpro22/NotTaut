@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './AllWorkspaces.css';
 import { useHistory } from 'react-router-dom';
-import { getAllUserWorkspacesThunk } from '../../store/workspace';
+import { getAllUserWorkspacesThunk, createSingleWorkspaceThunk } from '../../store/workspace';
 function AllWorkspaces() {
 
     const history = useHistory();
@@ -10,7 +10,6 @@ function AllWorkspaces() {
     const sessionUser = useSelector(state => state.session.user);
     const allWorkspacesObj = useSelector(state => state.workspace.allWorkspaces);
     const allWorkspaces = Object.values(allWorkspacesObj)
-    console.log("🚀 ~ file: index.js:13 ~ AllWorkspaces ~ allWorkspaces:", allWorkspaces)
     const workspaces = allWorkspaces.filter(workspace => workspace.workspace_users.includes(sessionUser.id))
 
     const [showNewWorkspace, setShowNewWorkspace] = useState(false)
@@ -22,10 +21,18 @@ function AllWorkspaces() {
 
     if (!sessionUser || !allWorkspaces.length) return null
 
-    const handleNewWorkspace = () => {
-
+    const openNewWorkspace = () => {
+        return setShowNewWorkspace(!showNewWorkspace)
     }
 
+    const handleNewWorkspace = async (e) => {
+        e.preventDefault()
+        console.log('hitting create')
+        dispatch(createSingleWorkspaceThunk(workspaceName)).then((workspace) => {
+            console.log("🚀 ~ file: index.js:32 ~ handleNewWorkspace ~ workspace:", workspace)
+            history.push(`/workspace/${workspace.id}`)
+        })
+    }
     // default workspace image = https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8Zunm_NQV4NA39v57qA4FPasJnxrAxzwyYLGLGI7YBw&usqp=CAU&ec=48665701
 
     return (
@@ -43,23 +50,28 @@ function AllWorkspaces() {
                     }) : null}
             </div>
             <div>
-                <button onClick={handleNewWorkspace}>Create New Workspace</button>
+                <button onClick={openNewWorkspace}>Create New Workspace</button>
             </div>
-            <div className={showNewWorkspace ? 'show' : 'hide'}>
+            <div className={`${showNewWorkspace ? 'create-workspace-container' : 'hide'}`}>
                 <h1>
                     This is The form
                 </h1>
-                <form onSubmit={(e) => handleNewWorkspace(e)} style={{display:'flex', gap:'8px'}}>
-                    <input
-                        placeholder='Workspace Name'
-                        type="text"
-                        value={workspaceName}
-                        maxLength={40}
-                        onChange={(e) => setWorkspaceName(e.target.value)}
-                        required
-                    /><label style={{'color':'white'}}>{workspaceName.length}/40</label>
+                <form onSubmit={(e) => handleNewWorkspace(e)} className='create-workspace-form'>
+                    <div>
+                        <input
+                            size="20"
+                            placeholder='Workspace Name'
+                            type="text"
+                            value={workspaceName}
+                            maxLength={40}
+                            onChange={(e) => setWorkspaceName(e.target.value)}
+                            required
+                        />
+                        <label style={{ 'color': 'white' }}>
+                            {workspaceName.length}/40</label>
+                    </div>
+                    <button type='submit'>Create</button>
                 </form>
-                <button type='submit'>Edit Message</button>
             </div>
         </div>
     );

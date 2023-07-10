@@ -33,7 +33,7 @@
 
 input {
     color: black;
-    width: 95%;
+    /* width: 95%; */
 }
 
 .validation-errors {

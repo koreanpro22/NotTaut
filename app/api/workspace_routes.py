@@ -42,8 +42,6 @@ def create_workspace():
         # Updates database
         db.session.commit()
 
-
-
         general_channel = Channel(
             name='General',
             workspace_id=new_workspace.id,
@@ -53,7 +51,7 @@ def create_workspace():
         db.session.add(general_channel)
         db.session.commit()
 
-        return { 'workspace': new_workspace.to_dict_relationship() }
+        return new_workspace.to_dict_relationship()
     # Returns validation errors
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
