@@ -14,6 +14,13 @@ def users():
     users = User.query.all()
     return {'users': [user.to_dict_relationship() for user in users]}
 
+@user_routes.route('/single/<str:email>')
+@login_required
+def single_user(email):
+    print('EMAIL INPUT ===============> ', email)
+    user = User.query.find(User.email == email)
+    return user.to_dict_relationship()
+
 
 @user_routes.route('/<int:id>')
 @login_required

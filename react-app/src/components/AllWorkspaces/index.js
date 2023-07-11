@@ -13,6 +13,8 @@ function AllWorkspaces() {
     const workspaces = allWorkspaces.filter(workspace => workspace.workspace_users.includes(sessionUser.id))
 
     const [showNewWorkspace, setShowNewWorkspace] = useState(false)
+    const [showNewUser, setShowNewUser] = useState(false)
+    const [addedUsers, setAddedUsers] = useState([])
     const [workspaceName, setWorkspaceName] = useState('')
 
     useEffect(() => {
@@ -66,9 +68,11 @@ function AllWorkspaces() {
                             onChange={(e) => setWorkspaceName(e.target.value)}
                             required
                         />
-                        <label style={{ 'color': 'white' }}>
-                            {workspaceName.length}/40</label>
+                        <label style={{ 'color': 'white' }}> {workspaceName.length}/40</label>
                     </div>
+                    
+
+                    <button>Add Users</button>
                     <button type='submit'>Create</button>
                 </form>
             </div>
