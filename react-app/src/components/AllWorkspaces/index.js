@@ -29,7 +29,6 @@ function AllWorkspaces() {
         e.preventDefault()
         console.log('hitting create')
         dispatch(createSingleWorkspaceThunk(workspaceName)).then((workspace) => {
-            console.log("🚀 ~ file: index.js:32 ~ handleNewWorkspace ~ workspace:", workspace)
             history.push(`/workspace/${workspace.id}`)
         })
     }
