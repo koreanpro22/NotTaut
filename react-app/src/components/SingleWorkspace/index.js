@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import CreateChannelModal from '../CreateChannelModal';
@@ -8,6 +8,7 @@ import { getAllUserWorkspacesThunk } from '../../store/workspace';
 import { getAllChannelsThunk, setCurrentChannelThunk } from '../../store/channel';
 import { getSingleUserThunk } from '../../store/user';
 import './SingleWorkspace.css';
+import EditWorkspaceModal from '../EditWorkspaceModal';
 
 function SingleWorkspace() {
     const { workspaceId } = useParams();
@@ -21,6 +22,10 @@ function SingleWorkspace() {
     const channels = allChannels.filter(channel => channel.workspace_id === +workspaceId)
     const dispatch = useDispatch()
 
+    const [showWorkspaceOption, setShowWorkspaceOption] = useState(false);
+    const [showChannelOption, setShowChannelOption] = useState(false);
+    const [showChannels, setShowChannels] = useState(true);
+
     useEffect(() => {
         dispatch(getAllUserWorkspacesThunk(allWorkspaces))
         dispatch(getAllChannelsThunk(channels, workspaceId))
@@ -29,6 +34,13 @@ function SingleWorkspace() {
     if (!sessionUser || !allWorkspaces.length || !channels.length) return null
     if (!currentChannelId) dispatch(setCurrentChannelThunk(channels[0].id))
 
+    const handleShowWorkspaceOption = () => {
+
+    }
+
+    const handleShowChannelOption = () => {
+
+    }
 
     const handleThreads = () => {
         alert('Feature Coming Soon!')
@@ -54,13 +66,11 @@ function SingleWorkspace() {
 
     }
 
-    const handleChannelOption = () => {
-
+    const handleShowChannels = () => {
+        setShowChannels(!showChannels)
     }
 
-    const handleEditWorkspace = () => {
 
-    }
 
     const handleDeleteWorkspace = () => {
 
@@ -68,11 +78,13 @@ function SingleWorkspace() {
 
     const handleInviteToWorkspace = (e) => {
         e.preventDefault()
-        dispatch(getSingleUserThunk("email", "demo@aa.io" ))    
+        dispatch(getSingleUserThunk("email", "demo@aa.io"))
     }
 
     const currentWorkspace = allWorkspacesObj[workspaceId]
     const handleChannelClick = async (channelId) => dispatch(setCurrentChannelThunk(channelId))
+
+    const hideChannels = showChannels ? '' : 'hide'
 
     return (
         <div className='workspace-container'>
@@ -80,8 +92,8 @@ function SingleWorkspace() {
                 <div>
                     <h4 className='workspace-details-header'>{currentWorkspace.name} <i class="fas fa-chevron-down"></i></h4>
                     <div className='workspace-edit-delete'>
-                        <button onClick={(e) => handleInviteToWorkspace(e)}>Invite User</button>
-                        <button onClick={handleEditWorkspace}>Edit Workspace</button>
+                        {/* <button onClick={(e) => handleInviteToWorkspace(e)}>Invite User</button> */}
+                        <OpenModalButton buttonText='Edit Workspace' modalComponent={<EditWorkspaceModal workspace={currentWorkspace} />} />
                         <button onClick={handleDeleteWorkspace}>Delete Workspace</button>
                     </div>
                 </div>
@@ -92,25 +104,17 @@ function SingleWorkspace() {
                     <div onClick={handleDraftsSent} ><i class="fas fa-paper-plane"></i> Drafts & Sent</div>
                     <div onClick={handleAllChannels} ><i class="fas fa-search"></i> All Channels</div>
                 </div>
-                <div className='all-channels'>
+                <div className='all-channels' >
+                    <div className='channel-options' onClick={handleShowChannels}>{showChannels ? <i class="fas fa-chevron-down"></i> : <i class="fas fa-chevron-right" ></i>} Channels</div>
                     {sessionUser.id === currentWorkspace.owner_id && <div>
-                        <div>
-                            {/* Closes all channels list */}
-                            {/* <i class="fas fa-chevron-down"></i> */}
-                            Channels <i class="fas fa-chevron-down" onClick={handleChannelOption}></i>
-                        </div>
-                        <OpenModalButton
-                            buttonText='New Channel'
-                            className='create-channel-button'
-                            modalComponent={<CreateChannelModal workspaceId={workspaceId} />}
-                        />
+                        <OpenModalButton buttonText='New Channel' className='create-channel-button' modalComponent={<CreateChannelModal workspaceId={workspaceId} />} />
                     </div>}
                     {sessionUser.id === currentWorkspace.owner_id ? channels.map(channel => {
-                        return <div className='singleChannel' key={channel.id}>
+                        return <div className={`singleChannel ${hideChannels}`} key={channel.id}>
                             <div className='channel-name' onClick={() => handleChannelClick(channel.id)}>{channel.name}</div>
                         </div>
                     }) : channels.filter(channel => channel.channel_users[sessionUser.id]).map(channel => {
-                        return <div className='singleChannel' key={channel.id}>
+                        return <div className={`singleChannel ${hideChannels}`} key={channel.id}>
                             <div className='channel-name' onClick={() => handleChannelClick(channel.id)}>{channel.name}</div>
                         </div>
                     })}
