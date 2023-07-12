@@ -70,9 +70,6 @@ function AllWorkspaces() {
                         />
                         <label style={{ 'color': 'white' }}> {workspaceName.length}/40</label>
                     </div>
-                    
-
-                    <button>Add Users</button>
                     <button type='submit'>Create</button>
                 </form>
             </div>

@@ -4,6 +4,7 @@ const CREATE_SINGLE_CHANNEL = "channel/CREATE_SINGLE_CHANNEL";
 const UPDATE_SINGLE_CHANNEL = "channel/UPDATE_SINGLE_CHANNEL";
 const DELETE_SINGLE_CHANNEL = "channel/DELETE_SINGLE_CHANNEL";
 const SET_CURRENT_CHANNEL = "channel/SET_CURRENT_CHANNEL";
+const ADD_CHANNEL_USER = "channel/ADD_CHANNEL_USER";
 const CLEAR = "channel/CLEAR";
 const CLEAR_CURRENT_CHANNEL = "channel/CLEAR_CURRENT_CHANNEL";
 
@@ -36,6 +37,11 @@ const setCurrentChannelAction = (channelId) => ({
 	type: SET_CURRENT_CHANNEL,
 	payload: channelId,
 });
+
+const addChannelUserAction = (user) => ({
+	type: ADD_CHANNEL_USER,
+	payload: user
+})
 
 export const clearChannel = () => ({
 	type: CLEAR
@@ -153,6 +159,29 @@ export const deleteSingleChannelThunk = (channelId) => async (dispatch) => {
 	}
 };
 
+export const addChannelUserThunk = (user) => async (dispatch) => {
+	const response = await fetch(`/api/channels/single/${user}`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(user),
+	});
+
+	if (response.ok) {
+		const data = await response.json();
+		dispatch(addChannelUserAction(data));
+		return null;
+	} else if (response.status < 500) {
+		const data = await response.json();
+		if (data.errors) {
+			return data.errors;
+		}
+	} else {
+		return response
+	}
+}
+
 export const setCurrentChannelThunk = (channelId) => async (dispatch) => {
 	dispatch(setCurrentChannelAction(channelId))
 };
@@ -161,45 +190,40 @@ export const setCurrentChannelThunk = (channelId) => async (dispatch) => {
 const initialState = { currentChannel: null, allChannels: {} };
 
 export default function reducer(state = initialState, action) {
+	let newState = { ...state, allChannels: { ...state.allChannels } }
 	switch (action.type) {
 		case GET_ALL_CHANNELS: {
-			const newState = { ...state, allChannels : { ...state.allChannels } }
 			action.payload.forEach(channel => {
 				newState.allChannels[channel.id] = channel
 			});
 			return newState
 		}
 		case CREATE_SINGLE_CHANNEL:{
-            const newState = { ...state, allChannels : { ...state.allChannels }}
             newState.allChannels[action.payload.id] = action.payload
 			newState.currentChannel = action.payload.id
             return newState;
         }
 		case UPDATE_SINGLE_CHANNEL:{
-			const newState = { ...state, allChannels : { ...state.allChannels }}
 			newState.allChannels[action.payload.id] = action.payload
             return newState;
         }
 		case DELETE_SINGLE_CHANNEL: {
-			const newState = { ...state, allChannels : { ...state.allChannels }}
 			delete newState.allChannels[action.payload]
 			newState.currentChannel = null
 			return newState
 		}
+		// case ADD_CHANNEL_USER: {
+		// 	newState.allChannels[action.payload.channelId].channel_users =
+		// }
 		case SET_CURRENT_CHANNEL: {
-			const newState = { ...state, allChannels : { ...state.allChannels }}
 			newState.currentChannel = action.payload
 			return newState
 		}
 		case CLEAR: {
-			console.log('clearing back to initial state =====>', initialState)
 			return initialState
 		}
 		case CLEAR_CURRENT_CHANNEL: {
-			const newState = { ...state, allChannels : { ...state.allChannels }}
-			console.log('clearing back to initial state =====>', newState)
 			newState.currentChannel = null
-			console.log('clearing back to initial state =====>', newState)
 			return newState
 		}
 		default:

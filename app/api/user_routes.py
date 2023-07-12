@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_login import login_required
 from app.models import User
 
@@ -14,12 +14,21 @@ def users():
     users = User.query.all()
     return {'users': [user.to_dict_relationship() for user in users]}
 
-@user_routes.route('/single/<str:email>')
+@user_routes.route('/single')
 @login_required
-def single_user(email):
-    print('EMAIL INPUT ===============> ', email)
-    user = User.query.find(User.email == email)
-    return user.to_dict_relationship()
+def single_user():
+    type = request.args.get("type")
+    val = request.args.get("val")
+    print("type ================> ", type)
+    if type == 'email':
+        user = User.query.filter_by(email = val).first()
+        print("user ================> ", user)
+
+        return user.to_dict_relationship()
+    elif type == 'id':
+        user = User.query.get(val)
+        return user.to_dict_relationship()
+    return
 
 
 @user_routes.route('/<int:id>')

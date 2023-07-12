@@ -6,13 +6,16 @@ const getSingleUserAction = (user) => ({
     payload: user
 });
 
-export const getSingleUserThunk = (email) => async (dispatch) => {
-    const res = await fetch(`/api/users/single/${email}`)
+export const getSingleUserThunk = (type, val) => async (dispatch) => {
+
+    const res = await fetch(`/api/users/single?type=${type}&&val=${val}`)
 
     if (res.ok) {
         const data = await res.json()
         await dispatch(getSingleUserAction(data))
+        return data
     }
+    return
 }
 
 const initialState = {};

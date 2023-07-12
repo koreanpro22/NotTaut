@@ -6,6 +6,7 @@ import OpenModalButton from '../OpenModalButton';
 import SingleChannel from '../SingleChannel';
 import { getAllUserWorkspacesThunk } from '../../store/workspace';
 import { getAllChannelsThunk, setCurrentChannelThunk } from '../../store/channel';
+import { getSingleUserThunk } from '../../store/user';
 import './SingleWorkspace.css';
 
 function SingleWorkspace() {
@@ -57,6 +58,19 @@ function SingleWorkspace() {
 
     }
 
+    const handleEditWorkspace = () => {
+
+    }
+
+    const handleDeleteWorkspace = () => {
+
+    }
+
+    const handleInviteToWorkspace = (e) => {
+        e.preventDefault()
+        dispatch(getSingleUserThunk("email", "demo@aa.io" ))    
+    }
+
     const currentWorkspace = allWorkspacesObj[workspaceId]
     const handleChannelClick = async (channelId) => dispatch(setCurrentChannelThunk(channelId))
 
@@ -65,6 +79,11 @@ function SingleWorkspace() {
             <div className='single-workspace-details'>
                 <div>
                     <h4 className='workspace-details-header'>{currentWorkspace.name} <i class="fas fa-chevron-down"></i></h4>
+                    <div className='workspace-edit-delete'>
+                        <button onClick={(e) => handleInviteToWorkspace(e)}>Invite User</button>
+                        <button onClick={handleEditWorkspace}>Edit Workspace</button>
+                        <button onClick={handleDeleteWorkspace}>Delete Workspace</button>
+                    </div>
                 </div>
                 <div className='extra-features'>
                     <div onClick={handleThreads}> <i class="fas fa-comment-dots"></i> Threads</div>
