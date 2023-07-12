@@ -21,6 +21,7 @@ def single_workspace(workspace_id):
     workspace = Workspace.query.get(workspace_id)
     return {'workspace': workspace.to_dict_relationship()}
 
+#Create New Workspace
 @workspace_routes.route('/', methods=['POST'])
 @login_required
 def create_workspace():
@@ -55,7 +56,7 @@ def create_workspace():
     # Returns validation errors
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
-
+#Edit Workspace Name
 @workspace_routes.route('/<int:workspace_id>', methods=['PUT'])
 @login_required
 def update_workspace(workspace_id):
@@ -71,3 +72,19 @@ def update_workspace(workspace_id):
         return {'errors': 'Workspace does not exist!'}, 404
     # Returns validation errors
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+#Delete Single Workspace
+@workspace_routes.route('/<int:workspace_id>', methods=['DELETE'])
+@login_required
+def delete_workspace(workspace_id):
+    workspace = Workspace.query.get(workspace_id)
+
+    if not workspace:
+        return {'errors': ['Workspace does not exist']}, 404
+
+    if (current_user.id == workspace.owner_id):
+        db.session.delete(workspace)
+        db.session.commit()
+        return {'message': 'Successfully deleted!'}
+    else:
+        return {'errors': ['Unauthorized']}, 401
