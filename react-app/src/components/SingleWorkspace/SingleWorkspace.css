@@ -8,6 +8,14 @@
 
 .workspace-edit-delete {
     border: solid 1px black;
+    background-color: rgb(50, 50, 50);
+    position: absolute;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    left: 20px;
+    /* padding: 10px; */
+
 }
 
 .all-workspaces {
@@ -38,7 +46,9 @@
 }
 
 .workspace-details-header {
-    margin: 20px;
+    align-self: center;
+    margin: 20px 5px;
+    cursor: pointer;
 }
 
 .extra-features {
@@ -66,7 +76,7 @@
     width: 90%;
 }
 
-.create-channel-button {
+.create-channel-button, .edit-workspace-button, .delete-workspace-button  {
     max-width: 100px;
     /* width: 60%; */
     padding: 2px;

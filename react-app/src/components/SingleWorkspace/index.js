@@ -36,7 +36,7 @@ function SingleWorkspace() {
     if (!currentChannelId) dispatch(setCurrentChannelThunk(channels[0].id))
 
     const handleShowWorkspaceOption = () => {
-
+        setShowWorkspaceOption(!showWorkspaceOption)
     }
 
     const handleShowChannelOption = () => {
@@ -86,23 +86,24 @@ function SingleWorkspace() {
     const handleChannelClick = async (channelId) => dispatch(setCurrentChannelThunk(channelId))
 
     const hideChannels = showChannels ? '' : 'hide'
+    const hideWorkspaceOptions = showWorkspaceOption ? '' : 'hide'
 
     return (
         <div className='workspace-container'>
             <div className='single-workspace-details'>
                 <div>
-                    <h4 className='workspace-details-header'>{currentWorkspace.name} <i class="fas fa-chevron-down"></i></h4>
-                    <div className='workspace-edit-delete'>
-                        {/* <button onClick={(e) => handleInviteToWorkspace(e)}>Invite User</button> */}
-                        <OpenModalButton buttonText='Edit Workspace' modalComponent={<EditWorkspaceModal workspace={currentWorkspace} />} />
-                        <OpenModalButton buttonText='Delete Workspace' modalComponent={<DeleteWorkspaceModal workspaceId={currentWorkspace.id} />} />
-                    </div>
+                    <h4 className='workspace-details-header' onClick={handleShowWorkspaceOption}>{currentWorkspace.name} {showWorkspaceOption ? <i class="fas fa-chevron-down"></i> : <i class="fas fa-chevron-right" ></i>}</h4>
+                    {sessionUser.id === currentWorkspace.owner_id && <div className={`workspace-edit-delete ${hideWorkspaceOptions}`}>
+                        <OpenModalButton buttonText='Edit Workspace' className='edit-workspace-button' modalComponent={<EditWorkspaceModal workspace={currentWorkspace} />} />
+                        <OpenModalButton buttonText='Delete Workspace' className='delete-workspace-button' modalComponent={<DeleteWorkspaceModal workspaceId={currentWorkspace.id} />} />
+                    </div>}
+                    {/* <button onClick={(e) => handleInviteToWorkspace(e)}>Invite User</button> */}
                 </div>
                 <div className='extra-features'>
-                    <div onClick={handleThreads}> <i class="fas fa-comment-dots"></i> Threads</div>
-                    <div onClick={handleLater} > <i class="fas fa-bookmark"></i> Later</div>
-                    <div onClick={handleMentionsReactions} > <i class="fas fa-at"></i> Mentions & Reactions</div>
-                    <div onClick={handleDraftsSent} ><i class="fas fa-paper-plane"></i> Drafts & Sent</div>
+                    {/* <div onClick={handleThreads}> <i class="fas fa-comment-dots"></i> Threads</div> */}
+                    {/* <div onClick={handleLater} > <i class="fas fa-bookmark"></i> Later</div> */}
+                    {/* <div onClick={handleMentionsReactions} > <i class="fas fa-at"></i> Mentions & Reactions</div> */}
+                    {/* <div onClick={handleDraftsSent} ><i class="fas fa-paper-plane"></i> Drafts & Sent</div> */}
                     <div onClick={handleAllChannels} ><i class="fas fa-search"></i> All Channels</div>
                 </div>
                 <div className='all-channels' >
