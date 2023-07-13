@@ -9,6 +9,7 @@ import { getAllChannelsThunk, setCurrentChannelThunk } from '../../store/channel
 import { getSingleUserThunk } from '../../store/user';
 import './SingleWorkspace.css';
 import EditWorkspaceModal from '../EditWorkspaceModal';
+import DeleteWorkspaceModal from '../DeleteWorkspaceModal';
 
 function SingleWorkspace() {
     const { workspaceId } = useParams();
@@ -94,7 +95,7 @@ function SingleWorkspace() {
                     <div className='workspace-edit-delete'>
                         {/* <button onClick={(e) => handleInviteToWorkspace(e)}>Invite User</button> */}
                         <OpenModalButton buttonText='Edit Workspace' modalComponent={<EditWorkspaceModal workspace={currentWorkspace} />} />
-                        <button onClick={handleDeleteWorkspace}>Delete Workspace</button>
+                        <OpenModalButton buttonText='Delete Workspace' modalComponent={<DeleteWorkspaceModal workspaceId={currentWorkspace.id} />} />
                     </div>
                 </div>
                 <div className='extra-features'>

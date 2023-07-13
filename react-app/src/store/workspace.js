@@ -2,6 +2,7 @@
 const GET_ALL_USER_WORKSPACES = "workspace/GET_ALL_USER_WORKSPACES";
 const CREATE_SINGLE_WORKSPACE = "workspace/CREATE_SINGLE_WORKSPACE";
 const UPDATE_SINGLE_WORKSPACE = "workspace/UPDATE_SINGLE_WORKSPACE";
+const DELETE_SINGLE_WORKSPACE = "workspace/DELETE_SINGLE_WORKSPACE";
 const CLEAR = "workspace/CLEAR";
 
 const getAllUserWorkspacesAction = (workspaces) => ({
@@ -18,6 +19,11 @@ const updateSingleWorkspaceAction = (workspace) => ({
 	type: UPDATE_SINGLE_WORKSPACE,
 	payload: workspace,
 });
+
+const deleteSingleWorkspaceAction = (workspaceId) => ({
+	type: DELETE_SINGLE_WORKSPACE,
+	payload: workspaceId
+})
 
 export const clearWorkspace = () => ({
 	type: CLEAR
@@ -70,7 +76,7 @@ export const createSingleWorkspaceThunk = (name) => async (dispatch) => {
 
 export const updateSingleWorkspaceThunk = (name, workspaceId) => async (dispatch) => {
 	const response = await fetch(`/api/workspaces/${workspaceId}`, {
-		method: "POST",
+		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
 		},
@@ -90,6 +96,26 @@ export const updateSingleWorkspaceThunk = (name, workspaceId) => async (dispatch
 		return response
 	}
 };
+export const deleteSingleWorkspaceThunk = (workspaceId) => async (dispatch) => {
+	const response = await fetch(`/api/workspaces/${workspaceId}`, {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+		}
+	})
+
+	if (response.ok) {
+		dispatch(deleteSingleWorkspaceAction(workspaceId));
+		return null;
+	} else if (response.status < 500) {
+		const data = await response.json();
+		if (data.errors) {
+			return data.errors;
+		}
+	} else {
+		return response
+	}
+}
 
 const initialState = { allWorkspaces: {} };
 
@@ -103,6 +129,16 @@ export default function reducer(state = initialState, action) {
 		case CREATE_SINGLE_WORKSPACE: {
 			const newState = { ...state }
 			newState.allWorkspaces[action.payload.id] = action.payload
+			return newState
+		}
+		case UPDATE_SINGLE_WORKSPACE: {
+			const newState = { ...state, allWorkspaces: { ...state.allWorkspaces }}
+			newState.allWorkspaces[action.payload.id] = action.payload
+			return newState
+		}
+		case DELETE_SINGLE_WORKSPACE: {
+			const newState = { ...state, allWorkspaces: { ...state.allWorkspaces }}
+			delete newState.allWorkspaces[action.payload]
 			return newState
 		}
 		case CLEAR: {

@@ -11,6 +11,7 @@ function AllWorkspaces() {
     const allWorkspacesObj = useSelector(state => state.workspace.allWorkspaces);
     const allWorkspaces = Object.values(allWorkspacesObj)
     const workspaces = allWorkspaces.filter(workspace => workspace.workspace_users.includes(sessionUser.id))
+    console.log('Workspaces in all workspace', workspaces)
 
     const [showNewWorkspace, setShowNewWorkspace] = useState(false)
     const [showNewUser, setShowNewUser] = useState(false)
