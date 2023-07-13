@@ -6,3 +6,14 @@
 .edit-workspace-modal > * {
     color: black;
 }
+
+.edit-workspace-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.edit-workspace-form > button {
+    align-self: center;
+    width: fit-content;
+}

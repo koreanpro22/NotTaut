@@ -89,11 +89,11 @@ function Homepage() {
                                 <p>The message feature utilizes web-sockets so users are able to communicate in real-time</p>
                                 <img src={'../../../../static/message-feature-img.PNG'} style={{ width: '450px' }}></img>
                             </div>
-                            <div className='single-feature'>
+                            {/* <div className='single-feature'>
                                 <h3>Thread Message Feature</h3>
                                 <p>The thread message feature lets users respond to a specific message to keep the channel </p>
                                 <img src={'../../../../static/thread-message-feature-img.PNG'} alt='Feature coming soon!' style={{ width: '450px' }}></img>
-                            </div>
+                            </div> */}
                         </Carousel>
                     {/* <div className='getting-started'>
                         <h1>Ready to get Started!</h1>

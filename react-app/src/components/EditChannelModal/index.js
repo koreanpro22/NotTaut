@@ -28,10 +28,9 @@ function EditChannelModal({ channel }) {
 	return (
 		<div className="edit-channel-modal">
 			<h1>Edit Channel</h1>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit} className="edit-channel-form">
 				<label>
-					Name
-					<input
+					Name: <input
 						type="text"
 						value={channelName}
 						maxLength={40}
@@ -40,8 +39,7 @@ function EditChannelModal({ channel }) {
 					/>
 				</label>
 				<label>
-					Topic
-					<input
+					Topic: <input
 						type="text"
 						value={channelTopic}
 						maxLength={40}
@@ -49,8 +47,7 @@ function EditChannelModal({ channel }) {
 						/>
 				</label>
 				<label>
-					Description
-					<input
+					Description: <input
 						type="text"
 						value={channelDescription}
 						maxLength={100}

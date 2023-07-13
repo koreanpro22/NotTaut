@@ -26,7 +26,7 @@ function SingleChannel({ channels, channelId }) {
     const [message, setMessage] = useState('')
     // const timestamp = Date.now()
     // const todayDate = new Date(timestamp)
-    // const [showOptions, setShowOptions] = useState(false);
+    const [showChannelOption, setShowChannelOption] = useState(false);
 
     useEffect(() => {
         dispatch(getAllChannelsThunk(workspaceId))
@@ -69,27 +69,35 @@ function SingleChannel({ channels, channelId }) {
         const hms = dateStr.split(' ')[1].split(':')
         const currentHms = +hms[0] - 4
 
-        return currentHms < 0 ? `${currentHms+12}:${hms[1]} pm` : currentHms < 12 ? `${currentHms}:${hms[1]} am` : `${currentHms-11}:${hms[1]} pm`
+        return currentHms < 0 ? `${currentHms + 12}:${hms[1]} pm` : currentHms < 12 ? `${currentHms}:${hms[1]} am` : `${currentHms - 11}:${hms[1]} pm`
     }
+
+    const handleShowChannelOption = () => {
+        setShowChannelOption(!showChannelOption)
+    }
+
+    const hideChannelOption = showChannelOption ? '' : 'hide'
 
     return (
         <div className='single-channel-container'>
             <div className='single-channel-header'>
-                <div>
+                <div onClick={handleShowChannelOption} style={{ cursor: 'pointer' }}>
                     <strong>Channel Name: {channel.name} </strong>
-                    <i className="fas fa-chevron-down"></i>
-                    {sessionUser.id === channel.workspace.owner_id && <div>
-                        <OpenModalButton
-                            buttonText='Edit'
-                            modalComponent={<EditChannelModal channel={channel} />}
-                        />
-                        {channel.id !== channels[0].id && <OpenModalButton
-                            buttonText='Delete'
-                            modalComponent={<DeleteChannelModal channel={channel} />}
-                        />
-                        }
-                    </div>}
+                    {showChannelOption ? <i class="fas fa-chevron-down"></i> : <i class="fas fa-chevron-right" ></i>}
                 </div>
+                {sessionUser.id === channel.workspace.owner_id && showChannelOption && <div className='channel-edit-delete'>
+                    <OpenModalButton
+                        buttonText='Edit Channel'
+                        className='edit-channel-button'
+                        modalComponent={<EditChannelModal channel={channel} />}
+                    />
+                    {channel.id !== channels[0].id && <OpenModalButton
+                        buttonText='Delete Channel'
+                        className='delete-channel-button'
+                        modalComponent={<DeleteChannelModal channel={channel} />}
+                    />
+                    }
+                </div>}
                 <div>{Object.keys(channel['channel_users']).length} members </div>
             </div>
             <div className='message-container'>
@@ -97,12 +105,8 @@ function SingleChannel({ channels, channelId }) {
                     {messages.toReversed().map(message => {
                         return <div className='single-message'>
                             <div className='single-message-detail'>
-                                <div>
-                                    {message.user.name} {formatCreatedAtDate(message.created_at)}
-                                </div>
-                                <p>
-                                    {message.text}
-                                </p>
+                                <div>{message.user.name} {formatCreatedAtDate(message.created_at)}</div>
+                                <p>{message.text}</p>
                             </div>
                             <div className='message-modal'>
                                 <MessageModal user={sessionUser} channel={channel} message={message} socket={socket} />

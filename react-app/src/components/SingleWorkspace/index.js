@@ -16,7 +16,7 @@ function SingleWorkspace() {
     const sessionUser = useSelector(state => state.session.user)
     const allWorkspacesObj = useSelector(state => state.workspace.allWorkspaces);
     const allWorkspaces = Object.values(allWorkspacesObj)
-
+    console.log(allWorkspaces)
     const allChannelsObj = useSelector(state => state.channel.allChannels)
     const allChannels = Object.values(allChannelsObj)
     const currentChannelId = useSelector(state => state.channel.currentChannel);
@@ -24,7 +24,6 @@ function SingleWorkspace() {
     const dispatch = useDispatch()
 
     const [showWorkspaceOption, setShowWorkspaceOption] = useState(false);
-    const [showChannelOption, setShowChannelOption] = useState(false);
     const [showChannels, setShowChannels] = useState(true);
 
     useEffect(() => {
@@ -37,10 +36,6 @@ function SingleWorkspace() {
 
     const handleShowWorkspaceOption = () => {
         setShowWorkspaceOption(!showWorkspaceOption)
-    }
-
-    const handleShowChannelOption = () => {
-
     }
 
     const handleThreads = () => {
@@ -71,16 +66,10 @@ function SingleWorkspace() {
         setShowChannels(!showChannels)
     }
 
-
-
-    const handleDeleteWorkspace = () => {
-
-    }
-
-    const handleInviteToWorkspace = (e) => {
-        e.preventDefault()
-        dispatch(getSingleUserThunk("email", "demo@aa.io"))
-    }
+    // const handleInviteToWorkspace = (e) => {
+    //     e.preventDefault()
+    //     dispatch(getSingleUserThunk("email", "demo@aa.io"))
+    // }
 
     const currentWorkspace = allWorkspacesObj[workspaceId]
     const handleChannelClick = async (channelId) => dispatch(setCurrentChannelThunk(channelId))
@@ -95,17 +84,17 @@ function SingleWorkspace() {
                     <h4 className='workspace-details-header' onClick={handleShowWorkspaceOption}>{currentWorkspace.name} {showWorkspaceOption ? <i class="fas fa-chevron-down"></i> : <i class="fas fa-chevron-right" ></i>}</h4>
                     {sessionUser.id === currentWorkspace.owner_id && <div className={`workspace-edit-delete ${hideWorkspaceOptions}`}>
                         <OpenModalButton buttonText='Edit Workspace' className='edit-workspace-button' modalComponent={<EditWorkspaceModal workspace={currentWorkspace} />} />
-                        <OpenModalButton buttonText='Delete Workspace' className='delete-workspace-button' modalComponent={<DeleteWorkspaceModal workspaceId={currentWorkspace.id} />} />
+                        {workspaceId === allWorkspaces[0].id && <OpenModalButton buttonText='Delete Workspace' className='delete-workspace-button' modalComponent={<DeleteWorkspaceModal workspaceId={currentWorkspace.id} />} />}
                     </div>}
                     {/* <button onClick={(e) => handleInviteToWorkspace(e)}>Invite User</button> */}
                 </div>
-                <div className='extra-features'>
+                {/* <div className='extra-features'> */}
                     {/* <div onClick={handleThreads}> <i class="fas fa-comment-dots"></i> Threads</div> */}
                     {/* <div onClick={handleLater} > <i class="fas fa-bookmark"></i> Later</div> */}
                     {/* <div onClick={handleMentionsReactions} > <i class="fas fa-at"></i> Mentions & Reactions</div> */}
                     {/* <div onClick={handleDraftsSent} ><i class="fas fa-paper-plane"></i> Drafts & Sent</div> */}
-                    <div onClick={handleAllChannels} ><i class="fas fa-search"></i> All Channels</div>
-                </div>
+                    {/* <div onClick={handleAllChannels} ><i class="fas fa-search"></i> All Channels</div> */}
+                {/* </div> */}
                 <div className='all-channels' >
                     <div className='channel-options' onClick={handleShowChannels}>{showChannels ? <i class="fas fa-chevron-down"></i> : <i class="fas fa-chevron-right" ></i>} Channels</div>
                     {sessionUser.id === currentWorkspace.owner_id && <div>

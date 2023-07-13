@@ -21,7 +21,7 @@ function EditWorkspaceModal({ workspace }) {
     return (
         <div className="edit-workspace-modal">
             <h1>Edit Workspace</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="edit-workspace-form">
                 <label>
                     Name
                     <input

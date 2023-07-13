@@ -16,6 +16,8 @@ p {
 button {
     color: black;
     cursor: pointer;
+    padding: 4px;
+    border-radius: 5px;
 }
 
 body {

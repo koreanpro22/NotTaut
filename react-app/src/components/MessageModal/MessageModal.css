@@ -4,6 +4,7 @@
 
 .edit-delete-container {
     height: fit-content;
+    position: relative;
     display: flex;
     flex-direction: row-reverse;
 }
@@ -16,9 +17,9 @@
 .message-edit-delete {
     display: flex;
     flex-direction: column;
-    position: relative;
+    position: absolute;
     width: 60px;
-    right: 2px;
+    right: 20px;
     background-color: rgb(40, 40, 40);
     border: 1px solid white;
     border-radius: 6px;

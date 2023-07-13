@@ -13,8 +13,25 @@
     display: flex;
     justify-content: space-between;
     padding: 0px 30px;
-    margin: 10px 0px;
+    margin: 20px 0px;
 }
+
+.channel-edit-delete {
+    border: solid 1px rgb(85, 85, 85);
+    position: absolute;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-channel-button, .delete-channel-button  {
+    max-width: 100px;
+    /* width: 60%; */
+    padding: 2px;
+    margin: 0px 2px;
+    font-size: 11px;
+}
+
 
 .message-container {
     border-top: 1px solid rgb(85, 85, 85);
@@ -62,30 +79,38 @@
     justify-content: space-between;
     margin: 10px;
     word-break: break-all;
+
 }
 
-/* .message-modal {
-    display: none;
-    position: relative;
+.message-modal {
+    /* display: none; */
+    /* position: relative; */
 }
 
-.single-message:hover {
-    border: 2px solid green;
+.message-modal {
+    display: none
 }
 
-.single-message-detail:hover + .message-modal {
+.single-message:hover .message-modal {
     display: block;
-    cursor: pointer;
-} */
+}
+
 
 .single-message-detail {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 95%;
+    border: 1px solid rgb(85, 85, 85);
+    border-radius: 5px;
+    padding: 12px  12px 8px;
 }
 
 .single-message-detail > div {
-    width: 95%;
+    /* width: 95%; */
+}
+
+.single-message-detail > p {
+    /* width: 90%; */
 }
 
 .create-message-area {
