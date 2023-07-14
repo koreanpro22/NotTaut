@@ -97,7 +97,7 @@ npm start
 * Users can delete messages they sent or in workspaces they own
 
 ## Socket.io
-* Users can view new, edited, deleted messages via real-time
+* Users can view new, edit, delete messages via real-time
 
 ### Built By
 
