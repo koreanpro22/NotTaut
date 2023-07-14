@@ -55,9 +55,7 @@ function AllWorkspaces() {
                 <button onClick={openNewWorkspace}>Create New Workspace</button>
             </div>
             <div className={`${showNewWorkspace ? 'create-workspace-container' : 'hide'}`}>
-                <h1>
-                    This is The form
-                </h1>
+                <h1>Create Workspace</h1>
                 <form onSubmit={(e) => handleNewWorkspace(e)} className='create-workspace-form'>
                     <div>
                         <input

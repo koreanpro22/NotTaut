@@ -68,7 +68,7 @@ def update_workspace(workspace_id):
         if workspace:
             workspace.name=form.data['name']
             db.session.commit()
-            return { 'workspace' : workspace.to_dict_all() }
+            return { 'workspace' : workspace.to_dict_relationship() }
         return {'errors': 'Workspace does not exist!'}, 404
     # Returns validation errors
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401

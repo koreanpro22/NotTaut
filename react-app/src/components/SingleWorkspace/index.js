@@ -16,7 +16,6 @@ function SingleWorkspace() {
     const sessionUser = useSelector(state => state.session.user)
     const allWorkspacesObj = useSelector(state => state.workspace.allWorkspaces);
     const allWorkspaces = Object.values(allWorkspacesObj)
-    console.log(allWorkspaces)
     const allChannelsObj = useSelector(state => state.channel.allChannels)
     const allChannels = Object.values(allChannelsObj)
     const currentChannelId = useSelector(state => state.channel.currentChannel);
@@ -83,8 +82,8 @@ function SingleWorkspace() {
                 <div>
                     <h4 className='workspace-details-header' onClick={handleShowWorkspaceOption}>{currentWorkspace.name} {showWorkspaceOption ? <i class="fas fa-chevron-down"></i> : <i class="fas fa-chevron-right" ></i>}</h4>
                     {sessionUser.id === currentWorkspace.owner_id && <div className={`workspace-edit-delete ${hideWorkspaceOptions}`}>
-                        <OpenModalButton buttonText='Edit Workspace' className='edit-workspace-button' modalComponent={<EditWorkspaceModal workspace={currentWorkspace} />} />
-                        {workspaceId === allWorkspaces[0].id && <OpenModalButton buttonText='Delete Workspace' className='delete-workspace-button' modalComponent={<DeleteWorkspaceModal workspaceId={currentWorkspace.id} />} />}
+                        <OpenModalButton onModalClose={handleShowWorkspaceOption} buttonText='Edit Workspace' className='edit-workspace-button' modalComponent={<EditWorkspaceModal workspace={currentWorkspace} />} />
+                        {workspaceId === allWorkspaces[0].id && <OpenModalButton onModalClose={handleShowWorkspaceOption} buttonText='Delete Workspace' className='delete-workspace-button' modalComponent={<DeleteWorkspaceModal workspaceId={currentWorkspace.id} />} />}
                     </div>}
                     {/* <button onClick={(e) => handleInviteToWorkspace(e)}>Invite User</button> */}
                 </div>

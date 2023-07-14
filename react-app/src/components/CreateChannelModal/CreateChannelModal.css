@@ -10,3 +10,14 @@ form > label {
 .create-channel-modal > * {
     color: black;
 }
+
+.create-channel-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.create-channel-form > button {
+    align-self: center;
+    width: fit-content;
+}

@@ -53,9 +53,11 @@ function SingleChannel({ channels, channelId }) {
 
     const sendChat = async (e) => {
         e.preventDefault()
-        await socket.emit('chat', { user: sessionUser.name, text: message, user_id: sessionUser.id, channel_id: channel.id })
-        dispatch(getAllChannelMessagesThunk(messages, currentChannelId))
-        setMessage('')
+        if (message.length > 0 && message[0] !== ' ') {
+            await socket.emit('chat', { user: sessionUser.name, text: message, user_id: sessionUser.id, channel_id: channel.id })
+            dispatch(getAllChannelMessagesThunk(messages, currentChannelId))
+            setMessage('')
+        }
     }
 
     if (!channelId) return null
@@ -87,11 +89,13 @@ function SingleChannel({ channels, channelId }) {
                 </div>
                 {sessionUser.id === channel.workspace.owner_id && showChannelOption && <div className='channel-edit-delete'>
                     <OpenModalButton
+                        onModalClose={handleShowChannelOption}
                         buttonText='Edit Channel'
                         className='edit-channel-button'
                         modalComponent={<EditChannelModal channel={channel} />}
                     />
                     {channel.id !== channels[0].id && <OpenModalButton
+                        onModalClose={handleShowChannelOption}
                         buttonText='Delete Channel'
                         className='delete-channel-button'
                         modalComponent={<DeleteChannelModal channel={channel} />}

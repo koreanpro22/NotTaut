@@ -25,7 +25,7 @@ function CreateChannelModal({ workspaceId }) {
 	return (
 		<div className="create-channel-modal">
 			<h1> Create new Channel</h1>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit} className="create-channel-form">
 				<label>
 					Name
 					<input
