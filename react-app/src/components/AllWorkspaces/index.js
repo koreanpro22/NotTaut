@@ -16,6 +16,7 @@ function AllWorkspaces() {
     const [showNewUser, setShowNewUser] = useState(false)
     const [addedUsers, setAddedUsers] = useState([])
     const [workspaceName, setWorkspaceName] = useState('')
+    const [errors, setErrors] = useState('');
 
     useEffect(() => {
         dispatch(getAllUserWorkspacesThunk(workspaces))
@@ -29,9 +30,13 @@ function AllWorkspaces() {
 
     const handleNewWorkspace = async (e) => {
         e.preventDefault()
-        dispatch(createSingleWorkspaceThunk(workspaceName)).then((workspace) => {
-            history.push(`/workspace/${workspace.id}`)
-        })
+        if (workspaceName[0] === ' ') {
+            setErrors('Workspace name must start with a character')
+        } else {
+            dispatch(createSingleWorkspaceThunk(workspaceName)).then((workspace) => {
+                history.push(`/workspace/${workspace.id}`)
+            })
+        }
     }
     // default workspace image = https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8Zunm_NQV4NA39v57qA4FPasJnxrAxzwyYLGLGI7YBw&usqp=CAU&ec=48665701
 
@@ -55,6 +60,7 @@ function AllWorkspaces() {
             <div className={`${showNewWorkspace ? 'create-workspace-container' : 'hide'}`}>
                 <h1>Create Workspace</h1>
                 <form onSubmit={(e) => handleNewWorkspace(e)} className='create-workspace-form'>
+                    {errors && <label style={{color:'red'}}>{errors}</label>}
                     <div>
                         <input
                             size="20"
