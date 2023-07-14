@@ -1,6 +1,32 @@
-# Flask React Project
+#NotTaut
 
-This is the starter for the Flask React project.
+NotTaut is a clone of Slack. Communication is a big part of being in a team, and being able to message via real-time between users is what NotTaut provides.
+
+Check out [NotTaut](https://nottaut.onrender.com/)
+
+##Index
+
+[MVP Feature List](https://github.com/koreanpro22/NotTaut/wiki/feature_list.md) |
+[Database Scheme](https://github.com/koreanpro22/NotTaut/wiki/database_schema.md) |
+[User Stories](https://github.com/koreanpro22/NotTaut/wiki/user_stories.md) |
+[Wire Frames](https://github.com/koreanpro22/NotTaut/wiki/wireframes.md) |
+
+## Technologies Used
+
+<img src="https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white" /><img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" /><img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" /><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" /><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" /><img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" /><img src="https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white" /><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" /><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
+
+## Landing Page
+
+![notTaut-readme-landing-page](https://github.com/koreanpro22/NotTaut/assets/117982645/15f732c2-c4f9-4ead-b48a-84cc7218610f)
+
+## Workspaces Page
+
+![notTaut-readme-workspaces-page](https://github.com/koreanpro22/NotTaut/assets/117982645/869d293e-7490-4b48-bcff-0f9b0ddbdf35)
+
+## Channels/Messages Page
+
+![notTaut-readme-channel-message-page](https://github.com/koreanpro22/NotTaut/assets/117982645/d143f604-ad1c-421f-a0d4-6c08b7577208)
+
 
 ## Getting started
 1. Clone this repository (only this branch)
@@ -39,110 +65,42 @@ This is the starter for the Flask React project.
    flask run
    ```
 
-7. To run the React App in development, checkout the [README](./react-app/README.md) inside the `react-app` directory.
+7. Navigate to the react-app directory, install the dependencies and start the react front end
 
-
-## Deployment through Render.com
-
-First, refer to your Render.com deployment articles for more detailed
-instructions about getting started with [Render.com], creating a production
-database, and deployment debugging tips.
-
-From the [Dashboard], click on the "New +" button in the navigation bar, and
-click on "Web Service" to create the application that will be deployed.
-
-Look for the name of the application you want to deploy, and click the "Connect"
-button to the right of the name.
-
-Now, fill out the form to configure the build and start commands, as well as add
-the environment variables to properly deploy the application.
-
-### Part A: Configure the Start and Build Commands
-
-Start by giving your application a name.
-
-Leave the root directory field blank. By default, Render will run commands from
-the root directory.
-
-Make sure the Environment field is set set to "Python 3", the Region is set to
-the location closest to you, and the Branch is set to "main".
-
-Next, add your Build command. This is a script that should include everything
-that needs to happen _before_ starting the server.
-
-For your Flask project, enter the following command into the Build field, all in
-one line:
-
-```shell
-# build command - enter all in one line
-npm install --prefix react-app &&
-npm run build --prefix react-app &&
-pip install -r requirements.txt &&
-pip install psycopg2 &&
-flask db upgrade &&
-flask seed all
+```bash
+npm install
 ```
 
-This script will install dependencies for the frontend, and run the build
-command in the __package.json__ file for the frontend, which builds the React
-application. Then, it will install the dependencies needed for the Python
-backend, and run the migration and seed files.
-
-Now, add your start command in the Start field:
-
-```shell
-# start script
-gunicorn app:app
+```bash
+npm start
 ```
+8. Open the locally hosted front end at the specified port.
 
-_If you are using websockets, use the following start command instead for increased performance:_
+# Features
 
-`gunicorn --worker-class eventlet -w 1 app:app`
+## Workspaces
+* Users can create a workspace
+* Users can access workspaces they are in
+* Users can edit workspaces they own
+* Users can delete Workspaces they own
 
-### Part B: Add the Environment Variables
+## Channels
+* Users can create a channel
+* Users can view all channels they are in
+* Users can edit channels in workspaces they own
+* Users can delete channels in workspaces they own  
 
-Click on the "Advanced" button at the bottom of the form to configure the
-environment variables your application needs to access to run properly. In the
-development environment, you have been securing these variables in the __.env__
-file, which has been removed from source control. In this step, you will need to
-input the keys and values for the environment variables you need for production
-into the Render GUI.
+## Messages
+* Users can send/recieve messages
+* Users can view all messages in a channel
+* Users can edit messages they sent
+* Users can delete messages they sent or in workspaces they own
 
-Click on "Add Environment Variable" to start adding all of the variables you
-need for the production environment.
+## Socket.io
+* Users can view new, edit, delete messages via real-time
 
-Add the following keys and values in the Render GUI form:
+### Built By
 
-- SECRET_KEY (click "Generate" to generate a secure secret for production)
-- FLASK_ENV production
-- FLASK_APP app
-- SCHEMA (your unique schema name, in snake_case)
-- REACT_APP_BASE_URL (use render.com url, located at top of page, similar to
-  https://this-application-name.onrender.com)
-
-In a new tab, navigate to your dashboard and click on your Postgres database
-instance.
-
-Add the following keys and values:
-
-- DATABASE_URL (copy value from Internal Database URL field)
-
-_Note: Add any other keys and values that may be present in your local __.env__
-file. As you work to further develop your project, you may need to add more
-environment variables to your local __.env__ file. Make sure you add these
-environment variables to the Render GUI as well for the next deployment._
-
-Next, choose "Yes" for the Auto-Deploy field. This will re-deploy your
-application every time you push to main.
-
-Now, you are finally ready to deploy! Click "Create Web Service" to deploy your
-project. The deployment process will likely take about 10-15 minutes if
-everything works as expected. You can monitor the logs to see your build and
-start commands being executed, and see any errors in the build process.
-
-When deployment is complete, open your deployed site and check to see if you
-successfully deployed your Flask application to Render! You can find the URL for
-your site just below the name of the Web Service at the top of the page.
-
-[Render.com]: https://render.com/
-[Dashboard]: https://dashboard.render.com/# NotTaut
+David
+- https://github.com/koreanpro22
+- https://www.linkedin.com/in/david-kim-a37b59274/
