@@ -79,8 +79,8 @@ function SingleWorkspace() {
     return (
         <div className='workspace-container'>
             <div className='single-workspace-details'>
-                <div>
-                    <h4 className='workspace-details-header' onClick={handleShowWorkspaceOption}>{currentWorkspace.name} {showWorkspaceOption ? <i class="fas fa-chevron-down"></i> : <i class="fas fa-chevron-right" ></i>}</h4>
+                <div className='workspace-details-header'>
+                    <h4 className='workspace-name' onClick={handleShowWorkspaceOption}>{currentWorkspace.name} {showWorkspaceOption ? <i class="fas fa-chevron-down"></i> : <i class="fas fa-chevron-right" ></i>}</h4>
                     {sessionUser.id === currentWorkspace.owner_id && <div className={`workspace-edit-delete ${hideWorkspaceOptions}`}>
                         <OpenModalButton onModalClose={handleShowWorkspaceOption} buttonText='Edit Workspace' className='edit-workspace-button' modalComponent={<EditWorkspaceModal workspace={currentWorkspace} />} />
                         {workspaceId === allWorkspaces[0].id && <OpenModalButton onModalClose={handleShowWorkspaceOption} buttonText='Delete Workspace' className='delete-workspace-button' modalComponent={<DeleteWorkspaceModal workspaceId={currentWorkspace.id} />} />}

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import OpenModalButton from "../OpenModalButton";
-import EditMessageModal from "../EditMessageModal";
 import './MessageModal.css'
 import DeleteMessageModal from "../DeleteMessageModal";
 
-function MessageModal({ user, channel, message, socket }) {
+function MessageModal({ user, channel, message, socket, setEditMessage, setEditMessageId }) {
 
     const [showOptions, setShowOptions] = useState(false);
     const openOptions = () => {
@@ -29,15 +28,10 @@ function MessageModal({ user, channel, message, socket }) {
                 </div>}
             {showOptions ? <div className={messageOption}>
                 {(message.user.id === user.id) &&
-                    <OpenModalButton
-                        buttonText='Edit'
-                        onItemClick={closeOptions}
-                        modalComponent={<EditMessageModal
-                            message={message.text}
-                            messageId={message.id}
-                            channelId={channel.id}
-                            socket={socket} />}
-                    />
+                    <button onClick={() => {
+                        setEditMessageId(message.id)
+                        setEditMessage(message.text)
+                    }}>Edit</button>
                 }
                 {<OpenModalButton
                     buttonText='Delete'

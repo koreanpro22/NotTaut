@@ -22,11 +22,12 @@ function SingleChannel({ channels, channelId }) {
     const allMessagesObj = useSelector(state => state.message.messages)
     const allMessages = Object.values(allMessagesObj)
     const messages = allMessages.filter(message => message.channel_id === +channelId)
-    console.log("🚀 ~ file: index.js:25 ~ SingleChannel ~ messages:", messages)
     const [message, setMessage] = useState('')
+    const [showChannelOption, setShowChannelOption] = useState(false);
+    const [editMessageId, setEditMessageId] = useState();
+    const [editMessage, setEditMessage] = useState();
     // const timestamp = Date.now()
     // const todayDate = new Date(timestamp)
-    const [showChannelOption, setShowChannelOption] = useState(false);
 
     useEffect(() => {
         dispatch(getAllChannelsThunk(workspaceId))
@@ -60,6 +61,12 @@ function SingleChannel({ channels, channelId }) {
         }
     }
 
+    const updateChat = async (e, messageId) => {
+		e.preventDefault()
+        setEditMessageId('');
+		await socket.emit('chat', { 'text' : editMessage, 'message_id' : messageId })
+	}
+
     if (!channelId) return null
     if (!channels.find(channel => channel.id === channelId)) {
         dispatch(setCurrentChannelThunk(channels[0].id))
@@ -78,7 +85,12 @@ function SingleChannel({ channels, channelId }) {
         setShowChannelOption(!showChannelOption)
     }
 
-    const hideChannelOption = showChannelOption ? '' : 'hide'
+    const closeEditMessage = () => {
+        setEditMessage('')
+        setEditMessageId('')
+    }
+
+    // const hideChannelOption = showChannelOption ? '' : 'hide'
 
     return (
         <div className='single-channel-container'>
@@ -99,8 +111,7 @@ function SingleChannel({ channels, channelId }) {
                         buttonText='Delete Channel'
                         className='delete-channel-button'
                         modalComponent={<DeleteChannelModal channel={channel} />}
-                    />
-                    }
+                    />}
                 </div>}
                 <div>{Object.keys(channel['channel_users']).length} members </div>
             </div>
@@ -109,18 +120,36 @@ function SingleChannel({ channels, channelId }) {
                     {messages.toReversed().map(message => {
                         return <div className='single-message'>
                             <div className='single-message-detail'>
+                                <div className='edit-message-top'>
                                 <div>{message.user.name} {formatCreatedAtDate(message.created_at)}</div>
-                                <p>{message.text}</p>
+                                {editMessageId === message.id && <i class="fas fa-times" onClick={closeEditMessage}></i>}
+                                </div>
+                                {+editMessageId === message.id ?
+                                	<div className="edit-message-modal">
+                                        <form onSubmit={(e) => updateChat(e, message.id)}>
+                                            <label>
+                                                <textarea
+                                                    className='edit-message-area'
+                                                    type="text"
+                                                    value={editMessage}
+                                                    maxLength={1000}
+                                                    onChange={(e) => setEditMessage(e.target.value)}
+                                                    required
+                                                />
+                                            </label>
+                                        </form>
+                                        <button onClick={(e) => updateChat(e, message.id)}>Edit Message</button>
+                                    </div>
+                                : <p>{message.text}</p>}
                             </div>
                             <div className='message-modal'>
-                                <MessageModal user={sessionUser} channel={channel} message={message} socket={socket} />
+                                <MessageModal user={sessionUser} channel={channel} message={message} socket={socket} setEditMessage={setEditMessage} setEditMessageId={setEditMessageId}/>
                             </div>
                         </div>
                     })}
                 </div >
                 <div className='create-message-container'>
                     <form onSubmit={sendChat} className='create-message-form'>
-                        {/* <label> */}
                         <textarea
                             className='create-message-area'
                             placeholder={'Message #' + channel.name}
@@ -130,7 +159,6 @@ function SingleChannel({ channels, channelId }) {
                             onChange={(e) => setMessage(e.target.value)}
                             required
                         />
-                        {/* </label> */}
                         <div>
                             {message.length + ' /1000 '}
                             <button type="submit" className='create-message-button'> Send Message <i className="fas fa-location-arrow send-arrow"></i></button>
