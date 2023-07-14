@@ -10,6 +10,8 @@ import { io } from 'socket.io-client';
 import MessageModal from '../MessageModal';
 import '../MessageModal/MessageModal.css';
 import { useParams } from 'react-router-dom/cjs/react-router-dom';
+import DeleteMessageModal from '../DeleteMessageModal';
+import { useModal } from '../../context/Modal';
 
 let socket;
 
@@ -26,6 +28,8 @@ function SingleChannel({ channels, channelId }) {
     const [showChannelOption, setShowChannelOption] = useState(false);
     const [editMessageId, setEditMessageId] = useState();
     const [editMessage, setEditMessage] = useState();
+    const { setModalContent } = useModal();
+
     // const timestamp = Date.now()
     // const todayDate = new Date(timestamp)
 
@@ -63,8 +67,14 @@ function SingleChannel({ channels, channelId }) {
 
     const updateChat = async (e, messageId) => {
 		e.preventDefault()
-        setEditMessageId('');
-		await socket.emit('chat', { 'text' : editMessage, 'message_id' : messageId })
+        if(!editMessage.length) {
+            setModalContent(<DeleteMessageModal
+                        messageId={messageId}
+                        socket={socket} />)
+        } else {
+            setEditMessageId('');
+            await socket.emit('chat', { 'text' : editMessage, 'message_id' : messageId })
+        }
 	}
 
     if (!channelId) return null

@@ -3,7 +3,7 @@ import { useModal } from "../../context/Modal";
 import './DeleteMessageModal.css';
 import { useDispatch } from "react-redux";
 
-function DeleteMessageModal({ messageId, channelId, socket }) {
+function DeleteMessageModal({ messageId, socket }) {
 
     const { closeModal } = useModal();
     const dispatch = useDispatch();
@@ -13,7 +13,7 @@ function DeleteMessageModal({ messageId, channelId, socket }) {
         await socket.emit('chat', { 'message_id': messageId })
     }
 
-    
+
 
     return (
         <div className="delete-message-modal">

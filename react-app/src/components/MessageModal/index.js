@@ -38,7 +38,6 @@ function MessageModal({ user, channel, message, socket, setEditMessage, setEditM
                     onItemClick={closeOptions}
                     modalComponent={<DeleteMessageModal
                         messageId={message.id}
-                        channelId={message.channel_id}
                         socket={socket}
                     />}
                 />
