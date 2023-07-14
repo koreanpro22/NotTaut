@@ -1,0 +1,23 @@
+.page-not-found-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.page-not-found-container > h1 {
+    font-size: 60px;
+}
+
+.return-button {
+    cursor: pointer;
+    border: solid 1px white;
+    padding: 4px;
+    border-radius: 10px;
+    transition: all .2s;
+}
+
+.return-button:hover {
+    color: black;
+    background-color: beige;
+}

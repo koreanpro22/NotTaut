@@ -9,6 +9,7 @@ import Homepage from "./components/Homepage";
 import AllWorkspaces from "./components/AllWorkspaces";
 import SingleWorkspace from "./components/SingleWorkspace";
 import { ChannelIdProvider } from "./context/ChannelIdProvider";
+import PageNotFound from './components/PageNotFound';
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,9 @@ function App() {
               <Route path="/signup">
                 <SignupFormPage />
               </Route>
+              <Route>
+                <PageNotFound />
+              </Route>
             </Switch>
           )}
         </> : <>
@@ -49,7 +53,7 @@ function App() {
                 <Homepage />
               </Route>
               <Route>
-                <h1>404 Page not Found</h1>
+                <PageNotFound />
               </Route>
             </Switch>
           )}
