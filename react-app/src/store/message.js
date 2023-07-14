@@ -81,7 +81,6 @@ export default function reducer(state = initialState, action) {
 		// }
 		case GET_ALL_CHANNEL_MESSAGES: {
 			const messages = action.payload
-			console.log('GET ALL CHANNEL MESSAGES', messages)
 			const newState = { messages: { ...state.messages } }
 			messages.forEach(m => {
 				const id = m.id
@@ -93,7 +92,6 @@ export default function reducer(state = initialState, action) {
 			const messages = action.payload
 			const newState = { messages: { ...state.messages } }
 			messages.forEach(id => {
-				console.log(id)
 				delete newState.messages[id]
 			});
 			return newState;
@@ -116,7 +114,6 @@ export default function reducer(state = initialState, action) {
 		}
 		case DELETE_SINGLE_MESSAGE: {
 			const newState = { ...state, messages: { ...state.messages } }
-			console.log(newState)
 			delete newState.messages[action.payload]
 			return newState;
 		}

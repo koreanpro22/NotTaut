@@ -31,9 +31,6 @@ def handle_chat(data):
             db.session.add(message)
             db.session.commit()
             res = message.to_dict_relationship()
-            print('MESSAGE IN SOCKET PY ======>', message.to_dict_relationship())
             emit('chat', res, broadcast=True)
 
         # return message
-    # print('DICT MESSAGE IN SOCKET PY ===================================>', message.to_dict())
-    # print('ALL MESSAGE IN SOCKET PY ===================================>', message.to_dict_all())

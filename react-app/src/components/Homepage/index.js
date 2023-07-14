@@ -8,7 +8,6 @@ import 'react-multi-carousel/lib/styles.css';
 function Homepage() {
 
     const { setModalContent } = useModal();
-    // console.log(modal)
 
     const responsive = {
         superLargeDesktop: {

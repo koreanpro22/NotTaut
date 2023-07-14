@@ -19,10 +19,8 @@ def users():
 def single_user():
     type = request.args.get("type")
     val = request.args.get("val")
-    print("type ================> ", type)
     if type == 'email':
         user = User.query.filter_by(email = val).first()
-        print("user ================> ", user)
 
         return user.to_dict_relationship()
     elif type == 'id':
