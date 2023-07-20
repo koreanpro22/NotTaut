@@ -8,8 +8,10 @@ import Navigation from "./components/Navigation";
 import Homepage from "./components/Homepage";
 import AllWorkspaces from "./components/AllWorkspaces";
 import SingleWorkspace from "./components/SingleWorkspace";
-import { ChannelIdProvider } from "./context/ChannelIdProvider";
+// import { ChannelIdProvider } from "./context/ChannelIdProvider";
 import PageNotFound from './components/PageNotFound';
+import AllChannels from "./components/AllChannels";
+import SingleChannel from "./components/SingleChannel";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,9 +32,15 @@ function App() {
                 <AllWorkspaces />
               </Route>
               <Route path='/workspace/:workspaceId'>
-                <ChannelIdProvider>
-                  <SingleWorkspace />
-                </ChannelIdProvider>
+                <SingleWorkspace />
+                <Switch>
+                  <Route path='/workspace/:workspaceId/channels'>
+                    <AllChannels />
+                  </Route>
+                  <Route>
+                    <SingleChannel />
+                  </Route>
+                </Switch>
               </Route>
               <Route path="/login" >
                 <LoginFormPage />
@@ -40,7 +48,7 @@ function App() {
               <Route path="/signup">
                 <SignupFormPage />
               </Route>
-              <Route>
+              <Route path='*'>
                 <PageNotFound />
               </Route>
             </Switch>

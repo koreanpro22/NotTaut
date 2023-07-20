@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import './AllWorkspaces.css';
-import { useHistory } from 'react-router-dom';
+import './AllChannels.css';
+import { useHistory, useParams } from 'react-router-dom';
 function AllChannels() {
     const { workspaceId } = useParams();
 
@@ -12,10 +12,7 @@ function AllChannels() {
     const allChannels = Object.values(allChannelsObj)
     const channels = allChannels.filter(channel => channel.workspace_id === +workspaceId)
 
-
-
     if (!sessionUser) return null
-
 
     return (
         <div className='all-channels-container'>

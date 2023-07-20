@@ -15,7 +15,7 @@ import { useModal } from '../../context/Modal';
 
 let socket;
 
-function SingleChannel({ channels, channelId }) {
+function SingleChannel({ channels }) {
     const { workspaceId } = useParams();
     const dispatch = useDispatch()
     const allChannels = useSelector(state => state.channel.allChannels)
@@ -23,7 +23,7 @@ function SingleChannel({ channels, channelId }) {
     const sessionUser = useSelector(state => state.session.user)
     const allMessagesObj = useSelector(state => state.message.messages)
     const allMessages = Object.values(allMessagesObj)
-    const messages = allMessages.filter(message => message.channel_id === +channelId)
+    const messages = allMessages.filter(message => message.channel_id === +currentChannelId)
     const [message, setMessage] = useState('')
     const [showChannelOption, setShowChannelOption] = useState(false);
     const [editMessageId, setEditMessageId] = useState();
@@ -35,8 +35,8 @@ function SingleChannel({ channels, channelId }) {
 
     useEffect(() => {
         dispatch(getAllChannelsThunk(workspaceId))
-        dispatch(getAllChannelMessagesThunk(messages, channelId))
-    }, [dispatch, channelId])
+        dispatch(getAllChannelMessagesThunk(messages, currentChannelId))
+    }, [dispatch, currentChannelId])
 
     useEffect(() => {
         socket = io();
@@ -76,13 +76,13 @@ function SingleChannel({ channels, channelId }) {
             await socket.emit('chat', { 'text' : editMessage, 'message_id' : messageId })
         }
 	}
-
-    if (!channelId) return null
-    if (!channels.find(channel => channel.id === channelId)) {
+    console.log('here ', channels)
+    if (!channels && !currentChannelId) return null
+    if (!(channels.find(channel => channel.id === currentChannelId))) {
         dispatch(setCurrentChannelThunk(channels[0].id))
     }
 
-    const channel = allChannels[channelId]
+    const channel = allChannels[currentChannelId]
 
     const formatCreatedAtDate = (dateStr) => {
         const hms = dateStr.split(' ')[1].split(':')

@@ -13,15 +13,14 @@ import DeleteWorkspaceModal from '../DeleteWorkspaceModal';
 
 function SingleWorkspace() {
     const { workspaceId } = useParams();
+    console.log('use params', useParams())
     const sessionUser = useSelector(state => state.session.user)
     const allWorkspacesObj = useSelector(state => state.workspace.allWorkspaces);
-    const allWorkspaces = Object.values(allWorkspacesObj)
     const allChannelsObj = useSelector(state => state.channel.allChannels)
-    const allChannels = Object.values(allChannelsObj)
     const currentChannelId = useSelector(state => state.channel.currentChannel);
-    const channels = allChannels.filter(channel => channel.workspace_id === +workspaceId)
     const dispatch = useDispatch()
 
+    // const [currentChannelId, setCurrentChannelId] = useState(channels[0].id)
     const [showWorkspaceOption, setShowWorkspaceOption] = useState(false);
     const [showChannels, setShowChannels] = useState(true);
     const [showAllChannels, setShowAllChannels] = useState(false);
@@ -30,6 +29,10 @@ function SingleWorkspace() {
         dispatch(getAllUserWorkspacesThunk(allWorkspaces))
         dispatch(getAllChannelsThunk(channels, workspaceId))
     }, [dispatch])
+    
+    const allWorkspaces = Object.values(allWorkspacesObj)
+    const allChannels = Object.values(allChannelsObj)
+    const channels = allChannels.filter(channel => channel.workspace_id === +workspaceId)
 
     if (!sessionUser || !allWorkspaces.length || !channels.length) return null
     if (!currentChannelId) dispatch(setCurrentChannelThunk(channels[0].id))
