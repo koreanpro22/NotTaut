@@ -77,7 +77,7 @@
 }
 
 .all-channels {
-    border-top: 1px solid rgb(85, 85, 85);
+    /* border-top: 1px solid rgb(85, 85, 85); */
     padding-top: 10px;
     width: 90%;
 }

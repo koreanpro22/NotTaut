@@ -24,6 +24,7 @@ function SingleWorkspace() {
 
     const [showWorkspaceOption, setShowWorkspaceOption] = useState(false);
     const [showChannels, setShowChannels] = useState(true);
+    const [showAllChannels, setShowAllChannels] = useState(false);
 
     useEffect(() => {
         dispatch(getAllUserWorkspacesThunk(allWorkspaces))
@@ -56,10 +57,6 @@ function SingleWorkspace() {
 
     }
 
-    const handleAllChannels = () => {
-        alert('Feature Coming Soon!')
-
-    }
 
     const handleShowChannels = () => {
         setShowChannels(!showChannels)
@@ -71,6 +68,10 @@ function SingleWorkspace() {
     // }
 
     const currentWorkspace = allWorkspacesObj[workspaceId]
+    const handleAllChannels = async () => {
+        dispatch(setCurrentChannelThunk(0))
+        setShowAllChannels(true)
+    }
     const handleChannelClick = async (channelId) => dispatch(setCurrentChannelThunk(channelId))
 
     const hideChannels = showChannels ? '' : 'hide'
@@ -88,13 +89,13 @@ function SingleWorkspace() {
                     </div>}
                     {/* <button onClick={(e) => handleInviteToWorkspace(e)}>Invite User</button> */}
                 </div>
-                {/* <div className='extra-features'> */}
+                <div className='extra-features'>
                     {/* <div onClick={handleThreads}> <i class="fas fa-comment-dots"></i> Threads</div> */}
                     {/* <div onClick={handleLater} > <i class="fas fa-bookmark"></i> Later</div> */}
                     {/* <div onClick={handleMentionsReactions} > <i class="fas fa-at"></i> Mentions & Reactions</div> */}
                     {/* <div onClick={handleDraftsSent} ><i class="fas fa-paper-plane"></i> Drafts & Sent</div> */}
-                    {/* <div onClick={handleAllChannels} ><i class="fas fa-search"></i> All Channels</div> */}
-                {/* </div> */}
+                    <div onClick={handleAllChannels} ><i class="fas fa-search"></i> All Channels</div>
+                </div>
                 <div className='all-channels' >
                     <div className='channel-options' onClick={handleShowChannels}>{showChannels ? <i class="fas fa-chevron-down"></i> : <i class="fas fa-chevron-right" ></i>} Channels</div>
                     {sessionUser.id === currentWorkspace.owner_id && <div>
@@ -111,7 +112,12 @@ function SingleWorkspace() {
                     })}
                 </div>
             </div>
-            <SingleChannel channels={channels} channelId={currentChannelId} />
+            {currentChannelId && <SingleChannel channels={channels} channelId={currentChannelId} />}
+            {showAllChannels && <div className='all-channels-container'>
+                {channels.map(channel => {
+                    return <div>{channel.name}</div>
+                })}
+            </div>}
         </div>
     );
 }
