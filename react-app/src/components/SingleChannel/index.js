@@ -66,20 +66,20 @@ function SingleChannel({ channels }) {
     }
 
     const updateChat = async (e, messageId) => {
-		e.preventDefault()
-        if(!editMessage.length) {
+        e.preventDefault()
+        if (!editMessage.length) {
             setModalContent(<DeleteMessageModal
-                        messageId={messageId}
-                        socket={socket} />)
+                messageId={messageId}
+                socket={socket} />)
         } else {
             setEditMessageId('');
-            await socket.emit('chat', { 'text' : editMessage, 'message_id' : messageId })
+            await socket.emit('chat', { 'text': editMessage, 'message_id': messageId })
         }
-	}
+    }
 
     // if (!(channels.find(channel => channel.id === currentChannelId))) {
-        //     dispatch(setCurrentChannelThunk(channels[0].id))
-        // }
+    //     dispatch(setCurrentChannelThunk(channels[0].id))
+    // }
 
     if (!channels) return null
     if (!currentChannelId && channels.length) dispatch(setCurrentChannelThunk(channels[0].id))
@@ -132,11 +132,11 @@ function SingleChannel({ channels }) {
                         return <div className='single-message'>
                             <div className='single-message-detail'>
                                 <div className='edit-message-top'>
-                                <div>{message.user.name} {formatCreatedAtDate(message.created_at)}</div>
-                                {editMessageId === message.id && <i class="fas fa-times" onClick={closeEditMessage}></i>}
+                                    <div>{message.user.name} {formatCreatedAtDate(message.created_at)}</div>
+                                    {editMessageId === message.id && <i class="fas fa-times" onClick={closeEditMessage}></i>}
                                 </div>
                                 {+editMessageId === message.id ?
-                                	<div className="edit-message-modal">
+                                    <div className="edit-message-modal">
                                         <form onSubmit={(e) => updateChat(e, message.id)}>
                                             <label>
                                                 <textarea
@@ -151,10 +151,10 @@ function SingleChannel({ channels }) {
                                         </form>
                                         <button onClick={(e) => updateChat(e, message.id)}>Edit Message</button>
                                     </div>
-                                : <p>{message.text}</p>}
+                                    : <p>{message.text}</p>}
                             </div>
                             <div className='message-modal'>
-                                <MessageModal user={sessionUser} channel={channel} message={message} socket={socket} setEditMessage={setEditMessage} setEditMessageId={setEditMessageId}/>
+                                <MessageModal user={sessionUser} channel={channel} message={message} socket={socket} setEditMessage={setEditMessage} setEditMessageId={setEditMessageId} />
                             </div>
                         </div>
                     })}

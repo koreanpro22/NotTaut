@@ -75,8 +75,10 @@ function SingleWorkspace() {
         dispatch(setCurrentChannelThunk(0))
         setShowAllChannels(true)
     }
-    const handleChannelClick = async (channelId) => dispatch(setCurrentChannelThunk(channelId))
-
+    const handleChannelClick = async (channelId) => {
+        dispatch(setCurrentChannelThunk(channelId))
+        setShowAllChannels(false)
+    }
     const hideChannels = showChannels ? '' : 'hide'
     const hideWorkspaceOptions = showWorkspaceOption ? '' : 'hide'
 
@@ -116,7 +118,7 @@ function SingleWorkspace() {
                 </div>
             </div>
             {console.log('channels prop => ', channels)}
-            {currentChannelId && <SingleChannel channels={channels} channelId={currentChannelId} />}
+            {!showAllChannels && <SingleChannel channels={channels} channelId={currentChannelId} />}
             {showAllChannels && <div className='all-channels-container'>
                 {channels.map(channel => {
                     return <div>{channel.name}</div>
