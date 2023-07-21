@@ -76,12 +76,13 @@ function SingleChannel({ channels }) {
             await socket.emit('chat', { 'text' : editMessage, 'message_id' : messageId })
         }
 	}
-    console.log('here ', channels)
-    if (!channels && !currentChannelId) return null
-    if (!(channels.find(channel => channel.id === currentChannelId))) {
-        dispatch(setCurrentChannelThunk(channels[0].id))
-    }
 
+    // if (!(channels.find(channel => channel.id === currentChannelId))) {
+        //     dispatch(setCurrentChannelThunk(channels[0].id))
+        // }
+
+    if (!channels) return null
+    if (!currentChannelId && channels.length) dispatch(setCurrentChannelThunk(channels[0].id))
     const channel = allChannels[currentChannelId]
 
     const formatCreatedAtDate = (dateStr) => {

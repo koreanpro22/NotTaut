@@ -29,7 +29,7 @@ function SingleWorkspace() {
         dispatch(getAllUserWorkspacesThunk(allWorkspaces))
         dispatch(getAllChannelsThunk(channels, workspaceId))
     }, [dispatch])
-    
+
     const allWorkspaces = Object.values(allWorkspacesObj)
     const allChannels = Object.values(allChannelsObj)
     const channels = allChannels.filter(channel => channel.workspace_id === +workspaceId)
@@ -115,6 +115,7 @@ function SingleWorkspace() {
                     })}
                 </div>
             </div>
+            {console.log('channels prop => ', channels)}
             {currentChannelId && <SingleChannel channels={channels} channelId={currentChannelId} />}
             {showAllChannels && <div className='all-channels-container'>
                 {channels.map(channel => {
