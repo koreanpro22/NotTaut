@@ -6,7 +6,6 @@ import OpenModalButton from '../OpenModalButton';
 import SingleChannel from '../SingleChannel';
 import { getAllUserWorkspacesThunk } from '../../store/workspace';
 import { getAllChannelsThunk, setCurrentChannelThunk } from '../../store/channel';
-import { getSingleUserThunk } from '../../store/user';
 import './SingleWorkspace.css';
 import EditWorkspaceModal from '../EditWorkspaceModal';
 import DeleteWorkspaceModal from '../DeleteWorkspaceModal';
@@ -118,10 +117,17 @@ function SingleWorkspace() {
                 </div>
             </div>
             {console.log('channels prop => ', channels)}
+            {console.log('show all channels', showAllChannels)}
             {!showAllChannels && <SingleChannel channels={channels} channelId={currentChannelId} />}
             {showAllChannels && <div className='all-channels-container'>
+                <h1 id='all-channels-header'>All Channels of {currentWorkspace.name}</h1>
                 {channels.map(channel => {
-                    return <div>{channel.name}</div>
+                    return <div className='all-channels-single-channel' onClick={() => handleChannelClick(channel.id)}>
+                        <h2>{channel.name}</h2>
+                        <h3>{channel.topic ? channel.topic : 'No topic'}</h3>
+                        <p>{channel.description ? channel.description : 'No description'}</p>
+                        {console.log(channel)}
+                    </div>
                 })}
             </div>}
         </div>

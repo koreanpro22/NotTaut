@@ -23,14 +23,13 @@ function EditWorkspaceModal({ workspace }) {
             <h1>Edit Workspace</h1>
             <form onSubmit={handleSubmit} className="edit-workspace-form">
                 <label>
-                    Name
-                    <input
+                    Name <input
                         type="text"
                         value={workspaceName}
                         maxLength={40}
                         onChange={(e) => setWorkspaceName(e.target.value)}
                         required
-                    />
+                    /> {workspaceName.length}/40
                 </label>
                 <button type="submit">Edit Workspace</button>
             </form>

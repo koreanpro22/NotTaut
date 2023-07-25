@@ -108,3 +108,23 @@
 .hide {
     display: none;
 }
+
+#all-channels-header {
+    padding: 0px 20px;
+    text-decoration: underline;
+}
+
+.all-channels-container {
+    width: 100%;
+    min-height: 870px;
+    padding: 10px 5px;
+    border: 1px solid rgb(85, 85, 85);
+    border-bottom: none;
+}
+
+.all-channels-single-channel {
+    padding: 10px;
+    margin: 10px 10px;
+    border: 1px solid rgb(85, 85, 85);
+    cursor: pointer;
+}

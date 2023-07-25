@@ -30,29 +30,29 @@ function EditChannelModal({ channel }) {
 			<h1>Edit Channel</h1>
 			<form onSubmit={handleSubmit} className="edit-channel-form">
 				<label>
-					Name: <input
+					Name <input
 						type="text"
 						value={channelName}
 						maxLength={40}
 						onChange={(e) => setChannelName(e.target.value)}
 						required
-					/>
+					/> {channelName.length}/40
 				</label>
 				<label>
-					Topic: <input
+					Topic <input
 						type="text"
 						value={channelTopic}
 						maxLength={40}
 						onChange={(e) => setChannelTopic(e.target.value)}
-						/>
+						/> {channelTopic.length}/40
 				</label>
 				<label>
-					Description: <input
+					Description <input
 						type="text"
 						value={channelDescription}
 						maxLength={100}
 						onChange={(e) => setChannelDescription(e.target.value)}
-					/>
+					/> {channelDescription.length}/100
 				</label>
 				<button type="submit">Edit Channel</button>
 			</form>

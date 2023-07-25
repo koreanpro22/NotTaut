@@ -1,5 +1,6 @@
 .edit-workspace-modal {
-    width: 230px;
+    /* width: 230px; */
+    width: fit-content;
     padding: 10px 20px;
 }
 

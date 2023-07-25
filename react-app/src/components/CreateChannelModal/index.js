@@ -27,13 +27,13 @@ function CreateChannelModal({ workspaceId }) {
 			<h1> Create new Channel</h1>
 			<form onSubmit={handleSubmit} className="create-channel-form">
 				<label>
-					Name
-					<input
+					Name <input
 						type="text"
 						value={channelName}
+						maxLength={40}
 						onChange={(e) => setChannelName(e.target.value)}
 						required
-					/>
+					/> {channelName.length}/40
 				</label>
 				<button type="submit">Create Channel</button>
 			</form>
