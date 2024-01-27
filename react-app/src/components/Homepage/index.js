@@ -65,7 +65,7 @@ function Homepage() {
                             ssr={true} // means to render carousel on server-side.
                             infinite={true}
                             autoPlay={true}
-                            autoPlaySpeed={6500}
+                            autoPlaySpeed={7500}
                             keyBoardControl={true}
                             customTransition="all .5"
                             transitionDuration={500}

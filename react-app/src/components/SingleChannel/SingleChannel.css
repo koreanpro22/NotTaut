@@ -45,9 +45,9 @@
 .all-messages-container {
     display: flex;
     flex-flow: column-reverse;
-    height: 670px;
+    height: 70vh;
     overflow-y: auto;
-    margin: 20px 20px 0px 20px;
+    /* margin: 20px 20px 0px 20px; */
     gap: 10px
 }
 

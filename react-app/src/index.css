@@ -1,6 +1,6 @@
 /* TODO Add site wide styles */
 #root {
-    min-height: 100vh;
+    height: 100vh;
     background-color: rgb(50, 50, 50);
     margin: none;
 }
